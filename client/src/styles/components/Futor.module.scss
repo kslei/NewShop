@@ -1,0 +1,17 @@
+@import '../base/app.scss';
+
+.futor {
+  padding: 5px;
+  min-height: 76px;
+  background-color: $back;
+  @include border;
+  border-radius: 0;
+  color: $primary;  
+}
+.wrapper {
+  align-items: flex-start;
+  @media (max-width: 560px) {
+    flex-direction: column;
+    align-items: center;
+  }
+}

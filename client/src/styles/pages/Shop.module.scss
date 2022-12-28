@@ -1,0 +1,38 @@
+@import '../base/app.scss';
+
+.wrapper {
+  justify-content: left;
+  align-items: start;
+  @media (max-width: 560px) {
+    flex-direction: column;
+  }
+}
+
+.typeBar {
+  width: 215px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  @media (max-width: 560px) {
+      width: 100%;
+    }
+}
+
+.table {
+  width: calc(100% - 215px);
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid $primary;
+  @media (max-width: 560px) {
+    width: 100%;
+    border-left: none;
+  }
+}
+
+.pagination {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: $primary;
+}

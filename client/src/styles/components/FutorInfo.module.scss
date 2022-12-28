@@ -1,0 +1,47 @@
+@import '../base/app.scss';
+
+.futorInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  @media (max-width: 667px) {
+    align-items: center;
+  }
+  
+  &__title {
+    margin: 5px 0;
+    color: $primary;
+    font-weight: 600;
+    &__it {
+      font-weight: 400;
+      font-family: "Montserrat-Regular";
+      font-style: italic;
+      &:hover {
+        cursor: auto;
+        @media (max-width: 667px) {
+          cursor: pointer;
+        }
+      }
+    }
+    &:hover {
+      cursor: auto;
+      @media (max-width: 667px) {
+        cursor: pointer;
+      }
+    }
+    
+  }
+
+  &__link {
+    //padding: 5px;
+    margin: 2px 0;
+    font-size: inherit;
+    font-family: "Montserrat-Regular";
+    color: $primary;
+    
+  }
+a {
+    font-family: "Montserrat-Regular";
+    color: $primary;
+    }
+}

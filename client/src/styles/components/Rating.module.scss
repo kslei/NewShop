@@ -1,0 +1,33 @@
+.Rating {
+  display: flex;
+  flex-direction: row-reverse;
+  position: relative;
+  font-size: 26px;
+  width: 130px;
+  margin: 0;
+  &:not(:checked)>input {
+    display: none;
+  }
+  &:not(:checked)>label {
+    font-weight: 400;
+    cursor: pointer;
+    color: rgb(88, 88, 65);
+  }
+  &:not(:checked)>label:before {
+  content: "★ ";
+  }
+  &:not(:checked)>label:hover, &:not(:checked)>label:hover~label {
+  color: #c59b08;
+  font-weight: 900;
+  }
+}
+
+.Rating label {
+  margin-left: 3px;
+}
+
+.Rating>input:checked~label {
+  color: #c59b08;
+  font-weight: 900;
+}
+

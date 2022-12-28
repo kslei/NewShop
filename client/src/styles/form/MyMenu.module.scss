@@ -1,0 +1,44 @@
+@import '../base/app.scss';
+
+.menu {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition: 0.5s;
+  &__items {
+    width: inherit;
+    top: 30px;
+    right: 0;
+    margin: 2px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    z-index: 10;
+    &_rev {
+      position: absolute;
+      top: 32px;
+      left: 0;
+      position: absolute;
+      display: flex;
+      flex-direction: row;
+      background: white;
+      z-index: 10;
+    }
+  }
+  &__link {
+    display: block;
+    padding: 6px;
+    font-size: inherit;
+    font-family: inherit;
+    color: $primary;
+    border: 1px solid $primary;
+    &:hover {
+      color: #ffffff;
+      background-color: $primary;
+    }
+    &:active {
+      background-color: $back;
+    }
+  }
+}

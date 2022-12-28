@@ -1,0 +1,39 @@
+@import '../base/app.scss';
+
+.wrapper {
+  flex-direction: column;
+  position: relative;
+}
+.buttons {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 16px;
+  padding: 8px;
+  @media (max-width:560px) {
+    flex-direction: column;
+  }
+  &__btn {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+}
+.title {
+  text-align: center;
+  margin: 10px 0;
+}
+.adminDevice {
+  display: grid;
+  grid-template-columns: 1fr 3fr 2fr 4fr 1fr 3fr 1fr 2fr;
+  grid-column-gap: 10px;
+  margin: 5px 2px;
+  font-family: "Montserrat-regular";
+  color: $primary; 
+  align-items: center; 
+}
+.note {
+  font-weight: 600;
+  color: $danger;
+}

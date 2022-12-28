@@ -1,0 +1,77 @@
+@import './_base.scss';
+@import './_fonts.scss';
+
+$primary: #822eff;
+$back: #dac2ff;
+$danger: #ff0191;
+
+@mixin border {
+  border: 1px solid $primary;
+  border-radius: 5px;
+}
+@mixin border-danger {
+  border: 1px solid $danger;
+  border-radius: 5px;
+}
+@mixin border-sm {
+  border: 1px solid $primary;
+}
+@mixin border-danger-sm {
+  border: 1px solid $danger;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+input {
+  //@include border;
+  //border-radius: 0;
+  &:hover {
+    border-color: #dac2ff;
+  }
+  &:active {
+    border-color: #dac2ff;
+  }
+}
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  width: calc(100% - 20px);
+
+  @media (min-width: 576px) {
+    width: 540px;
+  }
+
+  @media (min-width: 768px) {
+    width: 720px;
+  }
+
+  @media (min-width: 992px) {
+    width: 960px;
+  }
+
+  @media (min-width: 1200px) {
+    width: 1140px;
+  }
+
+  @media (min-width: 1400px) {
+    width: 1320px;
+  }
+}
+
+.container {
+  min-height: calc(100vh - 193px);
+}
+.title {
+  color: $primary;
+  font-size: 16px;
+}

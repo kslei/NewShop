@@ -1,0 +1,103 @@
+@import '../base/app.scss';
+
+.header {
+  position: relative;
+  padding: 5px 0;
+  background-color: $back;
+  @include border;
+  border-radius: 0;
+  color: $primary;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  transition: 0.5s;
+}
+
+.logo {
+  width: 130px;
+  height: 65px;
+  &__image {
+    width: 100%;
+    object-fit: scale-down;
+  }
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.user {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  
+}
+.icon {
+  margin-right: 5px;
+  height: 32px;
+  background-color: #812fff;
+  &__dis {
+    margin-right: 5px;
+    height: 32px;
+    background-color: transparent;
+  }
+  &:hover {
+    cursor: pointer;
+  }
+  &:active {
+    background-color: white;
+  }
+  &::after{
+    display: none;
+  }
+  
+}
+.menu {
+  position: relative;
+  &__input {
+    position: relative;
+    z-index: 5;
+    @media (max-width: 767px) {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 35px;
+      width: 196px;
+    }
+    @media (max-width: 560px) {
+      left: -85px;
+      top: 36px
+    }
+  }
+  &__icon {
+    display: none;
+    position: relative;
+    @media (max-width: 767px) {
+      display: block;
+    }
+  }
+  &__title {
+    font-family: "Montserrat-Regular";
+    color: $primary;
+    font-style: italic;
+    @media (max-width: 767px) {
+      display: none;      
+    }
+  }
+  &__item {
+    width: 120px;
+    padding: 2px;
+    @media (max-width: 767px) {
+      background: white;
+      @include border;
+    }
+    
+  }
+  a {
+    font-family: "Montserrat-Regular";
+    color: $primary;
+  }
+}

@@ -1,0 +1,51 @@
+@import '../base/app.scss';
+
+.myBtn, .myBtnDanger {
+  min-width: 27px;
+  margin: 2px;
+  padding: 5px 5px;
+  font-size: 14px;
+  background: transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  &:active {
+    color: white;
+  }
+} 
+.myBtn__sm, .myBtnDanger__sm {
+  min-width: 27px;
+  margin: 2px;
+  padding: 2px 3px;
+  font-size: 14px;
+  background: transparent;
+  @include border-sm;
+  cursor: pointer;
+  &:active {
+    color: white;
+  }
+  }
+
+.myBtn, .myBtn__sm {
+  color: $primary;
+  &:active {
+    background: $primary;
+  }
+}
+.myBtn {
+  @include border;
+}
+.myBtn__sm {
+  @include border-sm;
+}
+.myBtnDanger, .myBtnDanger__sm {
+  color: $danger;
+  &:active {
+    background: $danger;
+  }
+}
+.myBtnDanger {
+  @include border-danger;
+}
+.myBtnDanger__sm {
+  @include border-danger-sm;
+}

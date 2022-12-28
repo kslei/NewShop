@@ -1,6 +1,6 @@
 const uuid = require('uuid')
 const path = require('path')
-const {Device, DeviceInfo, Brand} = require('../models/models')
+const {Device, DeviceInfo, Brand, Type} = require('../models/models')
 const ApiError = require('../error/ApiError')
 
 class DeviceController {
@@ -25,6 +25,16 @@ class DeviceController {
       return res.json(device)
     } catch(e) {
         next(ApiError.badRequest(e.message))
+    }
+  }
+
+  async createInfo(req, res, next) {
+    try {
+      let {deviceId, title, description} = req.body
+      const info = await DeviceInfo.create({deviceId, title, description})
+      return res.json(info)
+    } catch (e) {
+      next(ApiError.badRequest(e.message)) 
     }
   }
 
@@ -64,16 +74,16 @@ class DeviceController {
     let offset = page * limit - limit
     let devices;
     if(!brandId && !typeId) {
-      devices = await Device.findAndCountAll({ limit, offset, include: [{ model: Brand, attributes: ['name'] }] })
+      devices = await Device.findAndCountAll({ order: ['id'], limit, offset, include: [{ model: Brand, attributes: ['name', 'id'] }, { model: Type, attributes: ['name', 'id']}] })
     }
     if(brandId && !typeId) {
-      devices = await Device.findAndCountAll({ where: { brandId }, limit, offset, include: [{ model: Brand, attributes: ['name'] }] })
+      devices = await Device.findAndCountAll({ order: ['id'], where: { brandId }, limit, offset, include: [{ model: Brand, attributes: ['name', 'id'] }, { model: Type, attributes: ['name', 'id'] }] })
     }
     if(!brandId && typeId) {
-      devices = await Device.findAndCountAll({ where: { typeId }, limit, offset, include: [{ model: Brand, attributes: ['name'] }] })
+      devices = await Device.findAndCountAll({ order: ['id'], where: { typeId }, limit, offset, include: [{ model: Brand, attributes: ['name', 'id'] }, { model: Type, attributes: ['name', 'id'] }] })
     }
     if(brandId && typeId) {
-      devices = await Device.findAndCountAll({ where: { brandId, typeId }, limit, offset, include: [{ model: Brand, attributes: ['name'] }] })
+      devices = await Device.findAndCountAll({ order: ['id'], where: { brandId, typeId }, limit, offset, include: [{ model: Brand, attributes: ['name', 'id'] }, { model: Type, attributes: ['name', 'id'] }] })
     }
     return res.json(devices)
   }

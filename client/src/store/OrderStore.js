@@ -2,42 +2,34 @@ import { makeAutoObservable } from "mobx";
 
 export default class OrderStore {
   constructor() {
-    this._userId = []
-    this._devices = []
-    this._status = []
-    this._delivery = []
+    this._orders = []
+    this._deliveries = []
+    this._selectedDelivery = []
     makeAutoObservable(this)
   }
 
-  setTypes(userId) {
-    this._userId = userId
+  setOrders(orders) {
+    this._orders = orders
   }
 
-  setDevices(devices) {
-    this._devices = devices
+  setDeliveries(deliveries) {
+    this._deliveries = deliveries
   }
 
-  setSelectedType(status) {
-    this._status = status
+  setSelectedDelivery(delivery) {
+    this._selectedDelivery = delivery
   }
 
-  setSelectedBrand(delivery) {
-    this._delivery = delivery
+  get orders() {
+    return this._orders
   }
 
-  get userId() {
-    return this._userId
+  get deliveries() {
+    return this._deliveries
   }
 
-  get devices() {
-    return this._devices
-  }
-
-  get status() {
-    return this._status
-  }
-  get delivery() {
-    return this._delivery
+  get selectedDelivery() {
+    return this._selectedDelivery
   }
 
 }

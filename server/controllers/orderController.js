@@ -1,4 +1,4 @@
-const { OrderDevice, Order, User, Device, Brand } = require('../models/models')
+const { OrderDevice, Order, User, Device, Brand, Delivery } = require('../models/models')
 const ApiError = require('../error/ApiError')
 
 class OrderController {
@@ -23,7 +23,7 @@ class OrderController {
       data = await Order.findOrCreate({ where: { userId, status }, include: [{ model: OrderDevice, attributes: ['id'], include: [{ model: Device, attributes: ['id', 'name', 'price', 'rating', 'img'], include: [{ model: Brand, attributes: ['name'] }] }] }] })
     }
     if (!userId) {
-      data = await Order.findAll({ where: { status }, include: [{ model: OrderDevice, attributes: ['id'], include: [{ model: Device, attributes: ['id', 'name', 'price', 'rating', 'img'], include: [{ model: Brand, attributes: ['name'] }] }] }, { model: User, attributes: ['email'] }] })
+      data = await Order.findAll({ where: { status }, include: [{ model: OrderDevice, attributes: ['id'], include: [{ model: Device, attributes: ['id', 'name', 'price', 'rating', 'img'], include: [{ model: Brand, attributes: ['name'] }] }] }, { model: User, attributes: ['email', 'name', 'phone'] }, {model: Delivery, attributes: ['name']}] })
     }
     console.log('data', data)
     if (data.length === 0) {
@@ -36,8 +36,8 @@ class OrderController {
   }
 
   async putOrder(req, res) {
-    const { id, status, date } = req.body
-    const orderStatus = await Order.update({ status: status, date: date }, { where: { id } })
+    const { id, status, date, deliveryId } = req.body
+    const orderStatus = await Order.update({ status: status, date: date, deliveryId: deliveryId }, { where: { id } })
     return res.json(orderStatus)
   }
 

@@ -1,0 +1,28 @@
+@import '../base/app.scss';
+.ratingResult {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 5px;
+  width: 105px;
+  margin: 0;
+  &__text {
+    margin-left: 5px;
+    color: $danger;
+  }
+}
+
+.ratingResult span {
+  font-size: 16px;
+  color: rgb(88, 88, 65);
+  font-weight: 400;
+  margin: 0 4px;
+}
+
+.ratingResult>span:before {
+  content: "★ ";
+}
+
+.ratingResult>span.active {
+  font-weight: 900;
+  color: #c59b08;
+}

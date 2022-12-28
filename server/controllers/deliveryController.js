@@ -9,10 +9,15 @@ class DeliveryController {
   }
 
   async getAll(req, res) {
-    const deliveries = await Type.findAll()
+    const deliveries = await Delivery.findAll()
     return res.json(deliveries)
   }
 
+  async remove(req, res) {
+    const {id} = req.query
+    const data = await Delivery.destroy({id})
+    return data
+  }
 }
 
 module.exports = new DeliveryController()
