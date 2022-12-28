@@ -1,0 +1,12 @@
+@import '../base/app.scss';
+
+.loader {
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  top: 200px;
+  left: 100px;
+  border: 3px dashed $primary;
+  border-radius: 50%;
+  animation: rotate 1s infinite linear;
+}

@@ -1,0 +1,51 @@
+@import '../base/app.scss';
+
+.deviceItem {
+  position: relative;
+  padding: 5px;
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  @media (max-width: 768px) {
+    padding: 5px 1px;
+  }
+  @media (max-width: 560px) {
+    padding: 5px;
+  }
+  @media (max-width: 376px) {
+    width: 100%;
+  }
+  &:after {
+    position: absolute;
+    content: "";
+    width: 100%;
+    bottom: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, $back 0%, $primary 100%);
+    }
+  &:hover {
+    cursor: pointer;
+  }
+  &__image {
+    width: 100%;
+  }
+  &__name {
+    margin: 5px 0;
+    color: $primary;
+    font-family: "Montserrat-Regular";
+    font-weight: 600;
+    @media (min-width: 377px) {
+      height: 56px;
+    }
+  }
+  &__price {
+    width: 100%;
+    margin: 5px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    font-weight: 600;
+  }
+}
+

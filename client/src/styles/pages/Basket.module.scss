@@ -1,0 +1,60 @@
+@import '../base/app.scss';
+
+.basket {
+  &__error {
+    margin: 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    color: $danger;
+    &_message {
+      margin: 0 10px;
+    }
+  }
+  &__devices {
+    margin: 10px;
+    width: 100%;
+  }
+  &__item {
+    padding: 10px 0;
+    width: 100%;
+    font-size: 14px;
+    display: grid;
+    grid-template-columns: 1fr 2fr 4fr 1fr 2fr 75px;
+    align-items: center;
+    border-bottom: 1px solid $primary;
+    &_note {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      font-weight: 600;
+      color: $danger;
+    }
+    @media (max-width: 560px) {
+      font-size: 12px;
+    }
+    &_all {
+      display: grid;
+      grid-template-columns: 8fr 2fr 75px;
+      align-items: center;
+      font-weight: 600;
+      @media (max-width: 560px) {
+      font-size: 12px;
+      }
+    }
+    &_btn {
+      display: grid;
+      grid-template-columns: 155px 200px 1fr 75px;
+      @media (max-width: 560px) {
+      grid-template-columns: 1fr 1fr;
+      
+      }
+    }
+  }
+}
+.wrapper {
+  flex-direction: column;
+}

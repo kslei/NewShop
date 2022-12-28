@@ -1,0 +1,10 @@
+.deviceList {
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  @media (max-width: 376px) {
+    justify-content: center;
+  }
+}

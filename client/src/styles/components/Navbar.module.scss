@@ -1,0 +1,86 @@
+@import '../base/app.scss';
+
+.navbar {
+  position: relative;
+  padding: 5px 0;
+  background-color: #dac2ff;
+  border: 1px solid #812fff;
+  color: #812fff;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+  @media (max-width: 767px) {
+    padding: 0;
+  }
+}
+
+.link {
+  padding: 0 10px;
+  font-size: inherit;
+  font-family: "Montserrat-Regular";
+  color: #812fff;
+  &:hover {
+    color: white;
+  }
+  &:active {
+    color: #dac2ff;
+  }
+}
+
+.icon {
+  margin-right: 5px;
+  height: 22px;
+  background-color: #812fff;
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:active {
+    background-color: white;
+  }
+
+  &::after {
+    display: none;
+  }
+
+}
+
+.menu {
+  position: relative;
+  width: 100%;
+  &__content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    position: relative;
+    z-index: 5;
+
+    @media (max-width: 767px) {
+      display: block;
+      position: absolute;
+      top: 26px;
+      left: 0px;
+      background: white;
+      line-height: 2;
+    }
+    &_shop {
+      display: flex;
+      flex-direction: row;
+      @media (max-width: 767px) {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+
+  &__icon {
+    display: none;
+    position: relative;
+    @media (max-width: 767px) {
+      display: block;
+    }
+  }
+}

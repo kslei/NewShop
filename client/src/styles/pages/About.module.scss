@@ -1,0 +1,22 @@
+@import '../base/app.scss';
+
+.wrapper {
+  flex-direction: column;
+}
+
+.about {
+  &__title {
+    font-family: "Montserrat-Regular";
+    font-size: 32px;
+    font-weight: 700;
+    padding: 20px;
+  }
+  &__content {
+    text-indent: 50px;
+    text-align: justify;
+    font-family: "Roboto";
+    font-size: 26px;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+}

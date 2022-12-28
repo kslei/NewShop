@@ -1,0 +1,31 @@
+@import '../base/app.scss';
+
+.cards {
+  width: 100%;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.wrapper {
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+}
+
+.menu {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  
+  &__btn {
+    width: 100px;
+    margin: 10px;
+  }
+  &__error {
+    margin-left: 50px;
+    color: $danger;
+    font-size: 22px;
+  }
+}

@@ -1,0 +1,12 @@
+@import '../base/app.scss';
+
+.infoItem {
+  display: grid;
+  grid-template-columns: 1fr 6fr 8fr 2fr;
+}
+.infoId {
+  @include border-sm;
+    margin: 2px 1px;
+    padding: 2px 5px;
+    line-height: 1.2;
+}
