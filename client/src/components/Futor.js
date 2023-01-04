@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { shedule, phone, about } from '../utils/info';
 import FutorInfo from './FutorInfo';
 import styles from '../styles/components/Futor.module.scss';

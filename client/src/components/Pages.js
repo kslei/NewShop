@@ -12,12 +12,13 @@ const Pages = observer(() => {
   for (let i = 0; i < pageCount; i++) {
     pages.push(i + 1)
   }
+
   return (
-  <div className={styles.pages}>
-    {pages.map(page =>
-      <MyButton name={page} key={page} danger={device.page === page} onClick={() => device.setPage(page)}/>
-    )}
-  </div>
+    <div className={styles.pages}>
+      {pages.map(page =>
+        <MyButton name={page} key={page} danger={device.page === page} onClick={() => device.setPage(page)}/>
+      )}
+    </div>
   );
 });
 export default Pages;

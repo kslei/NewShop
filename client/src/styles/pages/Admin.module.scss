@@ -4,10 +4,10 @@
   flex-direction: column;
   position: relative;
 }
+
 .buttons {
-  display: flex;
   width: 100%;
-  flex-direction: row;
+  @include flex-row;
   justify-content: space-between;
   margin-top: 16px;
   padding: 8px;
@@ -20,10 +20,12 @@
     width: 100%;
   }
 }
+
 .title {
   text-align: center;
   margin: 10px 0;
 }
+
 .adminDevice {
   display: grid;
   grid-template-columns: 1fr 3fr 2fr 4fr 1fr 3fr 1fr 2fr;
@@ -33,6 +35,7 @@
   color: $primary; 
   align-items: center; 
 }
+
 .note {
   font-weight: 600;
   color: $danger;

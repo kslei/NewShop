@@ -10,6 +10,7 @@ const BrandBar = observer(() => {
   const [btnVisible, setBtnVisible] = useState(false);
 
   const {device} = useContext(Context)
+  
   window.addEventListener('resize', function () {
     width();
   });

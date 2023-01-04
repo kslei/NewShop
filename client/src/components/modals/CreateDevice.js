@@ -22,18 +22,23 @@ const CreateDevice = observer(({show, onHide}) => {
     fetchTypes().then(data => device.setTypes(data))
     fetchBrands().then(data => device.setBrands(data))
   }, [])
+
   const addInfo = () => {
     setInfo([...info, {title: '', description: '', number: Date.now()}])
   }
+
   const removeInfo = (number) => {
     setInfo(info.filter(i => i.number !== number))
   }
+
   const changeInfo = (key, value, number) => {
     setInfo(info.map(i => i.number===number?{...i,[key]:value} : i))
   }
+
   const selectFile = e => {
     setFile(e.target.files[0]) 
   }
+
   const addDevice = () => {
     const formData = new FormData ()
     formData.append('name', name)
@@ -44,6 +49,7 @@ const CreateDevice = observer(({show, onHide}) => {
     formData.append('info', JSON.stringify(info))
     createDevice(formData).then(data=>onHide())
   }
+
   const setType = (type) => {
     device.setSelectedType(type);
     setTypeDanger(true)
@@ -51,6 +57,7 @@ const CreateDevice = observer(({show, onHide}) => {
       setTypeDanger(false)
     }, 1000);
   }
+
   const setBrand = (brand) => {
     device.setSelectedBrand(brand)
     setBrandDanger(true)
@@ -84,8 +91,7 @@ const CreateDevice = observer(({show, onHide}) => {
           <div className={styles.info__remove}>
             <MyButton name={"Удалить"} danger={true} onClick={()=>removeInfo(i.number)} />
           </div>
-          
-        </div>  
+         </div>  
         )}
         <MyButton name={'Добавить новое свойство'} danger={true} onClick={addInfo} />
       </div>

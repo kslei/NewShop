@@ -4,10 +4,7 @@
   &__error {
     margin: 10px;
     width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
+    @include flex-row-center;
     font-size: 28px;
     color: $danger;
     &_message {
@@ -27,8 +24,7 @@
     align-items: center;
     border-bottom: 1px solid $primary;
     &_note {
-      display: flex;
-      flex-direction: row;
+      @include flex-row;
       align-items: center;
       font-weight: 600;
       color: $danger;
@@ -55,6 +51,7 @@
     }
   }
 }
+
 .wrapper {
   flex-direction: column;
 }

@@ -4,17 +4,16 @@ import MyInput from '../../forms/MyInput';
 import { createDelivery } from '../../http/deliveryAPI';
 import styles from '../../styles/components/MyModal.module.scss';
 
-
 const CreateDelivery = ({ show, onHide }) => {
   const [value, setValue] = useState('');
   const addDelivery = () => {
     createDelivery({ name: value }).then(data => setValue(''));
     onHide();
   }
+  
   if (!show) {
     return null
   }
-console.log(value)
 
   return (
     <div className={styles.modal}>

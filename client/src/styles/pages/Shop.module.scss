@@ -10,8 +10,7 @@
 
 .typeBar {
   width: 215px;
-  display: flex;
-  flex-direction: column;
+  @include flex-column;
   align-items: center;
   justify-content: start;
   @media (max-width: 560px) {
@@ -21,8 +20,7 @@
 
 .table {
   width: calc(100% - 215px);
-  display: flex;
-  flex-direction: column;
+  @include flex-column;
   border-left: 1px solid $primary;
   @media (max-width: 560px) {
     width: 100%;
@@ -31,8 +29,15 @@
 }
 
 .pagination {
-  display: flex;
-  flex-direction: row;
+  @include flex-row;
   align-items: center;
   color: $primary;
+}
+
+.type {
+  width: 100%;
+  @include flex-row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  
 }

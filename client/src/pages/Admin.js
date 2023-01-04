@@ -8,9 +8,8 @@ import { fetchBrands, fetchTypes, fetchDevices } from '../http/deviceAPI';
 import AdminDevice from '../components/AdminDevice';
 import MyInput from '../forms/MyInput';
 import { Context } from '..';
-import styles from '../styles/pages/Admin.module.scss';
 import { observer } from 'mobx-react-lite';
-
+import styles from '../styles/pages/Admin.module.scss';
 
 const Admin = observer(() => {
   const [brandVisible, setBrandVisible] = useState(false);
@@ -30,7 +29,6 @@ const Admin = observer(() => {
     })
   }, [device.selectedType, device.selectedBrand, device.page, device.limit])
 
-  //console.log(device.brands)
   const brands = device.brands
   const types = device.types
   const searchDevice = device.devices.filter(

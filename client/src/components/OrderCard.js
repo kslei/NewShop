@@ -5,10 +5,9 @@ import { summ } from '../utils/width';
 import { putBasket, createMail } from '../http/orderAPI';
 import styles from '../styles/components/OrderCard.module.scss';
 
-
 const OrderCard = ({order, message}) => {
-  console.log(order)
   let sum = 0;
+
   const setOrder = (id, status, date, deliveryId) => {
     let text = "Уважаемый "+order.user.name+"! Ваш заказ № " + id + " от " + order.date.split('.')[0].toString().split('T')[0].toString() + " " +status.toLowerCase()+".";
     putBasket(id, status, date, deliveryId).then((data) => { message(status); createMail(order.user.email, text) })
@@ -31,7 +30,7 @@ const OrderCard = ({order, message}) => {
       <div>{order.date.split('.')[0].toString().split('T').join(' ')}</div>
       <div>{order.user.name}</div>
       <div>{order.user.email}</div>
-        <a className={styles.b} href="tel: {order.user.phone}">{order.user.phone}</a>
+      <a className={styles.b} href="tel: {order.user.phone}">{order.user.phone}</a>
       <MyButton name={'Отклонить'} danger={true} onClick={()=>setOrder(order.id, 'Отклонен', order.date, order.deliveryId)}/>  
     </div>
     {order.order_devices.map((device, i) =>

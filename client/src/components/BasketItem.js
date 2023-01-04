@@ -2,7 +2,6 @@ import React from 'react';
 import MyButton from '../forms/MyButton';
 import styles from '../styles/pages/Basket.module.scss';
 
-
 const BasketItem = ({ id, number, device, brandname, del, display }) => {
   
   return (

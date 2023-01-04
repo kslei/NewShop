@@ -13,17 +13,3 @@ export const fetchDelivery = async () => {
     return error.response
   }
 }
-
-/* export const putBasket = async (id, status, date) => {
-  const { data } = await $authHost.put('api/order', { id, status, date })
-  return data
-} */
-
-export const removeBasket = async (id) => {
-  const { data } = await $authHost.delete('api/delivery', {
-    params: {
-      id: id,
-    }
-  })
-  return data
-}

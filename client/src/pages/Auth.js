@@ -4,23 +4,20 @@ import { LOGIN_ROUTE, REGISTRATION_ROUTE, SHOP_ROUTE } from '../utils/consts';
 import { login, registration } from '../http/userAPI';
 import { observer } from 'mobx-react-lite';
 import { Context } from '../index';
-//import { fetchBasketId } from '../http/basketAPI';
-import styles from '../styles/pages/Auth.module.scss';
 import MyInput from '../forms/MyInput';
 import MyButton from '../forms/MyButton';
+import styles from '../styles/pages/Auth.module.scss';
 
 const Auth = observer(() => {
   const { user } = useContext(Context)
   const location = useLocation()
   const navigate = useNavigate()
-  /* console.log(location) */
   const isLogin = location.pathname === LOGIN_ROUTE
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
   
-
   const click = async () => {
     try {
       var data;
@@ -42,7 +39,6 @@ const Auth = observer(() => {
       user.setId(data.id)
 
       navigate(SHOP_ROUTE)
-      //document.location.reload();
     } catch (e) {
       alert(e.response.data.message)
     }
@@ -95,12 +91,8 @@ const Auth = observer(() => {
                 <div className={styles.quest}>
                   Есть аккаунт? <NavLink className={styles.link} to={LOGIN_ROUTE}>Войдите</NavLink>
                 </div>}
-              <MyButton name={isLogin ? "Войти" : "Регистрация"} onClick={click}
-                >
-                
-              </MyButton>
+              <MyButton name={isLogin ? "Войти" : "Регистрация"} onClick={click}></MyButton>
             </div>
-
           </div>
         </div>
       </div>

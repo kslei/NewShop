@@ -5,7 +5,6 @@ import { observer } from 'mobx-react-lite';
 import { Context } from '../index';
 import { SHOP_ROUTE } from '../utils/consts';
 
-
 const AppRouter = observer(({searchQuery}) => {
   const {user} = useContext(Context);
   

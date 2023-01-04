@@ -3,7 +3,6 @@ import InfoItem from './InfoItem';
 import MyInput from '../forms/MyInput';
 import MyButton from '../forms/MyButton';
 import MyMenu from '../forms/MyMenu';
-import FileInput from '../forms/FileInput';
 import { fetchOneDevice, updateDevice, createInfo } from '../http/deviceAPI';
 import styles from '../styles/components/AdminDevice.module.scss';
 
@@ -12,15 +11,12 @@ const AdminDevice = ({device, brands, types, onNote}) => {
   const [price, setPrice] = useState(device.price)
   const [type, setType] = useState(device.type)
   const [brand, setBrand] = useState(device.brand)
-  //const [number, setNumber] = useState(device.number)
   const [info, setInfo] = useState([])
   const [file, setFile] = useState(null)
   const [infoVisible, setInfoVisible] = useState(false)
-
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   
-  //console.log(file)
   useEffect(() => {
     fetchOneDevice(device.id).then(data => { setInfo(data.info)})
   }, [])
@@ -39,6 +35,7 @@ const AdminDevice = ({device, brands, types, onNote}) => {
   const onInfoVisible = (infoVisible) => {
     setInfoVisible(!infoVisible)
   }
+
   const addInfo = (infoObject) => {
     info.map(item => {
       if(item.id === infoObject.id) {
@@ -58,7 +55,6 @@ const AdminDevice = ({device, brands, types, onNote}) => {
     formData.append('brandId', brand.id)
     formData.append('typeId', type.id)
     formData.append('info', JSON.stringify(info))
-    //console.log("formData", ...formData)
     updateDevice(formData).then(data => onNote('Изменено'))
   }
   

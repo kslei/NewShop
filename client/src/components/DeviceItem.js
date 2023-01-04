@@ -2,12 +2,12 @@ import React from 'react';
 import Image from '../forms/Image';
 import RatingResult from '../forms/RatingResult';
 import {useNavigate} from 'react-router-dom';
-import styles from '../styles/components/DeviceItem.module.scss';
 import {DEVICE_ROUTE} from '../utils/consts';
-
+import styles from '../styles/components/DeviceItem.module.scss';
 
 const DeviceItem = ({device}) => {
   const navigate = useNavigate();
+  
   return (
   <div className={styles.deviceItem} onClick={() => navigate(DEVICE_ROUTE + '/' + device.id)}>
     <div className={styles.deviceItem__image}>

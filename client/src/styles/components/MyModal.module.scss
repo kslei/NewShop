@@ -4,10 +4,7 @@
   position: absolute;
   top: -100px;
   width: 560px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  @include flex-column-center;
   padding: 10px;
   background-color: $back;
   @include border;
@@ -25,15 +22,13 @@
   }
   &__futor {
     width: 100%;
-    display: flex;
-    flex-direction: row;
+    @include flex-row;
     justify-content: space-around;
     margin:10px;
   }
   .info {
     width: 100%;
-    display: flex;
-    flex-direction: row;
+    @include flex-row;
     align-items: center;
     &__title {
       width: 35%;

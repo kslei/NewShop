@@ -11,6 +11,7 @@ import Loader from "./components/Loader";
 
 const App = observer(() => {
   const {user} = useContext(Context);
+  const {device} = useContext(Context)
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   
@@ -23,15 +24,21 @@ const App = observer(() => {
     }).finally(()=>setLoading(false))
   },[])
   
+  function clickType (data) {
+    device.setSelectedType(data)
+    device.setSelectedBrand(data)
+    device.setPage(1)
+  }
+
   if(loading) {
     return <Loader/>
   }
 
   return (
     <BrowserRouter>
-      <Header search={search} onSearch={setSearch} />
-      <NavBar />
-      <AppRouter searchQuery={search}/>
+      <Header search={search} onSearch={setSearch} onclick={clickType} />
+      <NavBar onclick={clickType} />
+      <AppRouter searchQuery={search} />
       <Futor />
     </BrowserRouter>
   )

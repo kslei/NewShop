@@ -8,7 +8,6 @@ import Auth from "./pages/Auth"
 import Profile from "./pages/Profile"
 import { ADMIN_ROUTE, ABOUT_ROUTE, BASKET_ROUTE, SHOP_ROUTE, REGISTRATION_ROUTE, LOGIN_ROUTE, DEVICE_ROUTE, ORDER_ROUTE, PROFILE_ROUTE } from "./utils/consts";
 
-
 export const authRoutes = [
   {
     path: ADMIN_ROUTE,

@@ -7,8 +7,7 @@
 
 .device {
   width: 100%;
-  display: flex;
-  flex-direction: row;
+  @include flex-row;
   &__image {
     width: 360px;
     @media (max-width: 991px) {
@@ -27,8 +26,7 @@
   &__params {
     width: calc(100% - 660px);
     margin: 20px 0;
-    display: flex;
-    flex-direction: column;
+    @include flex-column;
     align-items: center;
     @media (max-width: 991px) {
       width: calc(100% - 450px);
@@ -45,10 +43,7 @@
   &__price {
     width: 300px;
     margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    @include flex-column-center;
     @include border;
     @media (max-width: 991px) {
       width: 150px;
@@ -65,24 +60,19 @@
   }
 }
 .rating {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  @include flex-row-center;
   font-size: 16px;
   color: $primary;
   @media (max-width: 376px) {
     flex-direction: column;
   }
   &__col {
-    display: flex;
-    flex-direction: column;
+    @include flex-column;
     align-items: center;
   }
   &__row {
-    display: flex;
+    @include flex-row;
     margin: 0 5px;
-    flex-direction: row;
     align-items: center;
   }
   &__message {
@@ -96,8 +86,7 @@
 
 .brandName {
   width: 100%;
-  display: flex;
-  flex-direction: row;
+  @include flex-row;
   @media (max-width:560px) {
     flex-direction: column;
     align-items: center;
@@ -149,9 +138,7 @@
   }
 }
 .star {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include flex-row-center;
   font-size: 60px;
   color: goldenrod;
   width: 180px;
@@ -174,8 +161,7 @@
 }
 .info {
   width: 100%;
-  display: flex;
-  flex-direction: column;  
+  @include flex-column;
   &__text {
     display: flex;
     justify-content: center;
@@ -189,8 +175,7 @@
     }
   }
   &__row {
-    display: flex;
-    flex-direction: row;
+    @include flex-row;
     margin: 2px;
     font-family: "Montserrat-Regular";
     font-size: 14px;
