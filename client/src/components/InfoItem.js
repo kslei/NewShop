@@ -6,6 +6,7 @@ import styles from '../styles/components/InfoItem.module.scss';
 const InfoItem = ({ info, add }) => {
   const [titleValue, setTitleValue] = useState('')
   const [descriptionValue, setDescriptionValue] = useState('')
+  
   useEffect(() => {
     setTitleValue(info.title)
     setDescriptionValue(info.description)
@@ -16,10 +17,6 @@ const InfoItem = ({ info, add }) => {
     title: titleValue,
     description: descriptionValue
   }
-
-  //console.log("infoObj", infoObj)
-
-
 
   return (
     <div className={styles.infoItem}>

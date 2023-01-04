@@ -1,14 +1,13 @@
 @import '../base/app.scss';
 
 .container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include flex-column-center;
 }
 
 .wrapper {
   justify-content: center;
 }
+
 .card {
   width: 400px;
   padding: 20px;
@@ -20,14 +19,13 @@
     margin: auto;
   }
 }
+
 .form {
-  display: flex;
-  flex-direction: column;
+  @include flex-column;
   align-items: space-between;
 }
 .row {
-  display: flex;
-  flex-direction: row;
+  @include flex-row;
   justify-content: space-between;
   align-items: center;
   padding: 5px 0;
@@ -46,7 +44,6 @@
     color: #6702ff;
     font-weight: 700;
   }
-
   &:active {
     color: $back;
   }

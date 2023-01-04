@@ -2,8 +2,7 @@
 
 .menu {
   position: relative;
-  display: flex;
-  flex-direction: column;
+  @include flex-column;
   transition: 0.5s;
   &__items {
     width: inherit;
@@ -11,8 +10,7 @@
     right: 0;
     margin: 2px;
     position: absolute;
-    display: flex;
-    flex-direction: column;
+    @include flex-column;
     background: white;
     z-index: 10;
     &_rev {
@@ -20,8 +18,7 @@
       top: 32px;
       left: 0;
       position: absolute;
-      display: flex;
-      flex-direction: row;
+      @include flex-row;
       background: white;
       z-index: 10;
     }
@@ -39,6 +36,19 @@
     }
     &:active {
       background-color: $back;
+    }
+  }
+  &__icon {
+  margin-right: 5px;
+  height: 32px;
+  &:hover {
+    cursor: pointer;
+    }
+  &:active {
+    opacity: 0.5;
+    }
+  &::after {
+    display: none;
     }
   }
 }

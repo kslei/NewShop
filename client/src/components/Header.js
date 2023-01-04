@@ -6,13 +6,15 @@ import { observer } from 'mobx-react-lite';
 import MyMenu from '../forms/MyMenu';
 import { phone } from '../utils/info';
 import { Context } from '..';
-import basket from '../images/basketinvers.png';
-import searchIcon from '../images/search.png';
-import phoneIcon from '../images/phone.png';
+import basket from '../images/basketicon.png';
+import searchIcon from '../images/searchicon.png';
+import phoneIcon from '../images/phoneicon.png';
+import avatar from '../images/avatar.png';
+import avatarAuth from '../images/avatarAuth.png';
 import MyInput from '../forms/MyInput';
 import styles from '../styles/components/Header.module.scss';
 
-const Header = observer(({search, onSearch}) => {
+const Header = observer(({search, onSearch, onclick}) => {
   const navigate = useNavigate();
   const {user} = useContext(Context);
   const [searchVisible, setSearchVisible] = useState(false);
@@ -27,6 +29,7 @@ const Header = observer(({search, onSearch}) => {
   useEffect(()=>{
     width()
   }, [])
+
   const width = () => {
     let w = window.innerWidth;
     if (w > 767) {
@@ -37,9 +40,11 @@ const Header = observer(({search, onSearch}) => {
       setPhoneVisible(false)
     }
   }
+
   const onSearchVisible = (vis) => {
     vis ? setSearchVisible(false) : setSearchVisible (true)
   }
+
   const onPhoneVisible = (vis) => {
     vis ? setPhoneVisible(false) : setPhoneVisible (true)
   }
@@ -86,44 +91,44 @@ const Header = observer(({search, onSearch}) => {
     user.setIsAuth(false)
   }
 
-    return (
-  <div className={styles.header}>
-    <div className={styles.wrapper}>
-      <div className={styles.logo} onClick={() => navigate(SHOP_ROUTE)}>
-        <img className={styles.logo__image} src={logo} alt="logo" />
-      </div>
-      <div className={styles.menu}>
-        <div className={styles.menu__icon}>
-          <img className={styles.icon} src={searchIcon} onClick={() => onSearchVisible(searchVisible) } ></img>
+  return (
+    <div className={styles.header}>
+      <div className={styles.wrapper}>
+        <div className={styles.logo} onClick={() => {navigate(SHOP_ROUTE); onclick(-1)}}>
+          <img className={styles.logo__image} src={logo} alt="logo" />
         </div>
-        {searchVisible &&
-          <div className={styles.menu__input}>
-            <MyInput sm={"true"} type='text' value={search} placeholder='Поиск...' onChange={e => onSearch(e.target.value)} />
+        <div className={styles.menu}>
+          <div className={styles.menu__icon}>
+            <img className={styles.icon} src={searchIcon} onClick={() => onSearchVisible(searchVisible) } ></img>
           </div>
-        }
-      </div>  
-      <div className={styles.menu}>
-        <div className={styles.menu__icon}>
-          <img className={styles.icon} src={phoneIcon} onClick={() => onPhoneVisible(phoneVisible)} ></img>
+          {searchVisible &&
+            <div className={styles.menu__input}>
+              <MyInput sm={"true"} type='text' value={search} placeholder='Поиск по названию' onChange={e => onSearch(e.target.value)} />
+            </div>
+          }
+        </div>  
+        <div className={styles.menu}>
+          <div className={styles.menu__icon}>
+            <img className={styles.icon} src={phoneIcon} onClick={() => onPhoneVisible(phoneVisible)} ></img>
+          </div>
+          {phoneVisible &&
+            <div className={styles.menu__input}>
+              <div className={styles.menu__title}>Наши контакты</div>
+              {phone.map(item => 
+                <div className={styles.menu__item}key={item.id} onClick={()=>setPhoneVisible(false)} >{item.info}</div>
+              )}
+            </div>
+          }
+        </div>  
+        <div className={styles.user}>
+          {user.isAuth
+          ?<img className={styles.icon} src={basket} onClick={() => navigate (BASKET_ROUTE)}></img>
+          :<img className={styles.icon__dis} src={basket} ></img>
+          }
+          <MyMenu menu={userMenu} icon={user.isAuth? avatarAuth : avatar} click={setKey} />
         </div>
-        {phoneVisible &&
-          <div className={styles.menu__input}>
-            <div className={styles.menu__title}>Наши контакты</div>
-            {phone.map(item => 
-              <div className={styles.menu__item}key={item.id} onClick={()=>setPhoneVisible(false)} >{item.info}</div>
-            )}
-          </div>
-        }
-      </div>  
-      <div className={styles.user}>
-        {user.isAuth
-        ?<img className={styles.icon} src={basket} onClick={() => navigate (BASKET_ROUTE)}></img>
-        :<img className={styles.icon__dis} src={basket} ></img>
-        }
-        <MyMenu menu={userMenu} name="user" click={setKey} danger={user.isAuth}/>
       </div>
     </div>
-  </div>
   );
 });
 export default Header;

@@ -2,8 +2,7 @@
 
 .card {
   width: 100%;
-  display: flex;
-  flex-direction: column;
+  @include flex-column;
   @include border;
   border-radius: 0;
   &__title {

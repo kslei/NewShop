@@ -44,8 +44,8 @@ class DeviceController {
       let device;
       if(req.files) {
         const { img } = req.files      
-        let fileName = uuid.v4() + ".jpg"//v4 сгенерирует id
-        img.mv(path.resolve(__dirname, '..', 'static', fileName))//переместить файлы
+        let fileName = uuid.v4() + ".jpg"
+        img.mv(path.resolve(__dirname, '..', 'static', fileName))
         device = await Device.update({ name, price, brandId, typeId, number, img: fileName }, { where: { id } })
       } else {
         device = await Device.update({ name, price, brandId, typeId, number }, { where: { id } })

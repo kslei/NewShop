@@ -1,10 +1,17 @@
+@import '../base/app.scss';
+
 .deviceList {
   padding: 10px;
-  display: flex;
-  flex-direction: row;
+  @include flex-row;
   flex-wrap: wrap;
   justify-content: space-between;
   @media (max-width: 376px) {
     justify-content: center;
   }
+}
+.message{
+  padding: 10px;
+  @include flex-row-center;
+  color: $danger;
+  font-size: 28px;
 }

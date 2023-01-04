@@ -2,8 +2,7 @@
 
 .brandBar {
   width: 100%;
-  display: flex;
-  flex-direction: row;
+  @include flex-row;
   transition: 1s;
   @media (max-width: 560px) {
       flex-direction: column;
@@ -12,18 +11,15 @@
   &__items {
     width: inherit;
     margin: 5px 0;
-    display: flex;
-    flex-direction: row;
+    @include flex-row;
     flex-wrap: wrap;
     justify-content: space-around;
     background-color: white;
-
     @media (max-width: 560px) {
       flex-direction: column;
       margin: 0;
     }
   }
-
   &__link {
     padding: 5px 10px;
     display: flex;
@@ -35,11 +31,9 @@
       color: #ffffff;
       background-color: $primary;
     }
-
     &:active {
       background-color: $back;
     }
-
     @media (max-width: 560px) {
       @include border;
       margin: 0;

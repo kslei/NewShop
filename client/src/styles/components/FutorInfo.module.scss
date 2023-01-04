@@ -1,13 +1,11 @@
 @import '../base/app.scss';
 
 .futorInfo {
-  display: flex;
-  flex-direction: column;
+  @include flex-column;
   align-items: start;
   @media (max-width: 667px) {
     align-items: center;
   }
-  
   &__title {
     margin: 5px 0;
     color: $primary;
@@ -29,19 +27,15 @@
         cursor: pointer;
       }
     }
-    
   }
-
   &__link {
-    //padding: 5px;
     margin: 2px 0;
     font-size: inherit;
     font-family: "Montserrat-Regular";
     color: $primary;
-    
   }
 a {
-    font-family: "Montserrat-Regular";
-    color: $primary;
-    }
+  font-family: "Montserrat-Regular";
+  color: $primary;
+  }
 }

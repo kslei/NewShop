@@ -4,7 +4,6 @@ import OrderCard from '../components/OrderCard';
 import MyMenu from '../forms/MyMenu';
 import { fetchBasket } from '../http/orderAPI';
 import { Context } from '../index';
-
 import styles from '../styles/pages/Order.module.scss';
 
 const Order = observer(() => {
@@ -17,9 +16,11 @@ const Order = observer(() => {
     { id: 2, name: "Выполнен", value: "Выполнен" },
     { id: 3, name: "Отклонен", value: "Отклонен" },
   ]
+
   const onStatus = (item) => {
     SetStatus(item.value)
   }
+
   useEffect(()=>{
     fetchBasket(userId, status).then(data=>{
       if (Array.isArray(data)) {
@@ -31,27 +32,26 @@ const Order = observer(() => {
       }
       })
   }, [status])
-  console.log(message)
-
+  
   return (
-  <div className={styles.container}>
-    <div className={styles.wrapper}>
-      <div className={styles.menu}>
-        <span className={styles.title}>Показать заказы:</span>
-        <div className={styles.menu__btn}>
-          <MyMenu name={'Статус'} menu={statusMenu} click={onStatus} />
+    <div className={styles.container}>
+      <div className={styles.wrapper}>
+        <div className={styles.menu}>
+          <span className={styles.title}>Показать заказы:</span>
+          <div className={styles.menu__btn}>
+            <MyMenu name={'Статус'} menu={statusMenu} click={onStatus} />
+          </div>
+          <div className={styles.menu__error}>{message}</div>
         </div>
-        <div className={styles.menu__error}>{message}</div>
+        {order.length!==0 &&
+          <div className={styles.cards}>
+            {order.orders.map(item => 
+              <OrderCard key={item.id} order={item} message={setMessage}/>
+            )}  
+          </div>
+        }
       </div>
-      {order.length!==0 &&
-        <div className={styles.cards}>
-          {order.orders.map(item => 
-            <OrderCard key={item.id} order={item} message={setMessage}/>
-          )}  
-        </div>
-      }
     </div>
-  </div>
   );
 });
 export default Order;

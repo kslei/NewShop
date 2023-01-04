@@ -3,15 +3,19 @@ import styles from '../styles/components/FutorInfo.module.scss';
 
 const FutorInfo = ({info, title, it}) => {
   const [visible, setVisible] = useState(false);
+
   window.addEventListener('resize', function () {
     width();
   });
+
   let style;
+
   if(it) {
     style = [styles.futorInfo__title__it];
   } else {
     style = [styles.futorInfo__title];
   }
+  
   function width() {
     let w = window.innerWidth;
     if (w >= 667) {
