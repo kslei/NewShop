@@ -23,16 +23,16 @@ const Header = observer(({search, onSearch, onclick}) => {
   const userMenu = []
 
   window.addEventListener('resize', function () {
-    width();
+    w();
   });
 
   useEffect(()=>{
-    width()
+    w()
   }, [])
 
-  const width = () => {
-    let w = window.innerWidth;
-    if (w > 767) {
+  const w = () => {
+    let width = window.innerWidth;
+    if (width > 767) {
       setSearchVisible(true)
       setPhoneVisible(true)
     } else {
@@ -86,9 +86,9 @@ const Header = observer(({search, onSearch, onclick}) => {
   }
 
   const logOut = () => {
-    console.log("logOut")
     user.setUser({})
     user.setIsAuth(false)
+    localStorage.removeItem('token')
   }
 
   return (
@@ -99,7 +99,7 @@ const Header = observer(({search, onSearch, onclick}) => {
         </div>
         <div className={styles.menu}>
           <div className={styles.menu__icon}>
-            <img className={styles.icon} src={searchIcon} onClick={() => onSearchVisible(searchVisible) } ></img>
+            <img className={styles.icon} src={searchIcon} alt='' onClick={() => onSearchVisible(searchVisible) } ></img>
           </div>
           {searchVisible &&
             <div className={styles.menu__input}>
@@ -109,7 +109,7 @@ const Header = observer(({search, onSearch, onclick}) => {
         </div>  
         <div className={styles.menu}>
           <div className={styles.menu__icon}>
-            <img className={styles.icon} src={phoneIcon} onClick={() => onPhoneVisible(phoneVisible)} ></img>
+            <img className={styles.icon} src={phoneIcon} alt='' onClick={() => onPhoneVisible(phoneVisible)} ></img>
           </div>
           {phoneVisible &&
             <div className={styles.menu__input}>
@@ -122,8 +122,8 @@ const Header = observer(({search, onSearch, onclick}) => {
         </div>  
         <div className={styles.user}>
           {user.isAuth
-          ?<img className={styles.icon} src={basket} onClick={() => navigate (BASKET_ROUTE)}></img>
-          :<img className={styles.icon__dis} src={basket} ></img>
+            ? <img className={styles.icon} src={basket} alt='' onClick={() => navigate (BASKET_ROUTE)}></img>
+            : <img className={styles.icon__dis} src={basket} alt='' ></img>
           }
           <MyMenu menu={userMenu} icon={user.isAuth? avatarAuth : avatar} click={setKey} />
         </div>

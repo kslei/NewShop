@@ -43,7 +43,7 @@ const DevicePage = () => {
         </div>
         <div className={styles.device}>
           <div className={styles.device__image}>
-              <Image src={process.env.REACT_APP_API_URL+device.img} />
+            <Image src={process.env.REACT_APP_API_URL + device.img} />
           </div>
           <div className={styles.device__params}>
             <div className={styles.star}>{device.rating}</div>

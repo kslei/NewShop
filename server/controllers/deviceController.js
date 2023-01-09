@@ -100,9 +100,7 @@ class DeviceController {
   }
 
   async update(req, res) {
-    //const {id} = req.params
     const id = req.id
-    //const {rating} = req.query
     const rating = req.rating
     const device = await Device.findOne(
       {
@@ -110,11 +108,8 @@ class DeviceController {
       }
     )
     await device.update({ rating: rating })
-    //await device.save()
     return res.json(device)
   }
-  
-  
 }
 
 module.exports = new DeviceController()
