@@ -16,11 +16,13 @@ const App = observer(() => {
   const [search, setSearch] = useState('');
   
   useEffect(()=>{
-    check().then(data=>{
-      user.setUser(true)
-      user.setIsAuth(true)
-      user.setRole(data.role)
-      user.setId(data.id)
+    check().then(data => {
+      if(data) {
+        user.setUser(true)
+        user.setIsAuth(true)
+        user.setRole(data.role)
+        user.setId(data.id)
+      }
     }).finally(()=>setLoading(false))
   },[])
   
