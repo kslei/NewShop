@@ -17,6 +17,7 @@ const Auth = observer(() => {
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
+  const [message, setMessage] = useState('')
   
   const click = async () => {
     try {
@@ -40,7 +41,7 @@ const Auth = observer(() => {
 
       navigate(SHOP_ROUTE)
     } catch (e) {
-      alert(e.response.data.message)
+      setMessage(e.response.data.message)
     }
     setEmail('')
     setPassword('')
@@ -51,6 +52,12 @@ const Auth = observer(() => {
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
+        {message &&
+          <div className={styles.danger}>
+            <span className={styles.danger__text}>{message}</span>
+            <MyButton name={"OK"} danger={true} onClick={() => setMessage('')}/>
+          </div>
+        }
         <div className={styles.card}>
           <h2 className={styles.card__text}>{isLogin ? 'Авторизация' : "Регистрация"}</h2>
           <div className={styles.form}>
@@ -91,7 +98,11 @@ const Auth = observer(() => {
                 <div className={styles.quest}>
                   Есть аккаунт? <NavLink className={styles.link} to={LOGIN_ROUTE}>Войдите</NavLink>
                 </div>}
-              <MyButton name={isLogin ? "Войти" : "Регистрация"} onClick={click}></MyButton>
+              <div className={styles.button}>
+                <MyButton name={"Выйти"} danger={true} onClick={() => navigate(SHOP_ROUTE)} />
+                <MyButton name={isLogin ? "Войти" : "Регистрация"} onClick={click}></MyButton>
+              </div>  
+              
             </div>
           </div>
         </div>
