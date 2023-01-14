@@ -150,3 +150,10 @@ button {
 section {
   padding: 150px 0;
 }
+
+:active,
+:hover,
+:focus {
+  outline: 0;
+  outline-offset: 0;
+}

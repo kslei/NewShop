@@ -19,12 +19,7 @@ const Header = observer(({search, onSearch, onclick}) => {
   const {user} = useContext(Context);
   const [searchVisible, setSearchVisible] = useState(false);
   const [phoneVisible, setPhoneVisible] = useState(false);
-  
   const userMenu = []
-
-  window.addEventListener('resize', function () {
-    w();
-  });
 
   useEffect(()=>{
     w()
@@ -40,7 +35,7 @@ const Header = observer(({search, onSearch, onclick}) => {
       setPhoneVisible(false)
     }
   }
-
+  
   const onSearchVisible = (vis) => {
     vis ? setSearchVisible(false) : setSearchVisible (true)
   }
@@ -48,6 +43,13 @@ const Header = observer(({search, onSearch, onclick}) => {
   const onPhoneVisible = (vis) => {
     vis ? setPhoneVisible(false) : setPhoneVisible (true)
   }
+
+  const onCloseVisible = () => {
+    let width = window.innerWidth;
+    if (width <= 767) {
+      if (searchVisible) {onSearchVisible(searchVisible)};
+      if (phoneVisible) {onPhoneVisible(phoneVisible)};
+  }}
 
   if (user.isAuth) {
     userMenu.push(
@@ -93,7 +95,7 @@ const Header = observer(({search, onSearch, onclick}) => {
 
   return (
     <div className={styles.header}>
-      <div className={styles.wrapper}>
+      <div className={styles.wrapper} onClick={() => onCloseVisible()} >
         <div className={styles.logo} onClick={() => {navigate(SHOP_ROUTE); onclick(-1)}}>
           <img className={styles.logo__image} src={logo} alt="logo" />
         </div>
@@ -102,8 +104,9 @@ const Header = observer(({search, onSearch, onclick}) => {
             <img className={styles.icon} src={searchIcon} alt='' onClick={() => onSearchVisible(searchVisible) } ></img>
           </div>
           {searchVisible &&
-            <div className={styles.menu__input}>
-              <MyInput sm={"true"} type='text' value={search} placeholder='Поиск по названию' onChange={e => onSearch(e.target.value)} />
+            <div className={styles.menu__input} onClick={(e) => e.stopPropagation()}>
+              <MyInput type='text' value={search} placeholder='Поиск по названию'
+              onChange={e => onSearch(e.target.value)} />
             </div>
           }
         </div>  
@@ -115,7 +118,7 @@ const Header = observer(({search, onSearch, onclick}) => {
             <div className={styles.menu__input}>
               <div className={styles.menu__title}>Наши контакты</div>
               {phone.map(item => 
-                <div className={styles.menu__item}key={item.id} onClick={()=>setPhoneVisible(false)} >{item.info}</div>
+                <div className={styles.menu__item} key={item.id} onClick={()=>setPhoneVisible(false)} >{item.info}</div>
               )}
             </div>
           }
