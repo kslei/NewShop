@@ -58,13 +58,13 @@
     @media (max-width: 767px) {
       display: block;
       position: absolute;
-      top: 0;
-      left: 35px;
+      top: -10px;
+      left: 40px;
       width: 196px;
     }
     @media (max-width: 560px) {
       left: -85px;
-      top: 36px
+      top: 40px;
     }
   }
   &__icon {
@@ -86,6 +86,7 @@
     width: 120px;
     padding: 2px;
     @media (max-width: 767px) {
+      padding: 5px;
       background: white;
       @include border;
     }

@@ -31,6 +31,10 @@ const DevicePage = () => {
   }
 
   const setOrder = (deviceId, userId) => {
+    console.log(userId)
+    if (!Number.isInteger(userId)) {
+      setMessage('Вы не авторизованы')
+    }
     createOrder(deviceId, userId).then(()=>navigate(BASKET_ROUTE))
   }
   
