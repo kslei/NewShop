@@ -17,7 +17,7 @@ const BrandBar = observer(() => {
 
   function width() {
     let w = window.innerWidth;
-    if (w >= 560) {
+    if (w > 576) {
       setVisible(true);
       setBtnVisible(false)
     } else {

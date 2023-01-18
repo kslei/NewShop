@@ -3,11 +3,14 @@
 .myBtn, .myBtnDanger {
   min-width: 27px;
   margin: 2px;
-  padding: 5px 5px;
+  padding: 5px;
   font-size: 14px;
   background: transparent;
-  border-radius: 5px;
-  cursor: pointer;
+  &:hover, &:focus {
+    cursor: pointer;
+    padding: 4px;
+    border-width: 2px;
+  }
   &:active {
     color: white;
   }
@@ -18,8 +21,11 @@
   padding: 2px 3px;
   font-size: 14px;
   background: transparent;
-  @include border-sm;
-  cursor: pointer;
+  &:hover, &:focus {
+    cursor: pointer;
+    padding: 0 1px;
+    border-width: 2px;
+  }
   &:active {
     color: white;
   }

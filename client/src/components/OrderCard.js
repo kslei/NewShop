@@ -1,16 +1,22 @@
 import React from 'react';
 import MyButton from '../forms/MyButton';
 import OrderDeviceItem from './OrderDeviceItem';
-import { summ } from '../utils/width';
 import { putBasket, createMail } from '../http/orderAPI';
 import styles from '../styles/components/OrderCard.module.scss';
 
 const OrderCard = ({order, message}) => {
-  let sum = 0;
-
+  
   const setOrder = (id, status, date, deliveryId) => {
     let text = "Уважаемый "+order.user.name+"! Ваш заказ № " + id + " от " + order.date.split('.')[0].toString().split('T')[0].toString() + " " +status.toLowerCase()+".";
     putBasket(id, status, date, deliveryId).then((data) => { message(status); createMail(order.user.email, text) })
+  }
+
+  const summ = function (devices) {
+    let sum = 0;
+    for (let i = 0; i < devices.length; i++) {
+      sum = sum + devices[i].device.price;
+    }
+    return sum;
   }
 
   return (

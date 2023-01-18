@@ -3,7 +3,7 @@
 .wrapper {
   justify-content: left;
   align-items: start;
-  @media (max-width: 560px) {
+  @media (max-width: 576px) {
     flex-direction: column;
   }
 }
@@ -13,7 +13,7 @@
   @include flex-column;
   align-items: center;
   justify-content: start;
-  @media (max-width: 560px) {
+  @media (max-width: 576px) {
       width: 100%;
     }
 }
@@ -22,7 +22,7 @@
   width: calc(100% - 215px);
   @include flex-column;
   border-left: 1px solid $primary;
-  @media (max-width: 560px) {
+  @media (max-width: 576px) {
     width: 100%;
     border-left: none;
   }

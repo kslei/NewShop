@@ -5,7 +5,7 @@
   padding: 5px 15px;
   margin: 10px 0;
   font-size: 16px;
-  @include border;
+  @include border;  
   &_sm {
     width: calc(100% - 25px);
     padding: 2px 10px;

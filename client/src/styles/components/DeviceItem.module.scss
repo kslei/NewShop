@@ -2,28 +2,34 @@
 
 .deviceItem {
   position: relative;
-  padding: 5px;
+  //padding: 5px;
+  margin: 5px 15px ;
   width: 150px;
   @include flex-column-center;
-  @media (max-width: 768px) {
-    padding: 5px 1px;
+  @media (max-width: 992px) {
+    margin: 5px 5px;
   }
-  @media (max-width: 560px) {
-    padding: 5px;
+  @media (max-width: 768px) {
+    margin: 5px 3px;
+  }
+  @media (max-width: 576px) {
+    padding: 5px 0;
+    /* margin-top: 5px;
+    margin-bottom: 5px; */
+    margin: auto;
   }
   @media (max-width: 376px) {
     width: 130px;
-    padding: 1px;
   }
-  @media (max-width: 325px) {
+  @media (max-width: 330px) {
     width: 100%;
   } 
   &:after {
     position: absolute;
     content: "";
     width: 100%;
-    bottom: 0;
-    height: 1px;
+    bottom: -2px;
+    height: 2px;
     background-image: linear-gradient(to right, $back 0%, $primary 100%);
     }
   &:hover {
@@ -36,9 +42,15 @@
     margin: 5px 0;
     color: $primary;
     font-family: "Montserrat-Regular";
+    font-size: 14px;
     font-weight: 600;
-    @media (min-width: 377px) {
-      height: 56px;
+    height: 56px;
+    @media (max-width: 376px) {
+      font-size: 13px;
+    }
+    @media (max-width: 330px) {
+      height: auto;
+      font-size: 14px;
     }
   }
   &__price {

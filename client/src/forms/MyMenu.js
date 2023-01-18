@@ -20,7 +20,7 @@ const MyMenu = ({name, danger, sm, menu, click, rev, icon}) => {
   return (
   <div className={styles.menu}>
     {name
-    ? <MyButton name={name} sm={sm} onClick = {() => onVisible(visible)} danger={danger}></MyButton>
+    ? <MyButton name={name} sm={sm} onClick = {() => onVisible(visible)} danger={danger} ></MyButton>
     : <img className={styles.menu__icon} src={icon} onClick = {() => onVisible(visible)} ></img>
     }
     {visible &&
