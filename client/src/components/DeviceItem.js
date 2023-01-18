@@ -11,7 +11,7 @@ const DeviceItem = ({device}) => {
   return (
   <div className={styles.deviceItem} onClick={() => navigate(DEVICE_ROUTE + '/' + device.id)}>
     <div className={styles.deviceItem__image}>
-      <Image src={process.env.REACT_APP_API_URL+device.img}/>
+      <Image src={process.env.REACT_APP_API_URL+device.img} />
     </div>
     <div className={styles.deviceItem__name}>
       {device.brand.name}  {device.name}

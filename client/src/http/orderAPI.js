@@ -1,7 +1,7 @@
 import { $authHost } from './index';
 
-export const createOrder = async (deviceId, userId) => {
-  const { data } = await $authHost.post('api/order', {deviceId, userId})
+export const createOrder = async (deviceId, userId, date, deliveryId) => {
+  const { data } = await $authHost.post('api/order', {deviceId, userId, date, deliveryId})
   return data
 }
 
@@ -10,11 +10,10 @@ export const createMail = async(email, message) => {
   return data
 }
 
-export const fetchBasket = async (userId, status) => {
+export const fetchBasket = async (status) => {
   try {
     const { data } = await $authHost.get('api/order', {
     params: {
-      userId: userId,
       status: status,
     }
   })
@@ -22,7 +21,6 @@ export const fetchBasket = async (userId, status) => {
   } catch (error) {
     return error.response
   }
-  
 }
 
 export const putBasket = async (id, status, date, deliveryId) => {
@@ -39,4 +37,3 @@ export const removeBasket = async (userId, deviceId) => {
   })
   return data
 }
-

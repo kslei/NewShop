@@ -9,7 +9,6 @@ import styles from '../styles/pages/Order.module.scss';
 const Order = observer(() => {
   const [status, SetStatus] = useState('В обработке')
   const [message, setMessage] = useState('');
-  const userId = null;
   const {order} = useContext(Context)
   const statusMenu = [
     { id: 1, name: "В обработке", value: "В обработке" },
@@ -22,7 +21,7 @@ const Order = observer(() => {
   }
 
   useEffect(()=>{
-    fetchBasket(userId, status).then(data=>{
+    fetchBasket(status).then(data=>{
       if (Array.isArray(data)) {
         order.setOrders(data)
         setMessage('')

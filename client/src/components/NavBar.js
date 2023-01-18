@@ -16,7 +16,7 @@ const NavBar = ({onclick}) => {
   
   const width = () => {
     let w = window.innerWidth;
-    if (w > 767) {
+    if (w >= 767) {
       setMenuVisible(true)
     } else {
       setMenuVisible(false)

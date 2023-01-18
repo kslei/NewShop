@@ -4,7 +4,10 @@
   padding: 10px;
   @include flex-row;
   flex-wrap: wrap;
-  justify-content: space-between;
+  //justify-content: space-between;
+  @media (max-width: 786px) {
+    padding: 5px;
+  }
   @media (max-width: 325px) {
     justify-content: center;
   }

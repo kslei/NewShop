@@ -126,7 +126,7 @@ const Header = observer(({search, onSearch, onclick}) => {
         <div className={styles.user}>
           {user.isAuth
             ? <img className={styles.icon} src={basket} alt='' onClick={() => navigate (BASKET_ROUTE)}></img>
-            : <img className={styles.icon__dis} src={basket} alt='' ></img>
+            : <img className={styles.icon} src={basket} alt='' onClick={() => navigate (BASKET_ROUTE)}></img>
           }
           <MyMenu menu={userMenu} icon={user.isAuth? avatarAuth : avatar} click={setKey} />
         </div>

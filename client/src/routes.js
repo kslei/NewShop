@@ -18,10 +18,6 @@ export const authRoutes = [
     Component: Order
   },
   {
-    path: BASKET_ROUTE,
-    Component: Basket
-  },
-  {
     path: PROFILE_ROUTE,
     Component: Profile
   }
@@ -47,5 +43,9 @@ export const publicRoutes = [
   {
     path: DEVICE_ROUTE + '/:id',
     Component: DevicePage
+  },
+  {
+    path: BASKET_ROUTE,
+    Component: Basket
   }
 ]

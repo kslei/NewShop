@@ -6,7 +6,6 @@ import Rating from '../components/Rating';
 import { fetchOneDevice, createRating } from '../http/deviceAPI';
 import { Context } from '..';
 import { BASKET_ROUTE } from '../utils/consts';
-import { createOrder } from '../http/orderAPI';
 import styles from '../styles/pages/DevicePage.module.scss';
 
 const DevicePage = () => {
@@ -17,12 +16,16 @@ const DevicePage = () => {
   const [message, setMessage] = useState('');
   const {id} = useParams();
   const navigate = useNavigate();
-
+  var basketDevices = JSON.parse(sessionStorage.getItem('basketDevices'));
+  console.log(user)
   useEffect(()=>{
     fetchOneDevice(id).then(data=>{setDevice(data); setBrand(data.brand)})
   },[])
 
   const setRating = (rate, userId, deviceId) => {
+    if (!user.isAuth) {
+      setMessage('Вы не авторизованы')
+    }
     createRating(rate, userId, deviceId).then((data) =>{
       if(data.message) {
         setMessage(data.message)
@@ -35,7 +38,10 @@ const DevicePage = () => {
     if (!Number.isInteger(userId)) {
       setMessage('Вы не авторизованы')
     }
-    createOrder(deviceId, userId).then(()=>navigate(BASKET_ROUTE))
+    if(!basketDevices) {basketDevices = []}
+    basketDevices.push(device)
+    sessionStorage.setItem('basketDevices', JSON.stringify(basketDevices))
+    navigate(BASKET_ROUTE)
   }
   
   return (

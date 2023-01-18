@@ -65,6 +65,7 @@ input {
   flex-wrap: nowrap;
   justify-content: space-between;
   align-items: center;
+  padding: 10px 0;
   width: calc(100% - 20px);
   @media (min-width: 576px) {
     width: 540px;
