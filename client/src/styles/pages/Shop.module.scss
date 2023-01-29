@@ -3,6 +3,7 @@
 .wrapper {
   justify-content: left;
   align-items: start;
+  padding-bottom: 10px;
   @media (max-width: 576px) {
     flex-direction: column;
   }
