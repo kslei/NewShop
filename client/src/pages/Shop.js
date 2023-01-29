@@ -9,6 +9,7 @@ import Pages from '../components/Pages';
 import MyMenu from '../forms/MyMenu';
 import TypeItem from '../components/TypeItem';
 import styles from '../styles/pages/Shop.module.scss';
+import Slider from '../components/Slider';
 
 const Shop = observer(({searchQuery}) => {
   const {device} = useContext(Context);
@@ -46,7 +47,8 @@ const Shop = observer(({searchQuery}) => {
   return (
   <div className={styles.container}>
     {!device.selectedType.id && !searchQuery
-    ? <div className={styles.wrapper}>
+    ? <div className={styles.wrapper} style={{flexDirection: 'column'}}>
+      <Slider/>
         <div className={styles.type}>
           {device.types.map(type =>
             <TypeItem key={type.id} type={type} onclick={clickType} />
