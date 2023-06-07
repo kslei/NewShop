@@ -2,7 +2,7 @@
 
 .adminDevice {
   display: grid;
-  grid-template-columns: 1fr 3fr 2fr 4fr 1fr 3fr 1fr 2fr;
+  grid-template-columns: 1fr 6fr 4fr 6fr 2fr 2fr 2fr 1fr 6fr 2fr 2fr 3fr;
   align-items: center;
 }
 .deviceId {
@@ -18,4 +18,74 @@
     display: grid;
     grid-template-columns: 1fr 6fr 8fr 2fr;
   }
+}
+.media {
+  margin: 5px 0;
+  background-color: $back;
+  display: grid;
+  grid-template-columns: 1fr 3px 1fr;
+  &__title {
+    @include border-sm;
+    margin: 2px 1px;
+    padding: 2px 5px;
+    line-height: 1.2;
+    text-align: center;
+    color: $active;
+  }
+  &__columnName {
+    margin: 2px 1px;
+    padding: 2px 5px;
+    line-height: 1.2;
+    color: $primary;
+    font-family: "Montserrat-regular";
+    display: grid;
+    grid-template-columns: 1fr 2fr 3fr 2fr;
+  }
+}
+.frameItem {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr 2fr 3fr 2fr;
+  margin: 2px 1px;
+  &__id {
+    @include border-sm;
+    margin: 2px 1px;
+    padding: 2px 5px;
+    line-height: 1.2;
+    overflow: hidden;
+  }
+}
+.border {
+  width: 2px;
+  height: 100%;
+  border-left: 1px solid $primary;
+  border-right: 1px solid $primary;
+}
+.input {
+  display: none;
+}
+.input + .label {
+  display: block;
+  background-color: $back;
+  width: 20px;
+  height: 20px;
+  @include border-sm;
+  &:hover {
+    cursor: pointer;
+  }
+}
+.input+.label:before {
+  content: '✔';
+  font-size: 20px;
+  color: $button;
+}
+.input:checked+.label {
+  border-color: $active;
+  background-color: $active;
+}
+.input:checked+.label:before {
+  color: white;
+}
+.input:checked:focus+.label::before {
+  color: $back;
 }

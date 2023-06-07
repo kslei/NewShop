@@ -9,7 +9,9 @@ const BasketItem = ({ id, number, device, brandname, del}) => {
       <div>{number}</div>
       <div>{brandname}</div>
       <div>{device.name}</div>
-      <div>{device.price} грн</div>
+      <div>{Math.floor(device.price*(100 - device.discount)/100)} грн</div>
+      <div>{device.quantity} шт</div>
+      <div>{Math.floor(device.price*(100 - device.discount)/100) * device.quantity} грн</div>
       <div><MyButton name={'Удалить'} danger={true} onClick={() => del(device.id)} /></div>
       <div></div>
     </div>

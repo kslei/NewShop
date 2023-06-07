@@ -1,7 +1,5 @@
 require('dotenv').config
 const nodemailer = require('nodemailer');
-const ApiError = require('../error/ApiError');
-
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -20,10 +18,9 @@ class MailController {
       subject: 'Заказ',
       text: message
     }
-    const data = await transporter.sendMail(mailOptions, )
+    const data = await transporter.sendMail(mailOptions)
     return res.json(data)
   }
-
 }
 
 module.exports = new MailController()

@@ -11,10 +11,22 @@
   @media (max-width: 325px) {
     justify-content: center;
   }
+    &:active {
+      animation: unmount 1000ms;
+    }
 }
 .message{
   padding: 10px;
   @include flex-row-center;
   color: $danger;
   font-size: 28px;
+}
+@keyframes unmount {
+  from {
+    opacity: 1;;
+  }
+
+  to {
+    opacity: 0;
+  }
 }

@@ -6,10 +6,20 @@ import styles from '../../styles/components/MyModal.module.scss';
 
 const CreateBrand = ({show, onHide}) => {
   const [value, setValue] = useState('');
+  const [file, setFile] = useState(null);
+
   const addBrand = () => {
-    createBrand({name: value}).then(data=>setValue(''));
+    const formData = new FormData()
+    formData.append('name', value)
+    formData.append('img', file)
+    createBrand(formData).then(data=>setValue(''));
     onHide();
   }
+
+  const selectFile = e => {
+    setFile(e.target.files[0])
+  }
+
   if (!show) {
     return null
   }
@@ -18,6 +28,7 @@ const CreateBrand = ({show, onHide}) => {
     <div className={styles.modal__header}>Добавить бренд</div>
     <div className={styles.modal__body}>
       <MyInput value={value} onChange = {e => setValue(e.target.value)} placeholder='Введите название бренда'/>
+      <MyInput type='file' onChange={selectFile} />
     </div>
     <div className={styles.modal__futor}>
       <MyButton name={'Закрыть'} danger={true} onClick={onHide}></MyButton>

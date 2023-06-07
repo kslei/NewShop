@@ -31,3 +31,17 @@
     color: black;
   }
 }
+
+.container {
+  animation: mount 300ms;
+}
+
+@keyframes mount {
+  from {
+    transform: scale(0.1);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}

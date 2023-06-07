@@ -8,6 +8,8 @@ const ratingRouter = require('./ratingRouter')
 const orderRouter = require('./orderRouter')
 const mailRouter = require('./mailRouter')
 const deliveryRouter = require('./deliveryRouter')
+const frameRouter = require('./frameRouter')
+const imageRouter = require('./imageRouter')
 
 router.use('/user', userRouter)
 router.use('/type', typeRouter)
@@ -17,5 +19,7 @@ router.use('/rating', ratingRouter)
 router.use('/order', orderRouter)
 router.use('/mail', mailRouter)
 router.use('/delivery', deliveryRouter)
+router.use('/frame', frameRouter)
+router.use('/image', imageRouter)
 
 module.exports = router

@@ -20,7 +20,7 @@
     width: 100%;
     font-size: 14px;
     display: grid;
-    grid-template-columns: 1fr 3fr 4fr 2fr 75px;
+    grid-template-columns: 1fr 3fr 4fr 2fr 2fr 2fr 75px;
     align-items: center;
     border-bottom: 1px solid $primary;
     &_note {
@@ -34,7 +34,7 @@
     }
     &_all {
       display: grid;
-      grid-template-columns: 8fr 2fr 75px;
+      grid-template-columns: 12fr 2fr 75px;
       align-items: center;
       font-weight: 600;
       @media (max-width: 560px) {
@@ -55,4 +55,18 @@
 .wrapper {
   flex-direction: column;
   position: relative;
+}
+
+.container {
+  animation: mount 300ms;
+}
+
+@keyframes mount {
+  from {
+    transform: scale(0.1);
+  }
+
+  to {
+    transform: scale(1);
+  }
 }

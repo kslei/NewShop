@@ -1,27 +1,38 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import Image from '../forms/Image';
 import MyButton from '../forms/MyButton';
 import Rating from '../components/Rating';
 import { fetchOneDevice, createRating } from '../http/deviceAPI';
 import { Context } from '..';
 import { BASKET_ROUTE } from '../utils/consts';
+import RotateImage from '../components/RotateImage';
+import FullScreen from '../components/modals/FullScreen';
 import styles from '../styles/pages/DevicePage.module.scss';
+import MyInput from '../forms/MyInput';
 
 const DevicePage = () => {
-  const {user} = useContext(Context)
-  const [device, setDevice] = useState({info:[]})
+  const {user} = useContext(Context);
+  const [device, setDevice] = useState({info:[], device_frames:[], device_images:[]})
   const [brand, setBrand] = useState('')
   const [rate, setRate] = useState(0);
+  const [orderNumber, setOrderNumber] = useState(1);
   const [message, setMessage] = useState('');
+  const [modal, setModal] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+  const [modalOpacity, setModalOpacity] = useState(0);
+  const [countImage, setCountImage] = useState(0);
   const {id} = useParams();
   const navigate = useNavigate();
   var basketDevices = JSON.parse(sessionStorage.getItem('basketDevices'));
-  console.log(user)
+  
   useEffect(()=>{
-    fetchOneDevice(id).then(data=>{setDevice(data); setBrand(data.brand)})
+    fetchOneDevice(id).then(data=>{
+      setDevice(data);
+      setBrand(data.brand);
+      data.number === 0 ? setDisabled(true) : setDisabled(false)
+    })
   },[])
-
+  
   const setRating = (rate, userId, deviceId) => {
     if (!user.isAuth) {
       setMessage('Вы не авторизованы')
@@ -34,51 +45,143 @@ const DevicePage = () => {
   }
 
   const setOrder = (deviceId, userId) => {
-    console.log(userId)
+    console.log(device)
     if (!Number.isInteger(userId)) {
       setMessage('Вы не авторизованы')
     }
     if(!basketDevices) {basketDevices = []}
-    basketDevices.push(device)
+    let orderDevice = {
+      id: device.id,
+      discount: device.discount,
+      name: device.name,
+      brandId: device.brandId,
+      brand: {name: device.brand.name},
+      price: device.price,
+      quantity: orderNumber
+    }
+    basketDevices.push(orderDevice)
     sessionStorage.setItem('basketDevices', JSON.stringify(basketDevices))
     navigate(BASKET_ROUTE)
   }
+
+  const onOrderNumber = (num) => {
+    if (num <= device.number && num > 0) {
+      setOrderNumber(num)
+    }
+  }
+
+  function onhide(count) {
+    setCountImage(count)
+    setModal(true)
+    setModalOpacity(0)
+    setTimeout(()=>{
+      setModalOpacity(1)
+    }, 100)
+    
+  }
+  function onExit() {
+    setCountImage(0)
+    setModalOpacity(0)
+    setTimeout(()=>{
+        setModal(false)
+    }, 1000)
+  }
+  
+  //блокировка scroll при модальном окне
+  function disableScroll() {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+    window.onscroll = function () {
+      window.scrollTo(scrollLeft, scrollTop);
+    };
+  }
+  function enableScroll() {
+    window.onscroll = function () { };
+  }
+  useEffect(() => {
+    window.scrollTo(0, 0)// scroll на исходную
+    if (modal) {
+      disableScroll();
+    } else {
+      enableScroll();
+    }
+    const handleWindowWheel = (event) => {
+      if (modal) event.preventDefault()
+    };
+    window.addEventListener('wheel', handleWindowWheel, { passive: false });
+    return () => {
+      window.removeEventListener('wheel', handleWindowWheel);
+    };
+  }, [modal]);
   
   return (
-    <div className={styles.container}>
-      <div className={styles.wrapper}>
+    <div className={styles.container} >
+      {modal &&
+        <FullScreen onExit={onExit} images={device.device_images} countimage={countImage} modalOpacity={modalOpacity}/>
+      }
+      <div className={styles.wrapper} >
         <div className={styles.brandName}>
           <div className={styles.brand}>{brand.name}</div>
-            <div className={styles.name}>{device.name}</div>
+          <div className={styles.name}>{device.name}</div>
         </div>
         <div className={styles.device}>
           <div className={styles.device__image}>
-            <Image src={process.env.REACT_APP_API_URL + device.img} />
-          </div>
-          <div className={styles.device__params}>
+            {device &&
+              <RotateImage img = {device.img} frames={device.device_frames} images={device.device_images} onHide={onhide}/>
+            }
+            <div className={styles.ads}>
+              {device.news &&
+                <div className={styles.news}></div>
+              }
+              {device.discount !==0 &&
+                <div className={styles.discount__icon}>-{device.discount}%</div>
+              }
+            </div>
             <div className={styles.star}>{device.rating}</div>
-          </div>
-          <div className={styles.device__price}>
-            <div className={styles.price}>{device.price} грн</div>
-            <MyButton name={'В корзину'} onClick={()=>setOrder(id, user.id)}/>
+          </div>          
+          <div className={styles.device__params} style={disabled ? {opacity: '0.5'} : {opacity: '1'}}>
+            <div className={styles.device__price} >
+              {device.discount ? 
+              <div className={styles.discount__price}>
+                <div className={styles.oldPrice}>{device.price} грн</div>
+                <div className={styles.price}>{Math.floor(device.price*(100 - device.discount)/100)} грн</div>
+              </div>
+              : <div className={styles.price}>{device.price} грн</div>
+              }
+              <div className={styles.device__order}>
+                <MyInput type='number' style={{width: '35px', padding: '5px', margin: '2px'}} value={orderNumber} onChange={(e) => onOrderNumber(e.target.value)} disabled={disabled}/>
+                {disabled 
+                  ?<MyButton name={'В корзину'} onClick={()=>setMessage('Товар недоступен')} />
+                  :<MyButton name={'В корзину'} onClick={()=>setOrder(id, user.id)} />
+                }
+              </div>
+            </div>
+            <div className={styles.rating}>
+              <div className={styles.rating__col}>
+                <span>Оцените товар</span>
+                <span className={styles.rating__rate}><Rating rate={setRate} /></span>
+              </div>
+              <MyButton name={'Оценить'} onClick={()=>setRating(rate, user.id, id)}/>
+              <div className={styles.rating__row}>
+                <div className={styles.rating__message}>{message}</div>
+                {message &&
+                  <MyButton name={'Ok'} danger={true} onClick={() => setMessage('')}/>}
+              </div>
+            </div>
+            <div className={styles.info}>
+              <div className={styles.info__text}>Характеристики</div>
+              {device.info.map(info => 
+                <div className={styles.info__row} key={info.id}>
+                  <div className={styles.info__title}>{info.title}: </div>
+                  <div className={styles.info__description}>{info.description}</div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
-        <div className={styles.rating}>
-          <div className={styles.rating__col}>
-            <span>Оцените товар</span>
-            <span className={styles.rating__rate}><Rating rate={setRate} /></span>
-          </div>
-          <div className={styles.rating__row}>
-            <MyButton name={'Оценить'} onClick={()=>setRating(rate, user.id, id)}/>
-            <div className={styles.rating__message}>{message}</div>
-            {message &&
-              <MyButton name={'Ok'} danger={true} onClick={() => setMessage('')}/>}
-          </div>
-            
-        </div>
-        <div className={styles.info}>
+        <div className={styles.infosm}>
           <div className={styles.info__text}>Характеристики</div>
-          {device.info.map((info, index) => 
+          {device.info.map(info => 
             <div className={styles.info__row} key={info.id}>
               <div className={styles.info__title}>{info.title}: </div>
               <div className={styles.info__description}>{info.description}</div>

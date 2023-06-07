@@ -21,6 +21,12 @@ const Order = observer(() => {
   }
 
   useEffect(()=>{
+    setTimeout(()=>{
+      setMessage('')
+    }, 2000)
+  }, [message])
+
+  useEffect(()=>{
     fetchBasket(status).then(data=>{
       if (Array.isArray(data)) {
         order.setOrders(data)
@@ -40,15 +46,18 @@ const Order = observer(() => {
           <div className={styles.menu__btn}>
             <MyMenu name={'Статус'} menu={statusMenu} click={onStatus} />
           </div>
-          <div className={styles.menu__error}>{message}</div>
         </div>
-        {order.length!==0 &&
-          <div className={styles.cards}>
-            {order.orders.map(item => 
-              <OrderCard key={item.id} order={item} message={setMessage}/>
-            )}  
-          </div>
-        }
+        <div className={styles.orderPanel}>
+          <div className={styles.message}>{message}</div>
+          {order.length!==0 &&
+            <div className={styles.cards}>
+              {order.orders.map(item => 
+                <OrderCard key={item.id} order={item} message={setMessage}/>
+              )}  
+            </div>
+          }
+        </div>
+        
       </div>
     </div>
   );

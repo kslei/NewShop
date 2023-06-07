@@ -1,7 +1,7 @@
 import { $authHost } from './index';
 
-export const createOrder = async (deviceId, userId, date, deliveryId) => {
-  const { data } = await $authHost.post('api/order', {deviceId, userId, date, deliveryId})
+export const createOrder = async (deviceId, quantity, userId, date, deliveryId) => {
+  const { data } = await $authHost.post('api/order', {deviceId, quantity, userId, date, deliveryId})
   return data
 }
 
@@ -24,8 +24,12 @@ export const fetchBasket = async (status) => {
 }
 
 export const putBasket = async (id, status, date, deliveryId) => {
-  const { data } = await $authHost.put('api/order', {id, status, date, deliveryId})
-  return data
+  try {
+    const { data } = await $authHost.put('api/order', {id, status, date, deliveryId})
+    return data
+  } catch (error) {
+    return error.response
+  }
 }
 
 export const removeBasket = async (userId, deviceId) => {

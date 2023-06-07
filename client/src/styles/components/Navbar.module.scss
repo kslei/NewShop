@@ -1,9 +1,11 @@
 @import '../base/app.scss';
 
 .navbar {
-  position: relative;
+  position: sticky;
+  //top: 76px;
+  top: 0;
   padding: 5px 0;
-  background-color: #dac2ff;
+  background-color: $back;
   @include border;
   border-radius: 0;
   color: $primary;
@@ -16,30 +18,57 @@
 }
 
 .link {
+  position: relative;
   padding: 0 10px;
   font-size: inherit;
   font-family: "Montserrat-Regular";
   color: $primary;
   &:hover {
-    color: white;
+    color: $hover;
   }
   &:active {
-    color: $back;
+    color: $active;
   }
 }
 
 .icon {
+  position: relative;
   margin-right: 5px;
-  height: 22px;
+  width: $iconwidth;
+  height: $iconwidth;
+  background-color: $primary;
+  
   &:hover {
     cursor: pointer;
+    background-color: $hover;
   }
   &:active {
-    background-color: white;
+    background-color: $active;
   }
   &::after {
     display: none;
   }
+}
+.icon.iconmenu {
+  mask: url('../../images/menuicon.png') center/contain no-repeat;
+}
+.icon.iconbasket {
+  mask: url('../../images/basketicon.png') center/contain no-repeat;
+}
+.box {
+  position: relative;
+}
+.numberbasket {
+  position: absolute;
+  top: -$iconwidth/3;
+  width: $iconwidth/1.5;
+  height: $iconwidth/1.5;
+  background-color: $danger;
+  border-radius: 50%;
+  color: white;
+  font-size: 10px;
+  text-align: center;
+  line-height: 1.6;
 }
 
 .menu {
@@ -69,7 +98,10 @@
     display: none;
     position: relative;
     @media (max-width: 767px) {
-      display: block;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
     }
   }
 }

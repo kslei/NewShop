@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite';
 import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Context } from '..';
+import { width } from '../utils/width';
 import MyButton from '../forms/MyButton';
 import styles from '../styles/components/BrandBar.module.scss';
 
@@ -12,22 +13,11 @@ const BrandBar = observer(() => {
   const {device} = useContext(Context)
   
   window.addEventListener('resize', function () {
-    width();
+    width(setBtnVisible, setVisible);
   });
 
-  function width() {
-    let w = window.innerWidth;
-    if (w > 576) {
-      setVisible(true);
-      setBtnVisible(false)
-    } else {
-      setVisible(false);
-      setBtnVisible(true);
-    }
-  }
-
   useEffect(() => {
-    width()
+    width(setBtnVisible, setVisible)
   }, [])
 
   function onVisible(vis) {
@@ -43,9 +33,9 @@ const BrandBar = observer(() => {
       {btnVisible && <MyButton name={'Бренды'} danger={visible} onClick={() => onVisible(visible)}></MyButton>}
       {visible &&
         <div className={styles.brandBar__items}>
-          <Link className={styles.brandBar__link} onClick={() => device.setSelectedBrand(-1)} >Показать все</Link>
+          <Link className={styles.brandBar__link} onClick={() => { device.setSelectedBrand(-1); width(setBtnVisible, setVisible)}} >Показать все</Link>
           {device.brands.map(brand =>
-            <Link className={styles.brandBar__link} key={brand.id} onClick={()=>device.setSelectedBrand(brand)}>{brand.name}</Link>
+            <Link className={styles.brandBar__link} key={brand.id} onClick={() => { device.setSelectedBrand(brand); width(setBtnVisible, setVisible)}}>{brand.name}</Link>
           )}
         </div>
       }

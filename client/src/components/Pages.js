@@ -6,6 +6,7 @@ import styles from '../styles/components/Pages.module.scss';
 
 const Pages = observer(() => {
   const { device } = useContext(Context)
+  console.log('device', device)
   const pageCount = Math.ceil(device.totalCount / device.limit)
   const pages = []
 

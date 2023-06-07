@@ -1,0 +1,37 @@
+@import '../base/app.scss';
+
+.media {
+    &__title {
+    @include border-sm;
+    margin: 2px 1px;
+    padding: 2px 5px;
+    line-height: 1.2;
+    text-align: center;
+    color: $active;
+  }
+
+  &__columnName {
+    margin: 2px 1px;
+    padding: 2px 5px;
+    line-height: 1.2;
+    color: $primary;
+    font-family: "Montserrat-regular";
+    display: grid;
+    grid-template-columns: 1fr 2fr 3fr 2fr;
+  }
+}
+
+.frameItem {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr 2fr 3fr 2fr;
+  margin: 2px 1px;
+
+  &__id {
+    @include border-sm;
+    margin: 2px 1px;
+    padding: 2px 5px;
+    line-height: 1.2;
+    overflow: hidden;
+  }
+}

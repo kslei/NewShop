@@ -1,0 +1,158 @@
+.modalFS {
+  position: absolute;
+  width: 100%;
+  
+  //display: none;
+  justify-content: center;
+  align-items: center;
+  background-color: hsla(0, 0%, 0%, 0.8);
+  top: 0;
+  opacity: 0;
+  transition: all 1s;
+  z-index: 10;
+  @media screen and (orientation: landscape) {
+    height: 100vh;
+  }
+  @media screen and (orientation: portrait) {
+    max-height: 100vh;
+  }
+
+  &__slider {
+    width: 100%;
+    height: 100%;
+    //  background-color: #f5f8dd;
+    //  border: 6px solid #f5f8dd;
+    //padding: 6px;
+    overflow: hidden;
+  }
+
+  &__images {
+    display: flex;
+    height: 100%;
+    //width: 300%;
+    cursor: zoom-in;
+    transform: translateX(0);
+    transition: all 1s ease;
+    user-select: none;
+  }
+
+  &__image {
+    width: 100%;
+    max-height: 100%;
+    aspect-ratio: 1/1;
+    cursor: inherit;
+    transform: translate(0px, 0px) scale(1);
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  &__prev,
+  &__next {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: calc(50% - 20px);
+    background-color: rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+
+    &::before {
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      content: "";
+      background-image: linear-gradient(45deg, transparent 46%, white 46%, white 54%, transparent 54%);
+      top: calc(50% - 7.5px);
+      border-left: 2px solid white;
+      border-top: 2px solid white;
+      opacity: 0.8;
+    }
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.5);
+      cursor: pointer;
+
+      &::before {
+        opacity: 1;
+      }
+    }
+
+    &:disabled {
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.3);
+        cursor: auto;
+      }
+    }
+  }
+
+  &__prev {
+    left: 10px;
+
+    &:before {
+      left: calc(50% - 5px);
+      rotate: -45deg;
+    }
+  }
+
+  &__next {
+    right: 10px;
+
+    &:before {
+      right: calc(50% - 5px);
+      rotate: 135deg;
+    }
+  }
+
+  &__close {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: 10px;
+    right: 10px;
+    background-color: rgb(206, 206, 206);
+    opacity: 0.8;
+    mask: url("../../images/free-icon-font-cross-3917759.svg") center/cover no-repeat;
+
+    &:hover {
+      background-color: rgb(255, 255, 255);
+      cursor: pointer;
+    }
+  }
+
+  &__zoomIn,
+  &__zoomOut {
+    position: absolute;
+    width: 33px;
+    height: 33px;
+    top: 7px;
+    right: 55px;
+    background-color: rgb(206, 206, 206);
+    opacity: 0.8;
+
+    &:hover {
+      background-color: rgb(255, 255, 255);
+      cursor: pointer;
+    }
+  }
+
+  &__zoomIn {
+    mask: url("../../images/zoom-in.png") center/cover no-repeat;
+  }
+
+  &__zoomOut {
+    mask: url("../../images/zoom-out.png") center/cover no-repeat;
+  }
+
+  .numberlist {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: #FFFFFF;
+    opacity: 0.75;
+    font-size: 20px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  }
+}

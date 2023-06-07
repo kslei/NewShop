@@ -9,7 +9,7 @@ const MyButton = ({name, danger, sm, onClick, props}) => {
   if(!danger && !sm) {style = styles.myBtn}
     
   return (
-    <button className={style} onClick = {() => onClick() } {...props}>
+    <button className={style} onClick = {(e) => onClick(e) } {...props}>
       {name}
     </button>
   );

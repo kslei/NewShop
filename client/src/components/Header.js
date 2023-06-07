@@ -1,16 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {BASKET_ROUTE, LOGIN_ROUTE, SHOP_ROUTE, REGISTRATION_ROUTE, ADMIN_ROUTE, ORDER_ROUTE, PROFILE_ROUTE} from '../utils/consts';
+import {BASKET_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE, ADMIN_ROUTE, ORDER_ROUTE, PROFILE_ROUTE, HOME_ROUTE} from '../utils/consts';
 import {useNavigate} from 'react-router-dom';
-import logo from '../images/logo.png';
 import { observer } from 'mobx-react-lite';
 import MyMenu from '../forms/MyMenu';
 import { phone } from '../utils/info';
 import { Context } from '..';
-import basket from '../images/basketicon.png';
-import searchIcon from '../images/searchicon.png';
-import phoneIcon from '../images/phoneicon.png';
-import avatar from '../images/avatar.png';
-import avatarAuth from '../images/avatarAuth.png';
 import MyInput from '../forms/MyInput';
 import styles from '../styles/components/Header.module.scss';
 
@@ -19,6 +13,7 @@ const Header = observer(({search, onSearch, onclick}) => {
   const {user} = useContext(Context);
   const [searchVisible, setSearchVisible] = useState(false);
   const [phoneVisible, setPhoneVisible] = useState(false);
+  const [closeMenu, setCloseMenu] = useState(false)
   const userMenu = []
 
   useEffect(()=>{
@@ -49,7 +44,12 @@ const Header = observer(({search, onSearch, onclick}) => {
     if (width <= 767) {
       if (searchVisible) {onSearchVisible(searchVisible)};
       if (phoneVisible) {onPhoneVisible(phoneVisible)};
-  }}
+    }
+    setCloseMenu(true);
+    setTimeout(()=>{
+      setCloseMenu(false)
+    }, 200)
+  }
 
   if (user.isAuth) {
     userMenu.push(
@@ -57,7 +57,7 @@ const Header = observer(({search, onSearch, onclick}) => {
         route: PROFILE_ROUTE,
         name: "Профиль"},
       { id: 3,
-        route: SHOP_ROUTE,
+        route: HOME_ROUTE,
         name: "Выйти"},
     )
   } else {
@@ -96,12 +96,10 @@ const Header = observer(({search, onSearch, onclick}) => {
   return (
     <div className={styles.header}>
       <div className={styles.wrapper} onClick={() => onCloseVisible()} >
-        <div className={styles.logo} onClick={() => {navigate(SHOP_ROUTE); onclick(-1)}}>
-          <img className={styles.logo__image} src={logo} alt="logo" />
-        </div>
+        <div className={styles.logo} onClick={() => {navigate(HOME_ROUTE); onclick(-1); onSearch('')}}></div>
         <div className={styles.menu}>
           <div className={styles.menu__icon}>
-            <img className={styles.icon} src={searchIcon} alt='' onClick={() => onSearchVisible(searchVisible) } ></img>
+            <div className={styles.icon + ' ' + styles.search} onClick={() => onSearchVisible(searchVisible) } ></div>
           </div>
           {searchVisible &&
             <div className={styles.menu__input} onClick={(e) => e.stopPropagation()}>
@@ -112,7 +110,7 @@ const Header = observer(({search, onSearch, onclick}) => {
         </div>  
         <div className={styles.menu}>
           <div className={styles.menu__icon}>
-            <img className={styles.icon} src={phoneIcon} alt='' onClick={() => onPhoneVisible(phoneVisible)} ></img>
+            <div className={styles.icon + ' ' + styles.phone} onClick={() => onPhoneVisible(phoneVisible)} ></div>
           </div>
           {phoneVisible &&
             <div className={styles.menu__input}>
@@ -124,11 +122,13 @@ const Header = observer(({search, onSearch, onclick}) => {
           }
         </div>  
         <div className={styles.user}>
-          {user.isAuth
-            ? <img className={styles.icon} src={basket} alt='' onClick={() => navigate (BASKET_ROUTE)}></img>
-            : <img className={styles.icon} src={basket} alt='' onClick={() => navigate (BASKET_ROUTE)}></img>
-          }
-          <MyMenu menu={userMenu} icon={user.isAuth? avatarAuth : avatar} click={setKey} />
+          <div className={styles.box}>
+            <div className={styles.icon + ' ' + styles.basket} onClick={() => navigate (BASKET_ROUTE)}></div>
+            {sessionStorage.getItem('basketDevices') && sessionStorage.getItem('basketDevices') && JSON.parse(sessionStorage.getItem('basketDevices')).length !== 0 &&
+              <div className={styles.numberbasket}>{JSON.parse(sessionStorage.getItem('basketDevices')).length}</div>
+            }
+          </div>
+          <MyMenu menu={userMenu} isAuth={user.isAuth} click={setKey} close={closeMenu} />
         </div>
       </div>
     </div>

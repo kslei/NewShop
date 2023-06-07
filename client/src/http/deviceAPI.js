@@ -35,10 +35,10 @@ export const updateDevice = async(device) => {
   return data
 }
 
-export const fetchDevices = async (typeId, brandId, page, limit) => {
+export const fetchDevices = async (typeId, brandId, page, limit, news, discount) => {
   const { data } = await $host.get('api/device', {
     params: {
-      typeId, brandId, page, limit
+      typeId, brandId, page, limit, news, discount
     }
   })
   return data
@@ -56,6 +56,24 @@ export const createRating = async (rate, userId, deviceId) => {
   } catch (error) {
     return error.response.data
   }
-  
-  
+}
+
+export const createFrame = async (frame) => {
+  const {data} = await $authHost.post('api/frame', frame)
+  return data
+}
+
+export const updateFrame = async (frame) => {
+  const { data } = await $authHost.put('api/frame', frame)
+  return data
+}
+
+export const createImage = async (image) => {
+  const { data } = await $authHost.post('api/image', image)
+  return data
+}
+
+export const updateImage = async (image) => {
+  const { data } = await $authHost.put('api/image', image)
+  return data
 }

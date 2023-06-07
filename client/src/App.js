@@ -8,6 +8,7 @@ import NavBar from "./components/NavBar";
 import { Context } from ".";
 import { check } from "./http/userAPI";
 import Loader from "./components/Loader";
+import Breadcrumbs from "./components/Breadcrumbs";
 
 const App = observer(() => {
   const {user} = useContext(Context);
@@ -30,6 +31,7 @@ const App = observer(() => {
     device.setSelectedType(data)
     device.setSelectedBrand(data)
     device.setPage(1)
+    setSearch('')
   }
 
   if(loading) {
@@ -39,7 +41,8 @@ const App = observer(() => {
   return (
     <BrowserRouter>
       <Header search={search} onSearch={setSearch} onclick={clickType} />
-      <NavBar onclick={clickType} />
+      <NavBar onclick={clickType} onSearch={setSearch}/>
+      <Breadcrumbs onSearch={setSearch}/>
       <AppRouter searchQuery={search} />
       <Futor />
     </BrowserRouter>

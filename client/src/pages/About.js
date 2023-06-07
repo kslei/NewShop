@@ -1,4 +1,5 @@
 import React from 'react';
+import Slider from '../components/Slider';
 import styles from '../styles/pages/About.module.scss';
 
 const About = () => {
@@ -6,6 +7,7 @@ const About = () => {
   return (
   <div className={styles.container}>
     <div className={styles.wrapper}>
+      <Slider />
       <div className={styles.about__title}>О магазине</div>
       <div className={styles.about__content}>Магазин работает в демо версии. Адрес и телефоны магазина
       условные. Все товары представлены на страницах для ознакомления с работой магазина.

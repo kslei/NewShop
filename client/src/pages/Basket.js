@@ -65,7 +65,7 @@ const Basket = observer(() => {
   const summ = function (devices) {
     let sum = 0;
     for (let i = 0; i < devices.length; i++) {
-      sum = sum + devices[i].price;
+      sum = sum + Math.floor(devices[i].price*(100 - devices[i].discount)/100)*devices[i].quantity;
     }
     return sum;
   }
@@ -76,7 +76,7 @@ const Basket = observer(() => {
       onNote('Войдите в свою учетную запись или зарегистрируйтесь')
     }
     if(deliveryId !== 0) {
-      createOrder(basketDevice.map(device => device.id), userId, date, deliveryId).then(data => 
+      createOrder(basketDevice.map(device => device.id), basketDevice.map(device => device.quantity), userId, date, deliveryId).then(data =>
       {
         sessionStorage.setItem('basketDevices', JSON.stringify([]));
         navigate(SHOP_ROUTE)
@@ -100,6 +100,8 @@ const Basket = observer(() => {
               <div>Бренд</div>
               <div>Наименование</div>
               <div>Цена</div>
+              <div>Количество</div>
+              <div>Стоимость</div>
               <div></div>
             </div>
             {basketDevice.map((item, i) =>

@@ -47,29 +47,32 @@ const Admin = observer(() => {
       <div className={styles.buttons}>
         <div className={styles.buttons__btn}><MyButton danger={true} name='Добавить тип' onClick={() => setTypeVisible(true)} /></div>
         <div className={styles.buttons__btn}><MyButton danger={true} name='Добавить бренд' onClick={() => setBrandVisible(true)} /></div>
-        <div className={styles.buttons__btn}><MyButton danger={true} name='Добавить устройство' onClick={() => setDeviceVisible(true)} /></div>
-        <div className={styles.buttons__btn}><MyButton danger={true} name='Добавить доставку' onClick={() => setDeliveryVisible(true)} /></div> 
-      
+        <div className={styles.buttons__btn}><MyButton danger={true} name='Добавить товар' onClick={() => setDeviceVisible(true)} /></div>
+        <div className={styles.buttons__btn}><MyButton danger={true} name='Добавить доставку' onClick={() => setDeliveryVisible(true)} /></div>
       </div>
       <CreateBrand show={brandVisible} onHide={() => setBrandVisible(false)}/>
       <CreateType show={typeVisible} onHide={() => setTypeVisible(false)}/>
       <CreateDevice show={deviceVisible} onHide={() => setDeviceVisible(false)}/>
       <CreateDelivery show={deliveryVisible} onHide={() => setDeliveryVisible(false)}/>
-      
-      <div>
+      <div className={styles.adminPanel}>
+        <div className={styles.note}>{note}</div>
         <div className={styles.title}>Корректировка товара</div>
         <div>
           <MyInput sm={"true"} type='text' value={search} placeholder='Поиск...' onChange={e => setSearch(e.target.value)} />
         </div>
         <div className={styles.adminDevice}>
-          <div>deviceId</div>
+          <div>id</div>
           <div>Тип</div>
           <div>Бренд</div>
           <div>Наименование</div>
           <div>Цена</div>
+          <div>Скидка</div>
+          <div>Кол-во</div>
+          <div>New</div>
           <div>Изображение</div>
+          <div>Медиа</div>
           <div>Инфо</div>
-          <div className={styles.note}>{note}</div>
+          <div></div>
         </div>
         {searchDevice.map(device =>
           <AdminDevice key={device.id} device={device} brands={brands} types={types} onNote={onNote}/>  

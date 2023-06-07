@@ -5,12 +5,16 @@ const ApiError = require('../error/ApiError');
 
 class TypeController {
   async create(req, res) {
-    const {name} = req.body
-    const { img } = req.files
-    let fileName = uuid.v4() + ".jpg"
-    img.mv(path.resolve(__dirname, '..', 'static', fileName))
-    const type = await Type.create({ name, img: fileName })
-    return res.json(type)
+    try {
+      const { name } = req.body
+      const { img } = req.files
+      let fileName = uuid.v4() + ".jpg"
+      img.mv(path.resolve(__dirname, '..', 'static', fileName))
+      const type = await Type.create({ name, img: fileName })
+      return res.json(type)
+    } catch (e) {
+      next(ApiError.badRequest(e.message))
+    }
   }
 
   async getAll(req, res) {

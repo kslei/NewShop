@@ -35,7 +35,12 @@ const TypeBar = observer(() => {
       {visible &&
         <div className={styles.typeBar__items}>
           {device.types.map(type =>
-            <Link className={styles.typeBar__link} key={type.id} onClick={()=>{device.setSelectedType(type); device.setPage(1)}}>{type.name}</Link>
+            <Link className={styles.typeBar__link} key={type.id} onClick={() => {
+              device.setSelectedType(type); 
+              device.setPage(1);
+              width(setBtnVisible, setVisible);
+              device.setSelectedBrand(-1);
+            }}>{type.name}</Link>
           )}
         </div>
       }

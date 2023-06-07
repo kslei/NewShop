@@ -10,6 +10,8 @@ export default class DeviceStore {
     this._page = 1
     this._totalCount = 0
     this._limit = 10
+    this._news = false
+    this._discount = 1
     makeAutoObservable(this)
   }
 
@@ -45,6 +47,14 @@ export default class DeviceStore {
     this._limit = limit
   }
 
+  setNews(news) {
+    this._news = news
+  }
+
+  setDiscount(discount) {
+    this._discount = discount
+  }
+
   get types() {
     return this._types
   }
@@ -77,4 +87,11 @@ export default class DeviceStore {
     return this._limit
   }
 
+  get news() {
+    return this._news
+  }
+
+  get discount() {
+    return this._discount
+  }
 }

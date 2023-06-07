@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { LOGIN_ROUTE, REGISTRATION_ROUTE, SHOP_ROUTE } from '../utils/consts';
+import { LOGIN_ROUTE, REGISTRATION_ROUTE, HOME_ROUTE } from '../utils/consts';
 import { login, registration } from '../http/userAPI';
 import { observer } from 'mobx-react-lite';
 import { Context } from '../index';
@@ -39,7 +39,7 @@ const Auth = observer(() => {
       user.setRole(data.role)
       user.setId(data.id)
 
-      navigate(SHOP_ROUTE)
+      navigate(HOME_ROUTE)
     } catch (e) {
       setMessage(e.response.data.message)
     }
@@ -99,7 +99,7 @@ const Auth = observer(() => {
                   Есть аккаунт? <NavLink className={styles.link} to={LOGIN_ROUTE}>Войдите</NavLink>
                 </div>}
               <div className={styles.button}>
-                <MyButton name={"Выйти"} danger={true} onClick={() => navigate(SHOP_ROUTE)} />
+                <MyButton name={"Выйти"} danger={true} onClick={() => navigate(HOME_ROUTE)} />
                 <MyButton name={isLogin ? "Войти" : "Регистрация"} onClick={click}></MyButton>
               </div>  
               

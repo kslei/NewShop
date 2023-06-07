@@ -23,9 +23,15 @@
     width: 100px;
     margin: 10px;
   }
-  &__error {
-    margin-left: 50px;
-    color: $danger;
-    font-size: 22px;
-  }
+}
+.orderPanel {
+  position: relative;
+}
+.message {
+  position: fixed;
+  top: calc(50% - 23px);
+  left: calc(50% - 108px);
+  font-size: 40px;
+  font-weight: 600;
+  color: $danger;
 }

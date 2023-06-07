@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Context } from '../index';
 import { fetchDevices, fetchBrands, fetchTypes } from '../http/deviceAPI';
 import DeviceList from '../components/DeviceList';
@@ -7,12 +7,16 @@ import TypeBar from '../components/TypeBar';
 import BrandBar from '../components/BrandBar';
 import Pages from '../components/Pages';
 import MyMenu from '../forms/MyMenu';
-import TypeItem from '../components/TypeItem';
+/* import TypeItem from '../components/TypeItem';
+import BrandItem from '../components/BrandItem'; 
+import Slider from '../components/Slider';*/
 import styles from '../styles/pages/Shop.module.scss';
-import Slider from '../components/Slider';
+/* import SliderNews from '../components/SliderNews';
+import DiscountList from '../components/DiscountList'; */
 
 const Shop = observer(({searchQuery}) => {
   const {device} = useContext(Context);
+      
   useEffect (() => {
     fetchTypes().then(data => device.setTypes(data))
     fetchBrands().then(data => device.setBrands(data))
@@ -23,10 +27,10 @@ const Shop = observer(({searchQuery}) => {
   }, [device.selectedType, device.selectedBrand, device.page, device.limit])
   
   useEffect(() => {
-    fetchDevices(device.selectedType.id, device.selectedBrand.id, device.page, device.totalCount).then(data => {
+    if (searchQuery.length) {fetchDevices(device.selectedType.id, device.selectedBrand.id, device.page, device.totalCount).then(data => {
       device.setDevices(data.rows)
       device.setTotalCount(data.count)
-    })
+    })}
   }, [searchQuery])
 
   const limitMenu = [
@@ -40,22 +44,9 @@ const Shop = observer(({searchQuery}) => {
     device.setLimit(limit.value);
   }
   
-  const clickType = (type) => {
-    device.setSelectedType(type)
-  }
-  
   return (
   <div className={styles.container}>
-    {!device.selectedType.id && !searchQuery
-    ? <div className={styles.wrapper} style={{flexDirection: 'column'}}>
-      <Slider/>
-        <div className={styles.type}>
-          {device.types.map(type =>
-            <TypeItem key={type.id} type={type} onclick={clickType} />
-          )}
-        </div>
-      </div>
-    : <div className={styles.wrapper}>
+    <div className={styles.wrapper}>
       <div className={styles.typeBar}>
         <TypeBar/>
       </div>
@@ -69,8 +60,6 @@ const Shop = observer(({searchQuery}) => {
           </div>          
         </div>
       </div> 
-    }
-    
   </div>
   );
 });

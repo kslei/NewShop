@@ -6,7 +6,6 @@ import styles from '../styles/components/DeviceList.module.scss';
 
 const DeviceList = observer(({searchQuery}) => {
   const { device } = useContext(Context);
-
   const searchDevice = device.devices.filter(
     device => device.name.toLowerCase().includes(searchQuery.toLowerCase())
   )

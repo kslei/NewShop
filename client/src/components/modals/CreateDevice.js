@@ -12,8 +12,9 @@ import styles from '../../styles/components/MyModal.module.scss';
 const CreateDevice = observer(({show, onHide}) => {
   const {device} = useContext(Context);
   const [name, setName] = useState('')
-  const [price, setPrice] = useState(0)
+  const [price, setPrice] = useState(null)
   const [file, setFile] = useState(null)
+  const [number, setNumber] = useState(null)
   const [info, setInfo] = useState([])
   const [typeDanger, setTypeDanger] = useState (false)
   const [brandDanger, setBrandDanger] = useState(false)
@@ -43,6 +44,7 @@ const CreateDevice = observer(({show, onHide}) => {
     const formData = new FormData ()
     formData.append('name', name)
     formData.append('price', `${price}`)
+    formData.append('number', `${number}`)
     formData.append('img', file)
     formData.append('brandId', device.selectedBrand.id)
     formData.append('typeId', device.selectedType.id)
@@ -76,8 +78,9 @@ const CreateDevice = observer(({show, onHide}) => {
       <div className={styles.modal__body}>
         <MyMenu name={'Выберите тип'} menu={device.types} click={setType} danger={typeDanger}/>
         <MyMenu name={'Выберите бренд'} menu={device.brands} click={setBrand} danger={brandDanger}/>
-        <MyInput type='text' value={name} onChange={e=>setName(e.target.value)} placeholder="Введите название устройства" />
-        <MyInput value={price} onChange={e => setPrice(e.target.value)} placeholder="Введите цену устройства" />
+        <MyInput type='text' value={name} onChange={e=>setName(e.target.value)} placeholder="Введите название товара" />
+        <MyInput value={price} onChange={e => setPrice(e.target.value)} placeholder="Введите цену товара" />
+        <MyInput value={number} onChange={e => setNumber(e.target.value)} placeholder="Введите количество товара" />
         <MyInput type='file' onChange={selectFile} />
         
         {info.map(i => 

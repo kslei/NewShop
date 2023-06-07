@@ -38,13 +38,35 @@
   &__image {
     width: 100%;
   }
+  &__ads {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+  }
+  &__news {
+    width: 40px;
+    height: 22px;
+    background-color: $danger;
+    mask: url('../../images/new.png') center/contain no-repeat;
+  }
+  &__discount {
+    width: 30px;
+    height: 30px;
+    background-color: $orange;
+    mask: url('../../images/discount.png') center/contain no-repeat;
+    @include flex-column-center;
+      font-size: 12px;
+      font-weight: 600;
+      color: white;
+      z-index: 5;
+  }
   &__name {
     margin: 5px 0;
     color: $primary;
     font-family: "Montserrat-Regular";
     font-size: 14px;
     font-weight: 600;
-    height: 56px;
+    height: 60px;
     @media (max-width: 376px) {
       font-size: 13px;
     }
@@ -59,6 +81,18 @@
     @include flex-row;
     justify-content: end;
     font-weight: 600;
+    &_old {
+      font-weight: 400;
+      font-size: 12px;
+      text-decoration: line-through;
+      color: $orange;
+      margin: 1px 10px 0 0;
+    }
+  }
+  &__pricemodule {
+    width: 100%;
+    @include flex-row;
   }
 }
+
 

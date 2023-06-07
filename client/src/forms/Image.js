@@ -5,7 +5,7 @@ const Image = ({src}) => {
   
   return (
   <div className={styles.image}>
-    <img className={styles.image__img} src={src}></img>
+    <img className={styles.image__img} src={src} ></img>
   </div>
   );
 };

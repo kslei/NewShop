@@ -9,4 +9,4 @@ router.get('/', deviceController.getAll)
 router.get('/:id', deviceController.getOne)
 router.put('/', checkRole('ADMIN'), deviceController.put)
 
-module.exports = router
+module.exports = router 

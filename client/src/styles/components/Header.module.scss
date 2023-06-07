@@ -1,7 +1,8 @@
 @import '../base/app.scss';
 
 .header {
-  position: relative;
+  //position: sticky;
+  top: 0;
   padding: 5px 0;
   background-color: $back;
   @include border;
@@ -16,6 +17,8 @@
 .logo {
   width: 130px;
   height: 65px;
+  background: linear-gradient($primary 50%, $gray 50%, $gray 55%, $primary 55%);
+  mask: url('../../images/logo.png') center/contain no-repeat;
   &__image {
     width: 100%;
     object-fit: scale-down;
@@ -33,7 +36,10 @@
 }
 .icon {
   margin-right: 5px;
-  height: 32px;
+  width: $iconwidth;
+  height: $iconwidth;
+  background-color: $primary;
+  
   &__dis {
     margin-right: 5px;
     height: 32px;
@@ -41,20 +47,44 @@
   }
   &:hover {
     cursor: pointer;
+    background-color: $hover;
   }
   &:active {
-    opacity: 0.5;
+    background-color: $active;
   }
   &::after{
     display: none;
   }
 }
-
+.icon.basket {
+  mask: url('../../images/basketicon.png') center/contain no-repeat;
+}
+.icon.phone {
+  mask: url('../../images/phoneicon.png') center/contain no-repeat;
+}
+.icon.search {
+  mask: url('../../images/searchicon.png') center/contain no-repeat;
+}
+.box {
+  position: relative;
+}
+.numberbasket {
+  position: absolute;
+  top: -$iconwidth/3;
+  width: $iconwidth/1.5;
+  height: $iconwidth/1.5;
+  background-color: $danger;
+  border-radius: 50%;
+  color: white;
+  font-size: 10px;
+  text-align: center;
+  line-height: 1.6;
+}
 .menu {
   position: relative;
   &__input {
     position: relative;
-    z-index: 5;
+    z-index: 6;
     @media (max-width: 767px) {
       display: block;
       position: absolute;

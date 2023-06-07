@@ -38,17 +38,27 @@
       background-color: $back;
     }
   }
-  &__icon {
+  &__icon, &__icon_auth {
   margin-right: 5px;
-  height: 32px;
+  width: $iconwidth;
+  height: $iconwidth;
+  background-color: $primary;
   &:hover {
     cursor: pointer;
+    background-color: $hover;
     }
   &:active {
-    opacity: 0.5;
+    background-color: $active;
     }
   &::after {
     display: none;
     }
   }
+  &__icon {
+    mask: url('../../images/avatar.png') center/contain no-repeat;
+    &_auth {
+      mask: url('../../images/avatarAuth.png') center/contain no-repeat;
+    }
+  }
+  
 }

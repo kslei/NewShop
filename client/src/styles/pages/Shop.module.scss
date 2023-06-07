@@ -15,8 +15,8 @@
   align-items: center;
   justify-content: start;
   @media (max-width: 576px) {
-      width: 100%;
-    }
+    width: 100%;
+  }
 }
 
 .table {
@@ -37,8 +37,35 @@
 
 .type {
   width: 100%;
+  margin-bottom: 10px;
   @include flex-row;
   justify-content: space-between;
   flex-wrap: wrap;
-  
+}
+
+.sectionTitle {
+  width: 100%;
+  padding: 15px 0 10px 0px;
+  margin-top: 5px;
+  background: linear-gradient($back, transparent);
+  font-size: 20px;
+  font-family: "Montserrat-regular";
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-indent: 10px;
+  color: $primary;
+  @media (max-width: 560px) {
+    font-size: 18px;
+  }
+  @media (max-width: 330px) {
+    padding: 10px 0 10px 0;
+    text-align: center;
+  }
+}
+.red {
+  color: $red;
+  transition: 1s ease-in;
+}
+.orange {
+  color: $orange;
 }

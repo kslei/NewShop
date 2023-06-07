@@ -1,0 +1,9 @@
+.rotateImage {
+  width: 450px;
+  @media (max-width: 991.98px) {
+    width: 100%;
+  }
+  @media (max-width: 560px) {
+    width: 100%;
+  }
+}
