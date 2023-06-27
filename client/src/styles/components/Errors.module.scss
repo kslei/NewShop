@@ -1,0 +1,41 @@
+@import '../base/app.scss';
+
+.errors {
+  width: 100%;
+  height: 100vh;
+  font-family: "Montserrat-regular";  
+  @include flex-column;
+  align-items: center;
+  justify-content: space-between;
+  background-color: $back;
+}
+.line {
+  width: 100%;
+  height: 20px;
+  background: linear-gradient(135deg, $danger 5%, transparent 5%, transparent 15%, $danger 15%, $danger 25%, transparent 25%, transparent 35%, $danger 35%, $danger 45%, transparent 45%, transparent 55%, $danger 55%, $danger 65%, transparent 65%, transparent 75%, $danger 75%, $danger 85%, transparent 85%, transparent 95%, $danger 95%);
+  margin: 20px 0;
+  opacity: 0.7;
+}
+.info {
+  @include flex-column-center;
+  &__status {
+    margin: 10px 0;
+    font-size: 80px;
+    font-weight: 700;
+    color: $danger;
+    opacity: 0.7;
+  }
+  &__title {
+    font-size: 32px;
+    font-weight: 700;
+    color: white;
+    background-color: $danger;
+    opacity: 0.7;
+  }
+  &__message {
+    margin: 20px 0;
+    font-size: 20px;
+    font-weight: 700;
+    color: $gray;
+  }
+}

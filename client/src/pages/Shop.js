@@ -7,12 +7,7 @@ import TypeBar from '../components/TypeBar';
 import BrandBar from '../components/BrandBar';
 import Pages from '../components/Pages';
 import MyMenu from '../forms/MyMenu';
-/* import TypeItem from '../components/TypeItem';
-import BrandItem from '../components/BrandItem'; 
-import Slider from '../components/Slider';*/
 import styles from '../styles/pages/Shop.module.scss';
-/* import SliderNews from '../components/SliderNews';
-import DiscountList from '../components/DiscountList'; */
 
 const Shop = observer(({searchQuery}) => {
   const {device} = useContext(Context);

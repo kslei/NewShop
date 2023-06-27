@@ -13,3 +13,8 @@ export const fetchDelivery = async () => {
     return error.response
   }
 }
+
+export const removeDelivery = async (id) => {
+  const {data} = await $authHost.delete('api/delivery', {params: id})
+  return data
+}

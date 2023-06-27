@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { HOME_ROUTE, ABOUT_ROUTE, BASKET_ROUTE } from '../utils/consts';
+import { HOME_ROUTE, ABOUT_ROUTE, BASKET_ROUTE, DELIVERY_ROUTE } from '../utils/consts';
 import styles from '../styles/components/Navbar.module.scss';
 
 const NavBar = ({onclick}) => {
@@ -64,7 +64,7 @@ const NavBar = ({onclick}) => {
                   </Link>
                 }
                 <Link className={styles.link} to={ABOUT_ROUTE} onClick={() => width()}>О магазине</Link>
-                <Link className={styles.link} to={ABOUT_ROUTE} onClick={() => width()}>Оплата и доставка</Link>
+                <Link className={styles.link} to={DELIVERY_ROUTE} onClick={() => width()}>Оплата и доставка</Link>
               </div>
             </div>
           }

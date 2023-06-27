@@ -6,10 +6,11 @@ import styles from '../styles/components/Pages.module.scss';
 
 const Pages = observer(() => {
   const { device } = useContext(Context)
-  console.log('device', device)
+  //number of pages
   const pageCount = Math.ceil(device.totalCount / device.limit)
   const pages = []
 
+  //array pages
   for (let i = 0; i < pageCount; i++) {
     pages.push(i + 1)
   }

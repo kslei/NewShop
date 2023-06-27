@@ -4,17 +4,21 @@ import MyInput from '../../forms/MyInput';
 import { createDelivery } from '../../http/deliveryAPI';
 import styles from '../../styles/components/MyModal.module.scss';
 
-const CreateDelivery = ({ show, onHide }) => {
+const CreateDelivery = ({ show, onHide, setErrorMessage }) => {
   const [value, setValue] = useState('');
+
+  //add delivery function
   const addDelivery = () => {
-    createDelivery({ name: value }).then(data => setValue(''));
+    createDelivery({ name: value }).then(data => setValue('')).catch(e => setErrorMessage(e));
     onHide();
   }
-  
+
+  //do not show
   if (!show) {
     return null
   }
 
+  //show
   return (
     <div className={styles.modal}>
       <div className={styles.modal__header}>Добавить тип</div>

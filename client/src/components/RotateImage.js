@@ -8,14 +8,15 @@ const RotateImage = ({img, frames, images, onHide}) => {
   const [icons, setIcons] = useState([]);//массив иконок
   const [frameImage, setFrameImage] = useState(true);//выбор frame/image
   const [countImage, setCountImage] = useState(0);
-  
+  //set frames & images array
   if (frames.length !==0) {frames = frames.sort((a,b) => a.id - b.id);}
   if (images.length !==0) {images = images.sort((a,b) => a.id - b.id);}
-  //console.log('frames', frames)
-  //console.log('images', images)
+  
   useEffect(()=>{
     onIcon()
   }, [frames, images])
+
+  //set icons array
   function onIcon () {
     let arr = []
     if (frames.length !==0) {
@@ -31,6 +32,8 @@ const RotateImage = ({img, frames, images, onHide}) => {
     }
     setIcons(arr)
   }
+
+  //set image
   function setImage (item) {
     if (item.type === 'frame') {
       setFrameImage(true)
@@ -41,7 +44,7 @@ const RotateImage = ({img, frames, images, onHide}) => {
       }
     }
   }
-  
+  //use device.img / use frames &(||) images
   if (images.length === 0 && frames.length === 0) {
     return (
       <div className={styles.rotateImage}>
@@ -56,12 +59,10 @@ const RotateImage = ({img, frames, images, onHide}) => {
           : <div onClick={()=>onHide(countImage)} style={{cursor: 'zoom-in'}}>
             <Image src={process.env.REACT_APP_API_URL + images[countImage].img} />
           </div>
-        
         }
         {images.length !==0 &&
           <SliderIcon icons={icons} setImage={setImage}/>
         }
-        
       </div>
     )
   } 

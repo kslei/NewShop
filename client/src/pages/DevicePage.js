@@ -33,6 +33,7 @@ const DevicePage = () => {
     })
   },[])
   
+  //create rating
   const setRating = (rate, userId, deviceId) => {
     if (!user.isAuth) {
       setMessage('Вы не авторизованы')
@@ -44,8 +45,8 @@ const DevicePage = () => {
     })
   }
 
+  //set basket
   const setOrder = (deviceId, userId) => {
-    console.log(device)
     if (!Number.isInteger(userId)) {
       setMessage('Вы не авторизованы')
     }
@@ -64,12 +65,14 @@ const DevicePage = () => {
     navigate(BASKET_ROUTE)
   }
 
+  //set number device
   const onOrderNumber = (num) => {
     if (num <= device.number && num > 0) {
       setOrderNumber(num)
     }
   }
 
+  //set/out fullscreen
   function onhide(count) {
     setCountImage(count)
     setModal(true)
@@ -87,7 +90,7 @@ const DevicePage = () => {
     }, 1000)
   }
   
-  //блокировка scroll при модальном окне
+  //disabled scroll when modal / блокировка scroll при модальном окне
   function disableScroll() {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
@@ -99,7 +102,7 @@ const DevicePage = () => {
     window.onscroll = function () { };
   }
   useEffect(() => {
-    window.scrollTo(0, 0)// scroll на исходную
+    window.scrollTo(0, 0)// scroll to x=0, y=0
     if (modal) {
       disableScroll();
     } else {

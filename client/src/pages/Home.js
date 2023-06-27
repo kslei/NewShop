@@ -40,10 +40,12 @@ const Home = observer(({ searchQuery }) => {
     })
   }, [device.selectedType, device.selectedBrand, device.page, device.limit])
 
+  //go to shop when search
   useEffect(() => {
     if(searchQuery.length) navigate(DEVICE_ROUTE)
   }, [searchQuery])
 
+  //set type & brand 
   const clickType = (type) => {
     device.setSelectedType(type)
     device.setSelectedBrand(-1)
@@ -55,8 +57,6 @@ const Home = observer(({ searchQuery }) => {
     device.setSelectedType(-1)
     navigate(SHOP_ROUTE)
   }
-
-  console.log('device', device)
 
   return (
   <div>

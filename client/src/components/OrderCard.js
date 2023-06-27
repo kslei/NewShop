@@ -4,8 +4,8 @@ import OrderDeviceItem from './OrderDeviceItem';
 import { putBasket, createMail } from '../http/orderAPI';
 import styles from '../styles/components/OrderCard.module.scss';
 
-const OrderCard = ({order, message}) => {
-  
+const OrderCard = ({order, message, setErrorMessage}) => {
+  //set Order
   const setOrder = (id, status, date, deliveryId) => {
     let text = "Уважаемый "+order.user.name+"! Ваш заказ № " + id + " от " + order.date.split('.')[0].toString().split('T')[0].toString() + " " +status.toLowerCase()+". На это сообщение отвечать не нужно. Если у Вас есть вопросы, перезвоните по одному из телефонов, указанных на странице сайта";
     putBasket(id, status, date, deliveryId).then((data) => { 
@@ -14,9 +14,10 @@ const OrderCard = ({order, message}) => {
       } else {
         message(data.data.message);
       }
-    })
+    }).catch(e => setErrorMessage(e))
   }
 
+  //total amount of the order including the discount
   const summ = function (devices) {
     let sum = 0;
     for (let i = 0; i < devices.length; i++) {

@@ -6,10 +6,11 @@ import styles from '../styles/components/DeviceList.module.scss';
 
 const DeviceList = observer(({searchQuery}) => {
   const { device } = useContext(Context);
+  //filtering devices based on search
   const searchDevice = device.devices.filter(
     device => device.name.toLowerCase().includes(searchQuery.toLowerCase())
   )
-    
+  //if search result false
   if (searchDevice.length === 0) {
     return (
     <div className={styles.message}>

@@ -1,5 +1,6 @@
 import Admin from "./pages/Admin"
 import About from "./pages/About"
+import Delivery from "./pages/Delivery"
 import Order from "./pages/Order"
 import Basket from "./pages/Basket"
 import DevicePage from "./pages/DevicePage"
@@ -7,8 +8,9 @@ import Shop from "./pages/Shop"
 import Auth from "./pages/Auth"
 import Profile from "./pages/Profile"
 import Home from "./pages/Home"
-import { ADMIN_ROUTE, ABOUT_ROUTE, BASKET_ROUTE, SHOP_ROUTE, REGISTRATION_ROUTE, LOGIN_ROUTE, DEVICE_ROUTE, ORDER_ROUTE, PROFILE_ROUTE, HOME_ROUTE } from "./utils/consts";
+import { ADMIN_ROUTE, ABOUT_ROUTE, DELIVERY_ROUTE, BASKET_ROUTE, SHOP_ROUTE, REGISTRATION_ROUTE, LOGIN_ROUTE, DEVICE_ROUTE, ORDER_ROUTE, PROFILE_ROUTE, HOME_ROUTE } from "./utils/consts";
 
+//routes for authorized users
 export const authRoutes = [
   {
     path: ADMIN_ROUTE,
@@ -27,6 +29,7 @@ export const authRoutes = [
   }
 ]
 
+//routes for all users
 export const publicRoutes = [
   {
     path: SHOP_ROUTE,
@@ -42,6 +45,11 @@ export const publicRoutes = [
     path: ABOUT_ROUTE,
     Component: About,
     breadcrumb: 'about'
+  },
+  {
+    path: DELIVERY_ROUTE,
+    Component: Delivery,
+    breadcrumb: 'delivery'
   },
   {
     path: LOGIN_ROUTE,

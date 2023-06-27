@@ -7,7 +7,7 @@
 .about {
   &__title {
     font-family: "Montserrat-Regular";
-    font-size: 32px;
+    font-size: 28px;
     font-weight: 700;
     padding: 20px;
   }
@@ -15,8 +15,48 @@
     text-indent: 50px;
     text-align: justify;
     font-family: "Roboto";
-    font-size: 26px;
+    font-size: 22px;
     font-weight: 400;
     line-height: 1.5;
+  }
+  &__row {
+    @include flex-row;
+    width: 100%;
+    @media (max-width: 767.98px) {
+      @include flex-column;
+    }
+  }
+  &__map {
+    width: 70%;
+    padding: 20px 0;
+    @media (max-width: 767.98px) {
+      width: 100%;
+    }
+  }
+  &__data {
+    width: 30%;
+    padding: 20px 0 20px 20px;
+    @media (max-width: 767.98px) {
+      width: 100%;
+      padding: 10px 0;
+    }
+    &__title {
+      margin: 20px 0;
+      font-family: 'Montserrat-regular';
+      font-size: 16px;
+      font-weight: 700;
+      background-color: $back;
+    }
+    &__descriptions {
+      margin: 5px 0;
+      font-family: 'Montserrat-regular';
+      font-size: 16px;
+      color: $gray;
+      a {
+        text-decoration: none;
+        color: $gray;
+      }
+      
+    }
   }
 }

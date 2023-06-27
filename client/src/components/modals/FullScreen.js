@@ -3,31 +3,32 @@ import styles from '../../styles/components/FullScreen.module.scss';
 
 
 const FullScreen = ({countimage, onExit, images, modalOpacity}) => {
-  const modalImages = useRef(null)//для вычисления ширины картинки в px
-  const time = 250//задержка
-  const imageNum = 1;//Количество картинок в видимой части
-  const [countImage, setCountImage] = useState(countimage);//счетчик
+  const modalImages = useRef(null)//to calculate image width in px / для вычисления ширины картинки в px
+  const time = 250//delay / задержка
+  const imageNum = 1;//The number of pictures in the visible part / Количество картинок в видимой части
+  const [countImage, setCountImage] = useState(countimage);//counter / счетчик
   const [items, setItems] = useState([]);//array of count images
-  const [shift, setShift] = useState(false); //сдвиг mouse
-  const [offset, setOffset] = useState(0);//сдвиг fullscreen__images в %
-  const [transition, setTransition] = useState(time);//задержка сдвига fullscreen__images
-  const [disabled, setDisabled] = useState(false);//для кнопок next, prev 
-  const [shiftX, setShiftX] = useState(0)//величина движения (координата точки в движении)
-  const [shiftX0, setShiftX0] = useState(0)//начальная величина движения (координата точки нажатия)
-  const [shiftCount, setShiftCount] = useState(0)//счетчик по сдвигу
-  const [delta, setDelta] = useState(0);// сдвиг fullscreen__images в рх
-  const [scale, setScale] = useState(1);//масштаб
-  const [pointX, setPointX] = useState(0);//сдвиг по горизонтали
-  const [pointY, setPointY] = useState(0);//сдвиг по вертикали
-  const [start, setStart] = useState({ x: 0, y: 0 });//стартовая позиция сдвига
-  const [cursor, setCursor] = useState('zoom-in');
+  const [shift, setShift] = useState(false); //move mouse pointer / сдвиг указателя мыши
+  const [offset, setOffset] = useState(0);//offset fullscreen__images in %/ смещение fullscreen__images в %
+  const [transition, setTransition] = useState(time);//offset delay fullscreen__images / задержка сдвига fullscreen__images
+  const [disabled, setDisabled] = useState(false);//disabled for buttons next, prev 
+  const [shiftX, setShiftX] = useState(0)//offset value / величина смещения (координата точки в движении)
+  const [shiftX0, setShiftX0] = useState(0)//start offset value / начальная величина смещения (координата точки нажатия)
+  const [shiftCount, setShiftCount] = useState(0)//offset counter / счетчик по смещению
+  const [delta, setDelta] = useState(0);//offset fullscreen in px / сдвиг fullscreen__images в рх
+  const [scale, setScale] = useState(1);//scale / масштаб
+  const [pointX, setPointX] = useState(0);//offset X / сдвиг по горизонтали
+  const [pointY, setPointY] = useState(0);//offset Y / сдвиг по вертикали
+  const [start, setStart] = useState({ x: 0, y: 0 });//start offset(x, y) / стартовая позиция сдвига
+  const [cursor, setCursor] = useState('zoom-in');//set cursor
     
   useEffect(() => {
     if(images.length) {
       drowImage()
     }
   }, [images, countImage, scale])
-   
+  
+  //next image function
   const nextImg = () => {
     setOffset((-1-imageNum)*100/items.length);
     setDisabled(true)
@@ -36,6 +37,8 @@ const FullScreen = ({countimage, onExit, images, modalOpacity}) => {
       onCount(countImage + 1)
     }, time)
   }
+
+  //previous image function
   const prevImg = () => {
     setOffset((1-imageNum)*100/items.length);
     setDisabled(true)
@@ -44,6 +47,8 @@ const FullScreen = ({countimage, onExit, images, modalOpacity}) => {
       onCount(countImage - 1)
     }, time)
   }
+
+  //set count if >= length or < 0
   const onCount = (count) => {
     setDisabled(false)
     if (count >= images.length) {
@@ -60,7 +65,7 @@ const FullScreen = ({countimage, onExit, images, modalOpacity}) => {
       }
     }
   }
-  //Исходное состояние
+  //The initial state / Исходное состояние
   const setInit = (array) => {
     setTransition(0)
     setShiftCount(0)
@@ -70,7 +75,7 @@ const FullScreen = ({countimage, onExit, images, modalOpacity}) => {
     setShiftX(0)
     setShiftX0(0)
   }
-  //Показ иконок
+  //Showing icons / Показ картинок
   const drowImage = () => {
     let arr = [];
     if (scale === 1) {
@@ -95,14 +100,15 @@ const FullScreen = ({countimage, onExit, images, modalOpacity}) => {
     setItems(arr)
   }
 
+  //start position
   function begin(e) {
     e.preventDefault();
     let event;
     e.type.search('touch') !== -1 ? event = e.touches[0] : event = e;
-    setTimeout(() => {
+    setTimeout(() => {//if time > 300ms, form the image offset 
       setShift(true);
       setCursor('grab')
-    }, 100)
+    }, 300)
     if(scale === 1) {  
       setShiftX0(event.clientX);
       setShiftX(event.clientX);
@@ -112,6 +118,7 @@ const FullScreen = ({countimage, onExit, images, modalOpacity}) => {
     }
   }
 
+  //move position
   function move(e) {
     e.preventDefault();
     let event;
@@ -134,6 +141,7 @@ const FullScreen = ({countimage, onExit, images, modalOpacity}) => {
     }
   }
 
+  //finish position
   function end(e) {
     if (shift) {
       setShift(false)
@@ -146,13 +154,15 @@ const FullScreen = ({countimage, onExit, images, modalOpacity}) => {
     } else {
       if (scale === 1) zoomPlus()
       if (scale === 1.5) zoomMinus()
-      setTimeout(() => {
+      setTimeout(() => { //if time > 300 ms stop image offset, else onclick zoom+/-
         setShift(false)
         scale === 1 ? setCursor('zoom-out') : setCursor('zoom-in')
-      }, 100)
+      }, 300)
     }
     
   }
+
+  //onMouseLeave function (for finish position)
   function onleave () {
     setShift(false)
     setTransition(time)
@@ -162,6 +172,7 @@ const FullScreen = ({countimage, onExit, images, modalOpacity}) => {
     }, time)
   }
 
+  //set scale
   const zoomPlus = () => {
     setScale(1.5)
     setCursor('zoom-out')

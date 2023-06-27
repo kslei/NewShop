@@ -2,7 +2,7 @@
 
 .futorInfo {
   @include flex-column;
-  align-items: start;
+  align-items: flex-start;
   @media (max-width: 667px) {
     align-items: center;
   }

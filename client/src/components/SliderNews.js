@@ -6,21 +6,22 @@ import { useNavigate } from 'react-router-dom';
 
 const SliderNews = ({devices}) => {
   const navigate = useNavigate();
-  const Images = useRef(null)//для вычисления ширины иконки в px
-  const time = 500//задержка
-  let imagesNum = 4;//Количество image в видимой части
-  const [play, setPlay] = useState(true);//авто
-  const [count, setCount] = useState(0);//счетчик
+  const Images = useRef(null)//to calculate image width in px / для вычисления ширины картинки в px
+  const time = 500//delay / задержка
+  let imagesNum = 4;//The number of pictures in the visible part / Количество картинок в видимой части
+  const [play, setPlay] = useState(true);//play / pause
+  const [count, setCount] = useState(0);//counter / счетчик
   const [items, setItems] = useState([]);//array of count devices
-  const [shift, setShift] = useState(false); //сдвиг mouse
-  const [offset, setOffset] = useState(0);//сдвиг icon__images в %
-  const [transition, setTransition] = useState(time);//задержка сдвига icon__images
-  const [disabled, setDisabled] = useState(false);//для кнопок next, prev 
-  const [shiftX, setShiftX] = useState(0)//величина движения (координата точки в движении)
-  const [shiftX0, setShiftX0] = useState(0)//начальная величина движения (координата точки нажатия)
-  const [shiftCount, setShiftCount] = useState(0)//счетчик по сдвигу
-  const [delta, setDelta] = useState(0);// сдвиг icon__images в рх
+  const [shift, setShift] = useState(false); //move mouse pointer / сдвиг указателя мыши
+  const [offset, setOffset] = useState(0);//offset icon__images in % / смещение icon__images в %
+  const [transition, setTransition] = useState(time);//offset delay icon__images / задержка смещения icon__images
+  const [disabled, setDisabled] = useState(false);//disabled for buttons next, prev 
+  const [shiftX, setShiftX] = useState(0)//offset move / величина движения (координата точки в движении)
+  const [shiftX0, setShiftX0] = useState(0)//start offset move / начальная величина движения (координата точки нажатия)
+  const [shiftCount, setShiftCount] = useState(0)//offset counter / счетчик по смещению
+  const [delta, setDelta] = useState(0);//offset icon__images in px / сдвиг icon__images в рх
 
+  //play
   useEffect(() => {
     if (play) {
       const int = setInterval(() => {
@@ -36,6 +37,7 @@ const SliderNews = ({devices}) => {
     }
   }, [devices, count])
 
+  //set images number
   if(window.innerWidth > 1399.98) {
     imagesNum = 4;
   } else {
@@ -51,6 +53,7 @@ const SliderNews = ({devices}) => {
   } 
   if (devices.length <= imagesNum) imagesNum = devices.length  
 
+  //set next / previous image count
   const nextImg = () => {
     setDisabled(true)
     if (imagesNum !== devices.length) {
@@ -71,6 +74,7 @@ const SliderNews = ({devices}) => {
     }, time)
   }
   }
+  //set count if >= length or < 0
   const onCount = (countImg) => {
     setDisabled(false)
     if (countImg >= devices.length) {
@@ -87,7 +91,7 @@ const SliderNews = ({devices}) => {
       }
     }
   }
-  //Исходное состояние
+  //The initial state / Исходное состояние
   const setInit = (array) => {
     setTransition(0)
     setShiftCount(0)
@@ -96,7 +100,7 @@ const SliderNews = ({devices}) => {
     setShiftX(0)
     setShiftX0(0)
   }
-  //Показ иконок
+  //Show images / Показ картинок
   const drowImage = () => {
     let arr = [];
     for (let i = count - imagesNum; i <= count + 2 * imagesNum - 1; i++) {
@@ -121,6 +125,7 @@ const SliderNews = ({devices}) => {
     setItems(arr)
   }
 
+  //start position
   function begin(e) {
     e.preventDefault();
     let event;
@@ -132,9 +137,10 @@ const SliderNews = ({devices}) => {
       if (imagesNum !== devices.length) {
       setShift(true);
       }
-    }, 100)
+    }, 300)
   }
 
+  //move position
   function move(e) {
     e.preventDefault();
     let event;
@@ -148,6 +154,7 @@ const SliderNews = ({devices}) => {
     setShiftCount(Math.round(translate / (Images.current.getBoundingClientRect().width / items.length)))
   }
 
+  //finish position
   function end(device) {
     if (shift) {
       setShift(false)
@@ -155,7 +162,7 @@ const SliderNews = ({devices}) => {
       if(device.id) navigate(DEVICE_ROUTE + '/' + device.id)
       setTimeout(() => {
         setShift(false)
-      }, 100)
+      }, 300)
     }
     setTransition(time)
     setDelta(Math.round((Images.current.getBoundingClientRect().width / items.length)) * shiftCount)

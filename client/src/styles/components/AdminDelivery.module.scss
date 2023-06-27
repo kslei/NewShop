@@ -1,0 +1,13 @@
+@import '../base/app.scss';
+
+.adminDelivery {
+  display: grid;
+  grid-template-columns: 1fr 31fr 5fr;
+  align-items: center;
+}
+.deliveryId {
+  @include border-sm;
+  margin: 2px 1px;
+  padding: 2px 5px;
+  line-height: 1.2;
+}

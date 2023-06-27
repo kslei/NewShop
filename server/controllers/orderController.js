@@ -8,8 +8,10 @@ class OrderController {
       let resp = []
       const { deviceId, quantity, userId, date, deliveryId } = req.body
       const status = "В обработке"
+      //create order
       const order = await Order.findOrCreate({ attributes: ['id'], where: { userId, status, date, deliveryId } })
       const orderId = order[0].id
+      //create device for order
       for (let i=0; i<deviceId.length; i++) {
         const orderDevice = await OrderDevice.create({ deviceId: deviceId[i], quantity: quantity[i], orderId })
         resp.push(orderDevice)
@@ -33,31 +35,36 @@ class OrderController {
   }
 
   async putOrder(req, res, next) {
-    const { id, status, date, deliveryId } = req.body
-    if (status === "Выполнен") {
-      const data = await Order.findAll({ where: {id}, include: [{ model: OrderDevice, attributes: ['deviceId', 'quantity']}]})
-      console.log(data[0].order_devices)
-      data[0].order_devices.map(item => console.log(item.deviceId, item.quantity))
-      const devices = data[0].order_devices
-      const num = []
-      for (let i = 0; i < devices.length; i++) {
-        const device = await Device.findOne(
-          {
-            where: { id: devices[i].deviceId }
+    try {
+      const { id, status, date, deliveryId } = req.body
+      if (status === "Выполнен") {
+        const data = await Order.findAll({ where: {id}, include: [{ model: OrderDevice, attributes: ['deviceId', 'quantity']}]})
+        //data[0].order_devices.map(item => console.log(item.deviceId, item.quantity))
+        //check the quantity and form the balance of the goods taking into account the order
+        const devices = data[0].order_devices
+        const num = []
+        for (let i = 0; i < devices.length; i++) {
+          const device = await Device.findOne(
+            {
+              where: { id: devices[i].deviceId }
+            }
+          )
+          const number = device.number - devices[i].quantity
+          if (number < 0) {
+            return next(ApiError.badRequest("Недостаточно товаров"))
           }
-        )
-        const number = device.number - devices[i].quantity
-        if (number < 0) {
-          return next(ApiError.badRequest("Недостаточно товаров"))
+          num.push(number)
         }
-        num.push(number)
+        for (let i=0; i < devices.length; i++) {
+          await Device.update({number: num[i] }, {where: { id: devices[i].deviceId }} )
+        }
       }
-      for (let i=0; i < devices.length; i++) {
-        await Device.update({number: num[i] }, {where: { id: devices[i].deviceId }} )
-      }
+      const orderStatus = await Order.update({ status: status, date: date, deliveryId: deliveryId }, { where: { id } })
+      return res.json(orderStatus)
+    } catch (e) {
+      next(ApiError.badRequest(e.message))
     }
-    const orderStatus = await Order.update({ status: status, date: date, deliveryId: deliveryId }, { where: { id } })
-    return res.json(orderStatus)
+    
   }
 }
 

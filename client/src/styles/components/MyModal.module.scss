@@ -2,7 +2,7 @@
 
 .modal {
   position: absolute;
-  top: -100px;
+  top: -110px;
   width: 560px;
   @include flex-column-center;
   padding: 10px;
@@ -42,4 +42,23 @@
       margin: 3px;
     }
   }
+}
+.form {
+  @include flex-column;
+  align-items: space-between;
+
+  &__error {
+    color: $danger;
+    margin-top: 10px;
+    min-height: 12px;
+    font-size: 12px;
+  }
+
+  &__hint {
+    color: $primary;
+  }
+}
+.message {
+  font-family: "Montserrat-regular";
+  color: $danger;
 }

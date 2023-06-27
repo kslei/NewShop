@@ -4,11 +4,12 @@ import DiscountItem from './DiscountItem';
 
 const DiscountList = ({devices}) => {
   const [visible, setVisible] = useState(false);
-  const [deviceRow, setDeviceRow] = useState([]);
-  const [deviceVisible, setDeviceVisible] = useState([]);
+  const [deviceRow, setDeviceRow] = useState([]);//first row
+  const [deviceVisible, setDeviceVisible] = useState([]);//other row
   const [height, setHeight] = useState(0);
   let num = 4;
   
+  //set number of devices from screen width
   if (window.innerWidth > 1399.98) { num = 4 } else {
     if (window.innerWidth > 767.98) { num = 3 } else {
       if (window.innerWidth > 480) { num = 2 } else {

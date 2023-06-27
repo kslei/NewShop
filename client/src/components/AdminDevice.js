@@ -7,7 +7,7 @@ import { fetchOneDevice, updateDevice, createInfo, updateImage, createImage, upd
 import styles from '../styles/components/AdminDevice.module.scss';
 import DeviceMedia from './DeviceMedia';
 
-const AdminDevice = ({device, brands, types, onNote}) => {
+const AdminDevice = ({device, brands, types, onNote, seterrormessage}) => {
   const [name, setName] = useState(device.name)
   const [price, setPrice] = useState(device.price)
   const [discount, setDiscount] = useState(device.discount)
@@ -21,7 +21,6 @@ const AdminDevice = ({device, brands, types, onNote}) => {
   const [mediaVisible, setMediaVisible] = useState(false)
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
-  console.log(newDevice)
   
   useEffect(() => {
     fetchOneDevice(device.id).then(data => { setInfo(data.info)})
@@ -45,6 +44,7 @@ const AdminDevice = ({device, brands, types, onNote}) => {
     setMediaVisible(!mediaVisible)
   }
 
+  //update info
   const addInfo = (infoObject) => {
     info.map(item => {
       if(item.id === infoObject.id) {
@@ -54,7 +54,8 @@ const AdminDevice = ({device, brands, types, onNote}) => {
     })
     setInfo(info)
   }
-  
+
+  //update device  
   const update = () => {
     const formData = new FormData()
     formData.append('id', device.id)
@@ -67,23 +68,28 @@ const AdminDevice = ({device, brands, types, onNote}) => {
     formData.append('brandId', brand.id)
     formData.append('typeId', type.id)
     formData.append('info', JSON.stringify(info))
-    updateDevice(formData).then(data => onNote('Изменено'))
+    updateDevice(formData).then(data => onNote('Изменено')).catch(e=>{
+      if (e.response.data.message) onNote(e.response.data.message)
+      if (e.response.data.errors) seterrormessage(e)
+    })
   }
 
+  //update/create image for DeviceMedia
   const updateImg = (id) => {
     const formData = new FormData()
     formData.append('id', id)
     formData.append('deviceId', device.id)
     formData.append('img', file)
-    updateImage(formData).then(data => onNote('Изменено'))
+    updateImage(formData).then(data => onNote('Изменено')).catch(e=>onNote(e.response.data.message))
   }
   const createImg = () => {
     const formData = new FormData()
     formData.append('deviceId', device.id)
     formData.append('img', file)
-    createImage(formData).then(data => onNote('Записано'))
+    createImage(formData).then(data => onNote('Записано')).catch(e=>onNote(e.response.data.message))
   }
 
+  //update/create frames (img) for DeviceMedia
   const updateFrm = (id) => {
     const formData = new FormData()
     formData.append('id', id)
@@ -98,6 +104,7 @@ const AdminDevice = ({device, brands, types, onNote}) => {
     createFrame(formData).then(data => onNote('Записано'))
   }
   
+  //create new information
   const newInfo = (deviceId, title, description) => {
     createInfo({ deviceId: deviceId, title: title, description: description }).then(data => {
       setTitle('');
@@ -112,13 +119,13 @@ const AdminDevice = ({device, brands, types, onNote}) => {
         <div className={styles.deviceId}>{device.id}</div>
         <MyMenu name={type.name} menu={types} sm={true} click={onType} close={false}/>
         <MyMenu name={brand.name} menu={brands} sm={true} click={onBrand} close={false}/>
-        <MyInput sm={"true"} value={name} onChange={e => setName(e.target.value)} />
-        <MyInput sm={"true"} type='text' value={price} onChange={e => setPrice(e.target.value)} />
-        <MyInput sm={"true"} type='text' value={discount} onChange={e => setDiscount(e.target.value)} />
-        <MyInput sm={"true"} type='text' value={number} onChange={e => setNumber(e.target.value)} />
-        <input className={styles.input} id={device.id} type='checkbox' checked={newDevice} onChange={(e => setNewDevice(e.target.checked))} />
-        <label className={styles.label} for={device.id}></label>
-        <input type='file' onChange={selectFile} />
+        <MyInput sm={"true"} type='text' name='name' autoComplete='off' value={name} onChange={e => setName(e.target.value)} />
+        <MyInput sm={"true"} type='number' min='0.01' step='0.01' name='price' value={price} onChange={e => setPrice(e.target.value)} style={{ padding: '2px 1px', width: 'calc(100% - 5px)'}} />
+        <MyInput sm={"true"} type='number' min='0' max='100' name='discount' value={discount} onChange={e => setDiscount(e.target.value)} style={{ padding: '2px 1px', width: 'calc(100% - 5px)'}} />
+        <MyInput sm={"true"} type='number' min='0' step='1' name='number' value={number} onChange={e => setNumber(e.target.value)} style={{ padding: '2px 1px', width: 'calc(100% - 5px)' }} />
+        <input type='checkbox' id={`${device.id}`} name={`${device.id}`} className={styles.input} checked={newDevice} onChange={(e => setNewDevice(e.target.checked))} />
+        <label htmlFor={`${device.id}`} className={styles.label} ></label>
+        <input type='file' name='file' onChange={selectFile} accept='image/jpeg'/>
         <MyButton name={'Media'} sm={true} onClick={()=> onMediaVisible(mediaVisible)} />
         <MyButton name={'Info'} sm={true} onClick={()=> onInfoVisible(infoVisible)} />
         <MyButton name={'Изменить'} danger={true} sm={true} onClick={() => update()}/>

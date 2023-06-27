@@ -20,6 +20,7 @@ const Header = observer(({search, onSearch, onclick}) => {
     w()
   }, [])
 
+  //set visibility searc and phone from screen width
   const w = () => {
     let width = window.innerWidth;
     if (width > 767) {
@@ -51,6 +52,7 @@ const Header = observer(({search, onSearch, onclick}) => {
     }, 200)
   }
 
+  //configure userMenu depending on authorization and userRole
   if (user.isAuth) {
     userMenu.push(
       { id: 2,
@@ -81,6 +83,7 @@ const Header = observer(({search, onSearch, onclick}) => {
     )
   }
 
+  //logOut
   function setKey(item) {
     if (item.id === 3) {
       logOut()
@@ -90,6 +93,9 @@ const Header = observer(({search, onSearch, onclick}) => {
   const logOut = () => {
     user.setUser({})
     user.setIsAuth(false)
+    user.setName({})
+    user.setRole({})
+    user.setId({})
     localStorage.removeItem('token')
   }
 
@@ -103,7 +109,7 @@ const Header = observer(({search, onSearch, onclick}) => {
           </div>
           {searchVisible &&
             <div className={styles.menu__input} onClick={(e) => e.stopPropagation()}>
-              <MyInput type='text' value={search} placeholder='Поиск по названию'
+              <MyInput name='search' type='text' value={search} placeholder='Поиск по названию'
               onChange={e => onSearch(e.target.value)} />
             </div>
           }
@@ -128,7 +134,11 @@ const Header = observer(({search, onSearch, onclick}) => {
               <div className={styles.numberbasket}>{JSON.parse(sessionStorage.getItem('basketDevices')).length}</div>
             }
           </div>
-          <MyMenu menu={userMenu} isAuth={user.isAuth} click={setKey} close={closeMenu} />
+          <div className={styles.box}>
+            <MyMenu menu={userMenu} isAuth={user.isAuth} click={setKey} close={closeMenu} />
+            {user.isAuth && <div className={styles.messageUser}>{user.name}</div>}
+          </div>
+          
         </div>
       </div>
     </div>

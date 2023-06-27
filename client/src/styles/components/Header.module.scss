@@ -35,13 +35,11 @@
   
 }
 .icon {
-  margin-right: 5px;
   width: $iconwidth;
   height: $iconwidth;
   background-color: $primary;
   
   &__dis {
-    margin-right: 5px;
     height: 32px;
     opacity: 0;
   }
@@ -67,6 +65,7 @@
 }
 .box {
   position: relative;
+  margin-left: 5px;
 }
 .numberbasket {
   position: absolute;
@@ -79,6 +78,14 @@
   font-size: 10px;
   text-align: center;
   line-height: 1.6;
+}
+.messageUser {
+  width: max-content;
+  position: absolute;
+  bottom: -12px;
+  right: 0;
+  font-size: 10px;
+  color: $primary;
 }
 .menu {
   position: relative;

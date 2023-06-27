@@ -1,17 +1,19 @@
 import React, {useState, useContext, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createOrder } from '../http/orderAPI';
-import { SHOP_ROUTE } from '../utils/consts';
+import { HOME_ROUTE } from '../utils/consts';
+import { EMAIL } from '../utils/consts';
 import { Context } from '..';
 import MyButton from '../forms/MyButton';
 import { observer } from 'mobx-react-lite';
 import BasketItem from '../components/BasketItem';
 import { fetchDelivery } from '../http/deliveryAPI';
+import { createMail } from '../http/orderAPI';
 import MyMenu from '../forms/MyMenu';
 import styles from '../styles/pages/Basket.module.scss';
 
 
-const Basket = observer(() => {
+const Basket = observer(({setErrorMessage}) => {
   const [basketDevice, setBasketDevice] = useState([]);
   const [message, setMessage] = useState('');
   const [note, setNote] = useState('');
@@ -25,6 +27,7 @@ const Basket = observer(() => {
     if(sessionStorage.getItem('basketDevices')){
       setBasketDevice(JSON.parse(sessionStorage.getItem('basketDevices')))
     }
+    //set Message
     if (basketDevice.length !==0) {
       setMessage('')
     } else {
@@ -33,6 +36,7 @@ const Basket = observer(() => {
     fetchDelivery().then(data => setDeliveries(data))
   }, [userId])
   
+  //delete device
   function deleteDevice(id) {
     sessionStorage.setItem('basketDevices', JSON.stringify(basketDevice.filter(d => d.id !== id)))
     if (basketDevice !== JSON.parse(sessionStorage.getItem('basketDevices'))) {
@@ -41,6 +45,7 @@ const Basket = observer(() => {
     }
   }
 
+  //delete all devices
   function deleteAllDevice() {
     sessionStorage.setItem('basketDevices', JSON.stringify([]))
     if (basketDevice !== JSON.parse(sessionStorage.getItem('basketDevices'))) {
@@ -49,6 +54,7 @@ const Basket = observer(() => {
     }
   }
 
+  //set note
   const onNote = (text) => {
     setNote(text.toUpperCase());
     setTimeout(() => {
@@ -56,12 +62,13 @@ const Basket = observer(() => {
     }, 2000);
   }
   
+  //set delivery
   const onDelivery = (delivery) => {
-    console.log(delivery.name)
     setDeliveryId(delivery.id)
     onNote(delivery.name)
   }
 
+  //set sum of device price with discount
   const summ = function (devices) {
     let sum = 0;
     for (let i = 0; i < devices.length; i++) {
@@ -70,20 +77,27 @@ const Basket = observer(() => {
     return sum;
   }
 
+  //create order
   function buy(userId, deliveryId) {
     let date = Date()
-    if(!Number.isInteger(userId)) {
+    if(!Number.isInteger(userId)) { //non - autorized ? then "note"
       onNote('Войдите в свою учетную запись или зарегистрируйтесь')
     }
     if(deliveryId !== 0) {
       createOrder(basketDevice.map(device => device.id), basketDevice.map(device => device.quantity), userId, date, deliveryId).then(data =>
       {
         sessionStorage.setItem('basketDevices', JSON.stringify([]));
-        navigate(SHOP_ROUTE)
-      }) 
+        setMail(user.name, user.email, new Date());
+        navigate(HOME_ROUTE)
+      }).catch(e => setErrorMessage(e)) 
     } else {
       onNote('Выберите способ доставки')
     }
+  }
+
+  const setMail = (name, email, date) => {
+    let text = "Клиент " + name + " (" + email + ") " + date + "  сделал заказ";
+    createMail(EMAIL, text)
   }
 
   return (
@@ -92,7 +106,7 @@ const Basket = observer(() => {
         {basketDevice.length === 0 
         ? <div className={styles.basket__error}>
             <span className={styles.basket__error_message}>{message}</span>
-            <MyButton name={'За покупками'} onClick={()=>navigate(SHOP_ROUTE)} />
+            <MyButton name={'За покупками'} onClick={()=>navigate(HOME_ROUTE)} />
           </div>
         : <div className={styles.basket__devices}>
             <div className={styles.basket__item}>
@@ -114,7 +128,7 @@ const Basket = observer(() => {
             </div>
             <div className={styles.basket__item_btn}>
               <div>
-                <MyButton name={'Продолжить покупки'} onClick={() => navigate(SHOP_ROUTE)} />
+                <MyButton name={'Продолжить покупки'} onClick={() => navigate(HOME_ROUTE)} />
               </div>
               <div>
                 <MyMenu name={"Выберите способ доставки"} menu={deliveries} click={onDelivery}/>

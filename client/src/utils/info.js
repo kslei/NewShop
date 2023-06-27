@@ -1,3 +1,4 @@
+//menu for futor
 export const shedule = [
   { id: 0, info: 'Пн - Сб: 09:00 - 18:00' },
   { id: 1, info: 'Обед: 09:00 - 18:00' },

@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from '../styles/form/MyButton.module.scss'
 
-const MyButton = ({name, danger, sm, onClick, props}) => {
+const MyButton = ({name, danger, sm, onClick, disabled, props}) => {
   let style
   if(danger && !sm) {style = styles.myBtnDanger}
   if(danger && sm) {style = styles.myBtnDanger__sm}
@@ -9,7 +9,7 @@ const MyButton = ({name, danger, sm, onClick, props}) => {
   if(!danger && !sm) {style = styles.myBtn}
     
   return (
-    <button className={style} onClick = {(e) => onClick(e) } {...props}>
+    <button className={style} onClick = {(e) => onClick(e) } disabled={disabled} {...props}>
       {name}
     </button>
   );

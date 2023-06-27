@@ -12,6 +12,7 @@ const BrandBar = observer(() => {
 
   const {device} = useContext(Context)
   
+  //screen width tracking
   window.addEventListener('resize', function () {
     width(setBtnVisible, setVisible);
   });

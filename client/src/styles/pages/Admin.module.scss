@@ -38,7 +38,15 @@
   color: $primary; 
   align-items: center; 
 }
-
+.adminDelivery {
+  display: grid;
+  grid-template-columns: 1fr 31fr 5fr;
+  grid-column-gap: 10px;
+  margin: 5px 2px;
+  font-family: "Montserrat-regular";
+  color: $primary;
+  align-items: center;
+}
 .note {
   position: fixed;
   top: calc(50% - 23px);

@@ -19,7 +19,6 @@ const Breadcrumbs = ({ onSearch }) => {
     })}
   }, [location])
 
-  console.log(device)
   return (
   <div className={styles.breadcrumb}>
     <div className={styles.wrapper}>

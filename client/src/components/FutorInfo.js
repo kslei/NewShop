@@ -16,6 +16,7 @@ const FutorInfo = ({info, title, it}) => {
     style = [styles.futorInfo__title];
   }
   
+  //set visible information
   function width() {
     let w = window.innerWidth;
     if (w >= 667) {

@@ -2,19 +2,19 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from '../styles/components/SliderIcon.module.scss';
 
 const SliderIcon = ({icons, setImage}) => {
-  const iconImages = useRef(null)//для вычисления ширины иконки в px
-  const time = 500//задержка
-  let iconNum = 4;//Количество иконок в видимой части
-  const [countIcon, setCountIcon] = useState(0);//счетчик
+  const iconImages = useRef(null)//to calculate image width in px / для вычисления ширины иконки в px
+  const time = 500//delay / задержка
+  let iconNum = 4;//The number of pictures in the visible part / Количество иконок в видимой части
+  const [countIcon, setCountIcon] = useState(0);//Counter / счетчик
   const [items, setItems] = useState([]);//array of count icons
-  const [shift, setShift] = useState(false); //сдвиг mouse
-  const [offset, setOffset] = useState(0);//сдвиг icon__images в %
-  const [transition, setTransition] = useState(time);//задержка сдвига icon__images
-  const [disabled, setDisabled] = useState(false);//для кнопок next, prev 
-  const [shiftX, setShiftX] = useState(0)//величина движения (координата точки в движении)
-  const [shiftX0, setShiftX0] = useState(0)//начальная величина движения (координата точки нажатия)
-  const [shiftCount, setShiftCount] = useState(0)//счетчик по сдвигу
-  const [delta, setDelta] = useState(0);// сдвиг icon__images в рх
+  const [shift, setShift] = useState(false); //move mouse pointer / сдвиг указателя мыши
+  const [offset, setOffset] = useState(0);//offset fullscreen__images in %/ смещение fullscreen__images в %
+  const [transition, setTransition] = useState(time);//offset delay fullscreen__images / задержка сдвига fullscreen__images
+  const [disabled, setDisabled] = useState(false);//disabled for buttons next, prev 
+  const [shiftX, setShiftX] = useState(0)//offset value / величина движения (координата точки в движении)
+  const [shiftX0, setShiftX0] = useState(0)//start offset value / начальная величина движения (координата точки нажатия)
+  const [shiftCount, setShiftCount] = useState(0)//offset counter / счетчик по смещению
+  const [delta, setDelta] = useState(0);//offset fullscreen in px / сдвиг fullscreen__images в рх
   
   useEffect(() => {
     if(icons.length) {
@@ -22,9 +22,11 @@ const SliderIcon = ({icons, setImage}) => {
     }
   }, [icons, countIcon])
   
+  //set icons number
   window.innerWidth > 767.98 || window.innerWidth <= 560 ? iconNum = 4 : iconNum = 3
   if (icons.length <= iconNum) iconNum = icons.length  
 
+  //next count image
   const nextIconImg = () => {
     setOffset((-1-iconNum)*100/items.length);
     setDisabled(true)
@@ -33,6 +35,7 @@ const SliderIcon = ({icons, setImage}) => {
       onCount(countIcon + 1)
     }, time)
   }
+  //prev count image
   const prevIconImg = () => {
     setOffset((1-iconNum)*100/items.length);
     setDisabled(true)
@@ -41,6 +44,8 @@ const SliderIcon = ({icons, setImage}) => {
       onCount(countIcon - 1)
     }, time)
   }
+
+  //set count
   const onCount = (count) => {
     setDisabled(false)
     if (count >= icons.length) {
@@ -57,7 +62,7 @@ const SliderIcon = ({icons, setImage}) => {
       }
     }
   }
-  //Исходное состояние
+  //The initial state / Исходное состояние
   const setInit = (array) => {
     setTransition(0)
     setShiftCount(0)
@@ -66,7 +71,7 @@ const SliderIcon = ({icons, setImage}) => {
     setShiftX(0)
     setShiftX0(0)
   }
-  //Показ иконок
+  //Show icons / Показ иконок
   const drowIcon = () => {
     let arr = [];
     for (let i = countIcon - iconNum; i <= countIcon + 2 * iconNum - 1; i++) {
@@ -89,7 +94,7 @@ const SliderIcon = ({icons, setImage}) => {
     setInit(arr)
     setItems(arr)
   }
-  
+  //start position
   function begin(e) {
     e.preventDefault();
     let event;
@@ -101,7 +106,7 @@ const SliderIcon = ({icons, setImage}) => {
       setShift(true);
     }, 100)
   }
-  
+  //move position
   function move(e) {
     e.preventDefault();
     let event;
@@ -114,7 +119,7 @@ const SliderIcon = ({icons, setImage}) => {
     setDelta(translate);
     setShiftCount(Math.round(translate / (iconImages.current.getBoundingClientRect().width/items.length)))
   }
-  
+  //finish position
   function end(icon) {
      if (shift) {
       setShift(false)

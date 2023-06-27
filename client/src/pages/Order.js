@@ -6,7 +6,7 @@ import { fetchBasket } from '../http/orderAPI';
 import { Context } from '../index';
 import styles from '../styles/pages/Order.module.scss';
 
-const Order = observer(() => {
+const Order = observer(({setErrorMessage}) => {
   const [status, SetStatus] = useState('В обработке')
   const [message, setMessage] = useState('');
   const {order} = useContext(Context)
@@ -52,7 +52,7 @@ const Order = observer(() => {
           {order.length!==0 &&
             <div className={styles.cards}>
               {order.orders.map(item => 
-                <OrderCard key={item.id} order={item} message={setMessage}/>
+                <OrderCard key={item.id} order={item} message={setMessage} setErrorMessage={setErrorMessage}/>
               )}  
             </div>
           }

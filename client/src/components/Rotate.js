@@ -4,19 +4,19 @@ import styles from '../styles/components/Rotate.module.scss'
 
 const Rotate = ({frames}) => {
   const [info, setInfo] = useState(false);//infopanel
-  const [playAuto, setPlayAuto] = useState(true);//автовращение
-  const [stepOrbit, setStepOrbit] = useState(true);//запрет вращения / сдвиг кадра(orbit/move)
-  const [count, setCount] = useState(0);//шаг вращения
-  const [paning, setPaning] = useState(false);//панорама - сдвиг
-  const [pointX, setPointX] = useState(0);//сдвиг по горизонтали
-  const [pointY, setPointY] = useState(0);//сдвиг по вертикали
-  const [start, setStart] = useState({x: 0, y: 0});//стартовая позиция сдвига
-  const [finish, setFinish] = useState({x: 0, y: 0});//финишная позиция сдвига
-  const [xStart, setXStart] = useState(0);//стартовая позиция вращения
-  const [xCurrent, setXCurrent] = useState(0);//текущая позиция вращения
+  const [playAuto, setPlayAuto] = useState(true);//autorotate / автовращение
+  const [stepOrbit, setStepOrbit] = useState(true);//orbit/move / вращениe/сдвиг кадра
+  const [count, setCount] = useState(0);//step orbit / шаг вращения
+  const [paning, setPaning] = useState(false);//paning - move / панорама - сдвиг
+  const [pointX, setPointX] = useState(0);//offset X / сдвиг по горизонтали
+  const [pointY, setPointY] = useState(0);//offset Y / сдвиг по вертикали
+  const [start, setStart] = useState({x: 0, y: 0});//start offset / стартовая позиция сдвига
+  const [finish, setFinish] = useState({x: 0, y: 0});//finish offset / финишная позиция сдвига
+  const [xStart, setXStart] = useState(0);//start orbit / стартовая позиция вращения
+  const [xCurrent, setXCurrent] = useState(0);//current rotation position / текущая позиция вращения
   const [pos0, setPos0] = useState(0);
-  const [scale, setScale] = useState(1);//шкала кадра
-  const scaleMax = 2.5;
+  const [scale, setScale] = useState(1);//scale / шкала кадра
+  const scaleMax = 2.5;//max scale
   const handle = useFullScreenHandle();//handle.active = true - fullscreen
   
   useEffect(() => {
@@ -28,7 +28,7 @@ const Rotate = ({frames}) => {
     }
   }, [count, playAuto])
   
-  //Шаг вращения против чс (next) / по чс (prev)
+  //counterclockwise rotation step (next)/rotation step clockwise (prev) / Шаг вращения против чс (next)/по чс (prev)
   const nextCount = () => {
     count + 1 < frames.length ? setCount(count+1) : setCount(0);
   }
@@ -36,7 +36,7 @@ const Rotate = ({frames}) => {
     count - 1 >= 0 ? setCount(count-1) : setCount(frames.length - 1);
   }
 
-  //Нажатие кнопки/касание сенсора для кадров
+  //start function / Нажатие кнопки/касание сенсора для кадров
   function begin(e) {
     e.preventDefault();
     let event;
@@ -52,7 +52,7 @@ const Rotate = ({frames}) => {
     }
   }
 
-  //Движение мыши/точки касания для кадров
+  //Move function / Движение мыши/точки касания для кадров
   function move(e) {
     e.preventDefault();
     let event;
@@ -76,25 +76,25 @@ const Rotate = ({frames}) => {
     }
   }
 
-  //Отпускание кнопки/удаление точки касания с сенсора для кадров
+  //Finish function / Отпускание кнопки/удаление точки касания с сенсора для кадров
   function end(e) {
     setPaning(false);
     setPos0(0);
     if (!stepOrbit) {
       setFinish({ x: e.clientX - pointX, y: e.clientY - pointY })
     }
-    //если между нажатием и отпусканием кнопки мыши (click) нет изменения координат, то центруем изображение
+    //Center position / если между нажатием и отпусканием кнопки мыши (click) нет изменения координат, то центруем изображение
     if (e.type.search('touch') == -1 && finish.x === start.x && finish.y === start.y) {
       setPointX(0);
       setPointY(0);
     }
   }
-  //Выход курсора за пределы кадра останавливает move
+  //if onmouseleave, then stop move / Выход курсора за пределы кадра останавливает move
   function onLeave() {
     setPaning(false);
     setPos0(0);
   }
-  //Установка масштаба (ZOOM) раскадровки
+  //frames scale funtions / Установка масштаба (ZOOM) раскадровки
   const zoomPlus = () => {
     scale * 1.2 <= scaleMax ? setScale(scale * 1.2) : setScale(scaleMax);
     if (scale > 2) {

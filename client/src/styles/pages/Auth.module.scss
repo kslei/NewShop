@@ -24,6 +24,15 @@
 .form {
   @include flex-column;
   align-items: space-between;
+  &__error {
+    color: $danger;
+    margin-top: 10px;
+    min-height: 12px;
+    font-size: 12px;
+  }
+  &__hint {
+    color: $primary;
+  }
 }
 .row {
   @include flex-row;
@@ -55,7 +64,7 @@
   font-family: "Montserrat-Regular";
   color: $primary;
   &:hover {
-    color: #6702ff;
+    color: $hover;
     font-weight: 700;
   }
   &:active {
@@ -67,7 +76,7 @@
   position: absolute;
   width: 400px;
   @include flex-row-center;
-  top: -100px;
+  top: -50px;
   left: calc(50% - 200px);
   &__text {
     font-size:18px;

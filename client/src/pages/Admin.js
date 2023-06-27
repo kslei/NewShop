@@ -6,12 +6,14 @@ import CreateDevice from '../components/modals/CreateDevice';
 import CreateDelivery from '../components/modals/CreateDelivery';
 import { fetchBrands, fetchTypes, fetchDevices } from '../http/deviceAPI';
 import AdminDevice from '../components/AdminDevice';
+import AdminDelivery from '../components/AdminDelivery';
 import MyInput from '../forms/MyInput';
 import { Context } from '..';
 import { observer } from 'mobx-react-lite';
+import { fetchDelivery, removeDelivery } from '../http/deliveryAPI';
 import styles from '../styles/pages/Admin.module.scss';
 
-const Admin = observer(() => {
+const Admin = observer(({setErrorMessage}) => {
   const [brandVisible, setBrandVisible] = useState(false);
   const [typeVisible, setTypeVisible] = useState(false);
   const [deviceVisible, setDeviceVisible] = useState(false);
@@ -19,26 +21,42 @@ const Admin = observer(() => {
   const [note, setNote] = useState('')
   const [search, setSearch] = useState('');
   const {device} = useContext(Context)
+  const [delivery, setDelivery] = useState([])
 
   useEffect(() => {
     fetchTypes().then(data => device.setTypes(data))
     fetchBrands().then(data => device.setBrands(data))
-    fetchDevices(device.selectedType.id, device.selectedBrand.id, device.page, 100000).then(data => {
+    device.setNews(false)
+    device.setDiscount(0)
+    fetchDevices(device.selectedType.id, device.selectedBrand.id, device.page, 100000, device.news, device.discount).then(data => {
       device.setDevices(data.rows)
       device.setTotalCount(data.count)
     })
+    fetchDelivery().then(data => setDelivery(data))
   }, [device.selectedType, device.selectedBrand, device.page, device.limit])
 
   const brands = device.brands
   const types = device.types
+
+  //search devices
   const searchDevice = device.devices.filter(
     device => device.name.toLowerCase().includes(search.toLowerCase())
-  ) 
+  )
+
+  //showing note
   const onNote = (text) => {
     setNote(text.toUpperCase());
     setTimeout(() => {
       setNote('')
     }, 2000);
+  }
+
+  //remove delivery
+  const onRemove = (id) => {
+    removeDelivery({id: id}).then(data => onNote('Удалено')).catch (e => {
+      console.log(e.response.data.message);
+      setErrorMessage(e)
+    })
   }
 
   return (
@@ -52,8 +70,8 @@ const Admin = observer(() => {
       </div>
       <CreateBrand show={brandVisible} onHide={() => setBrandVisible(false)}/>
       <CreateType show={typeVisible} onHide={() => setTypeVisible(false)}/>
-      <CreateDevice show={deviceVisible} onHide={() => setDeviceVisible(false)}/>
-      <CreateDelivery show={deliveryVisible} onHide={() => setDeliveryVisible(false)}/>
+      <CreateDevice show={deviceVisible} onHide={() => setDeviceVisible(false)} setErrorMessage={setErrorMessage}/>
+      <CreateDelivery show={deliveryVisible} onHide={() => setDeliveryVisible(false)} setErrorMessage={setErrorMessage}/>
       <div className={styles.adminPanel}>
         <div className={styles.note}>{note}</div>
         <div className={styles.title}>Корректировка товара</div>
@@ -75,7 +93,16 @@ const Admin = observer(() => {
           <div></div>
         </div>
         {searchDevice.map(device =>
-          <AdminDevice key={device.id} device={device} brands={brands} types={types} onNote={onNote}/>  
+          <AdminDevice key={device.id} device={device} brands={brands} types={types} onNote={onNote} seterrormessage={setErrorMessage}/>  
+        )}
+        <div className={styles.title}>Корректировка доставки</div>
+        <div className={styles.adminDelivery}>
+          <div>id</div>
+          <div>Наименование</div>
+          <div></div>
+        </div>
+        {delivery.map(del => 
+          <AdminDelivery key={del.id} delivery={del} remove={onRemove}/>
         )}
       </div>
     </div>
