@@ -24,8 +24,8 @@ const Basket = observer(({setErrorMessage}) => {
   const [deliveryId, setDeliveryId] = useState(0);
   
   useEffect(() => {
-    if(sessionStorage.getItem('basketDevices')){
-      setBasketDevice(JSON.parse(sessionStorage.getItem('basketDevices')))
+    if (localStorage.getItem('basketDevices')){
+      setBasketDevice(JSON.parse(localStorage.getItem('basketDevices')))
     }
     //set Message
     if (basketDevice.length !==0) {
@@ -38,18 +38,18 @@ const Basket = observer(({setErrorMessage}) => {
   
   //delete device
   function deleteDevice(id) {
-    sessionStorage.setItem('basketDevices', JSON.stringify(basketDevice.filter(d => d.id !== id)))
-    if (basketDevice !== JSON.parse(sessionStorage.getItem('basketDevices'))) {
-      setBasketDevice(JSON.parse(sessionStorage.getItem('basketDevices')))
+    localStorage.setItem('basketDevices', JSON.stringify(basketDevice.filter(d => d.id !== id)))
+    if (basketDevice !== JSON.parse(localStorage.getItem('basketDevices'))) {
+      setBasketDevice(JSON.parse(localStorage.getItem('basketDevices')))
       onNote('УДАЛЕНО');
     }
   }
 
   //delete all devices
   function deleteAllDevice() {
-    sessionStorage.setItem('basketDevices', JSON.stringify([]))
-    if (basketDevice !== JSON.parse(sessionStorage.getItem('basketDevices'))) {
-      setBasketDevice(JSON.parse(sessionStorage.getItem('basketDevices')))
+    localStorage.setItem('basketDevices', JSON.stringify([]))
+    if (basketDevice !== JSON.parse(localStorage.getItem('basketDevices'))) {
+      setBasketDevice(JSON.parse(localStorage.getItem('basketDevices')))
       onNote('УДАЛЕНО');
     }
   }
@@ -86,7 +86,7 @@ const Basket = observer(({setErrorMessage}) => {
     if(deliveryId !== 0) {
       createOrder(basketDevice.map(device => device.id), basketDevice.map(device => device.quantity), userId, date, deliveryId).then(data =>
       {
-        sessionStorage.setItem('basketDevices', JSON.stringify([]));
+        localStorage.setItem('basketDevices', JSON.stringify([]));
         setMail(user.name, user.email, new Date());
         navigate(HOME_ROUTE)
       }).catch(e => setErrorMessage(e)) 

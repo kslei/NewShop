@@ -23,7 +23,7 @@ const DevicePage = () => {
   const [countImage, setCountImage] = useState(0);
   const {id} = useParams();
   const navigate = useNavigate();
-  var basketDevices = JSON.parse(sessionStorage.getItem('basketDevices'));
+  var basketDevices = JSON.parse(localStorage.getItem('basketDevices'));
   
   useEffect(()=>{
     fetchOneDevice(id).then(data=>{
@@ -61,7 +61,7 @@ const DevicePage = () => {
       quantity: orderNumber
     }
     basketDevices.push(orderDevice)
-    sessionStorage.setItem('basketDevices', JSON.stringify(basketDevices))
+    localStorage.setItem('basketDevices', JSON.stringify(basketDevices))
     navigate(BASKET_ROUTE)
   }
 

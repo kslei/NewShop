@@ -130,8 +130,8 @@ const Header = observer(({search, onSearch, onclick}) => {
         <div className={styles.user}>
           <div className={styles.box}>
             <div className={styles.icon + ' ' + styles.basket} onClick={() => navigate (BASKET_ROUTE)}></div>
-            {sessionStorage.getItem('basketDevices') && sessionStorage.getItem('basketDevices') && JSON.parse(sessionStorage.getItem('basketDevices')).length !== 0 &&
-              <div className={styles.numberbasket}>{JSON.parse(sessionStorage.getItem('basketDevices')).length}</div>
+            {localStorage.getItem('basketDevices') && localStorage.getItem('basketDevices') && JSON.parse(localStorage.getItem('basketDevices')).length !== 0 &&
+              <div className={styles.numberbasket}>{JSON.parse(localStorage.getItem('basketDevices')).length}</div>
             }
           </div>
           <div className={styles.box}>
