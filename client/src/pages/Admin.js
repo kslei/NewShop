@@ -11,6 +11,7 @@ import MyInput from '../forms/MyInput';
 import { Context } from '..';
 import { observer } from 'mobx-react-lite';
 import { fetchDelivery, removeDelivery } from '../http/deliveryAPI';
+import { useTranslation } from 'react-i18next';
 import styles from '../styles/pages/Admin.module.scss';
 
 const Admin = observer(({setErrorMessage}) => {
@@ -22,18 +23,21 @@ const Admin = observer(({setErrorMessage}) => {
   const [search, setSearch] = useState('');
   const {device} = useContext(Context)
   const [delivery, setDelivery] = useState([])
+  const {t, i18n} = useTranslation()
+   
+  let lng = i18n.language
 
   useEffect(() => {
-    fetchTypes().then(data => device.setTypes(data))
+    fetchTypes(lng).then(data => device.setTypes(data))
     fetchBrands().then(data => device.setBrands(data))
     device.setNews(false)
     device.setDiscount(0)
-    fetchDevices(device.selectedType.id, device.selectedBrand.id, device.page, 100000, device.news, device.discount).then(data => {
+    fetchDevices(device.selectedType.id, device.selectedBrand.id, device.page, 100000, device.news, device.discount, lng).then(data => {
       device.setDevices(data.rows)
       device.setTotalCount(data.count)
     })
     fetchDelivery().then(data => setDelivery(data))
-  }, [device.selectedType, device.selectedBrand, device.page, device.limit])
+  }, [device.selectedType, device.selectedBrand, device.page, device.limit, lng])
 
   const brands = device.brands
   const types = device.types
@@ -63,10 +67,10 @@ const Admin = observer(({setErrorMessage}) => {
   <div className={styles.container}>
     <div className={styles.wrapper}>
       <div className={styles.buttons}>
-        <div className={styles.buttons__btn}><MyButton danger={true} name='Добавить тип' onClick={() => setTypeVisible(true)} /></div>
-        <div className={styles.buttons__btn}><MyButton danger={true} name='Добавить бренд' onClick={() => setBrandVisible(true)} /></div>
-        <div className={styles.buttons__btn}><MyButton danger={true} name='Добавить товар' onClick={() => setDeviceVisible(true)} /></div>
-        <div className={styles.buttons__btn}><MyButton danger={true} name='Добавить доставку' onClick={() => setDeliveryVisible(true)} /></div>
+        <div className={styles.buttons__btn}><MyButton danger={true} name={t("Add") + " " + t("Type").toLowerCase()} onClick={() => setTypeVisible(true)} /></div>
+          <div className={styles.buttons__btn}><MyButton danger={true} name={t("Add") + " " + t("Brand").toLowerCase()} onClick={() => setBrandVisible(true)} /></div>
+          <div className={styles.buttons__btn}><MyButton danger={true} name={t("Add") + " " + t("Product_one").toLowerCase()} onClick={() => setDeviceVisible(true)} /></div>
+          <div className={styles.buttons__btn}><MyButton danger={true} name={t("Add") + " " + t("Delivery_1").toLowerCase()} onClick={() => setDeliveryVisible(true)} /></div>
       </div>
       <CreateBrand show={brandVisible} onHide={() => setBrandVisible(false)}/>
       <CreateType show={typeVisible} onHide={() => setTypeVisible(false)}/>
@@ -74,31 +78,31 @@ const Admin = observer(({setErrorMessage}) => {
       <CreateDelivery show={deliveryVisible} onHide={() => setDeliveryVisible(false)} setErrorMessage={setErrorMessage}/>
       <div className={styles.adminPanel}>
         <div className={styles.note}>{note}</div>
-        <div className={styles.title}>Корректировка товара</div>
+        <div className={styles.title}>{t("Product Adjustment")}</div>
         <div>
-          <MyInput sm={"true"} type='text' value={search} placeholder='Поиск...' onChange={e => setSearch(e.target.value)} />
+          <MyInput sm={"true"} type='text' value={search} placeholder={t("Search_by_name")} onChange={e => setSearch(e.target.value)} />
         </div>
         <div className={styles.adminDevice}>
           <div>id</div>
-          <div>Тип</div>
-          <div>Бренд</div>
-          <div>Наименование</div>
-          <div>Цена</div>
-          <div>Скидка</div>
-          <div>Кол-во</div>
+          <div>{t("Type")}</div>
+          <div>{t("Brand")}</div>
+          <div>{t("Product_name")}</div>
+          <div>{t("Price")}</div>
+          <div>{t("Discount")}</div>
+          <div>{t("Quantity")}</div>
           <div>New</div>
-          <div>Изображение</div>
-          <div>Медиа</div>
-          <div>Инфо</div>
+          <div>Image</div>
+          <div>Media</div>
+          <div>Info</div>
           <div></div>
         </div>
         {searchDevice.map(device =>
           <AdminDevice key={device.id} device={device} brands={brands} types={types} onNote={onNote} seterrormessage={setErrorMessage}/>  
         )}
-        <div className={styles.title}>Корректировка доставки</div>
+          <div className={styles.title}>{t("Delivery Adjustment")}</div>
         <div className={styles.adminDelivery}>
           <div>id</div>
-          <div>Наименование</div>
+          <div>{t("Name_1") + " " + t("Delivery_2").toLowerCase()}</div>
           <div></div>
         </div>
         {delivery.map(del => 

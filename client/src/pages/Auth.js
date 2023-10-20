@@ -6,9 +6,13 @@ import { observer } from 'mobx-react-lite';
 import { Context } from '../index';
 import MyInput from '../forms/MyInput';
 import MyButton from '../forms/MyButton';
+import { useTranslation } from 'react-i18next';
 import styles from '../styles/pages/Auth.module.scss';
 
 const Auth = observer(({ setErrorMessage }) => {
+  //multilanguage
+  const { t } = useTranslation()
+
   const { user } = useContext(Context)
   const location = useLocation()
   const navigate = useNavigate()
@@ -19,10 +23,10 @@ const Auth = observer(({ setErrorMessage }) => {
   const [phone, setPhone] = useState('')
   const [message, setMessage] = useState('')
   //validation states
-  const [emailError, setEmailError] = useState('email не может быть пустым')
-  const [passwordError, setPasswordError] = useState('password не может быть пустым')
-  const [nameError, setNameError] = useState('Имя не может быть пустым')
-  const [phoneError, setPhoneError] = useState('Телефон не может быть пустым')
+  const [emailError, setEmailError] = useState(`email ${t("cannot be empty")}`)
+  const [passwordError, setPasswordError] = useState(`password ${t("cannot be empty")}`)
+  const [nameError, setNameError] = useState(`${t("Name")} ${t("cannot be empty")}`)
+  const [phoneError, setPhoneError] = useState(`${t("Phone")} ${t("cannot be empty")}`)
   const [emailDirty, setEmailDirty] = useState(false)
   const [passwordDirty, setPasswordDirty] = useState(false)
   const [nameDirty, setNameDirty] = useState(false)
@@ -63,40 +67,40 @@ const Auth = observer(({ setErrorMessage }) => {
         setEmail(e.target.value)
         const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         if (!re.test(String(e.target.value).toLowerCase()) && String(e.target.value).length !==0) {
-          setEmailError('Некорректный email')
+          setEmailError(`${t("Incorrect_male")} email`)
         } else {
           setEmailError('')
         }
-        if (String(e.target.value).length === 0) setEmailError(`Поле "${e.target.name}" не может быть пустым`)
+        if (String(e.target.value).length === 0) setEmailError(`${t("Field")} "${e.target.name}" ${t("cannot be empty")}`)
         break
       case 'password':
         setPassword(e.target.value)
         const rp = /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g
         if (!rp.test(String(e.target.value)) && String(e.target.value).length !== 0) {
-          setPasswordError('Некорректный password')
+          setPasswordError(`${t("Incorrect_male")} password`)
         } else {
           setPasswordError('')
         }
-        if (String(e.target.value).length === 0) setPasswordError(`Поле "${e.target.name}" не может быть пустым`)
+        if (String(e.target.value).length === 0) setPasswordError(`${t("Field")} "${e.target.name}" ${t("cannot be empty")}`)
       break
       case 'name':
         setName(e.target.value)
         if (String(e.target.value).length > 1 && String(e.target.value).length <= 10) {
           setNameError('')
         } else {
-          setNameError('Некорректное имя')
+          setNameError(`${t("Incorrect")} ${t("Name").toLowerCase()}`)
         }
-        if (String(e.target.value).length === 0) setNameError(`Поле "${e.target.name}" не может быть пустым`)
+        if (String(e.target.value).length === 0) setNameError(`${t("Field")} "${e.target.name}" ${t("cannot be empty")}`)
       break
       case 'phone':
         setPhone(e.target.value)
         const rph = /^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){11,14}(\s*)?$/
         if (!rph.test(String(e.target.value)) && String(e.target.value).length !== 0) {
-          setPhoneError('Некорректный номер телефона')
+          setPhoneError(`${t("Incorrect_male")} ${t("Phone").toLowerCase()}`)
         } else {
           setPhoneError('')
         }
-        if (String(e.target.value).length === 0) setPhoneError(`Поле "${e.target.name}" не может быть пустым`)
+        if (String(e.target.value).length === 0) setPhoneError(`${t("Field")} "${e.target.name}" ${t("cannot be empty")}`)
       break
     }
   }
@@ -174,7 +178,7 @@ const Auth = observer(({ setErrorMessage }) => {
           </div>
         }
         <div className={styles.card}>
-          <h2 className={styles.card__text}>{isLogin ? 'Авторизация' : "Регистрация"}</h2>
+          <h2 className={styles.card__text}>{isLogin ? t("Authorization") : t("Registration")}</h2>
           <div className={styles.form}>
             <div className={styles.form__error}>
               {(emailDirty && emailError) && <div>{emailError}</div>}
@@ -183,19 +187,19 @@ const Auth = observer(({ setErrorMessage }) => {
               onBlur={e => blurHandler(e)}
               name='email'
               type='text'
-              placeholder="Введите email"
+              placeholder={t("Enter")+" Email"}
               value={email}
               onChange={e => inputHandler(e)}
             />
             <div className={styles.form__error}>
-              {(passwordDirty && passwordError) ? <div>{passwordError}</div>:<div className={styles.form__hint}>Пароль не менее 8 символов: заглавные, строчные буквы и цифры</div>}
+              {(passwordDirty && passwordError) ? <div>{passwordError}</div>:<div className={styles.form__hint}>{t("password_rule")}</div>}
             </div>
             <form>
               <MyInput
               onBlur={e => blurHandler(e)}
               name='password'
               type='password'
-              placeholder="Введите пароль"
+              placeholder={t("Enter") + " " + t("password")}
               value={password}
               onChange={e => inputHandler(e)}
               autoComplete='on'
@@ -205,24 +209,24 @@ const Auth = observer(({ setErrorMessage }) => {
             {!isLogin &&
               <div>
                 <div className={styles.form__error}>
-                  {(nameDirty && nameError) ? <div>{nameError}</div> : <div className={styles.form__hint}>Имя должно быть не менее 2 и не более 10 символов</div>}
+                  {(nameDirty && nameError) ? <div>{nameError}</div> : <div className={styles.form__hint}>{t("name_rule")}</div>}
                 </div>
                 <MyInput
                   onBlur={e => blurHandler(e)}
                   name='name'
                   type='text'
-                  placeholder="Введите имя"
+                  placeholder={t("Enter") + " " + t("name")}
                   value={name}
                   onChange={e => inputHandler(e)}
                 />
                 <div className={styles.form__error}>
-                  {(phoneDirty && phoneError) ? <div>{phoneError}</div> : <div className={styles.form__hint}>Телефон в формате "+ код страны   код оператора   номер"</div>}
+                  {(phoneDirty && phoneError) ? <div>{phoneError}</div> : <div className={styles.form__hint}>{t("phone_rule")}</div>}
                 </div>
                 <MyInput
                   onBlur={e => blurHandler(e)}
                   name='phone'
                   type='text'
-                  placeholder="Введите телефон"
+                  placeholder={t("Enter") + " " + t("phone")}
                   value={phone}
                   onChange={e => inputHandler(e)}
                 />
@@ -231,15 +235,15 @@ const Auth = observer(({ setErrorMessage }) => {
             <div className={styles.row}>
               {isLogin ?
                 <div className={styles.quest}>
-                  Нет аккаунта? <NavLink className={styles.link} to={REGISTRATION_ROUTE}>Зарегистрируйся</NavLink>
+                  {t("No_account?")}<NavLink className={styles.link} to={REGISTRATION_ROUTE}>{t("Sign_up")}</NavLink>
                 </div>
                 :
                 <div className={styles.quest}>
-                  Есть аккаунт? <NavLink className={styles.link} to={LOGIN_ROUTE}>Войдите</NavLink>
+                  {t("Have_an_account?")} <NavLink className={styles.link} to={LOGIN_ROUTE}>{t("Login")}</NavLink>
                 </div>}
               <div className={styles.button}>
-                <MyButton name={"Выйти"} danger={true} onClick={() => navigate(HOME_ROUTE)} />
-                <MyButton name={isLogin ? "Войти" : "Регистрация"} onClick={click} disabled={disabled}></MyButton>
+                <MyButton name={t("Cancel")} danger={true} onClick={() => navigate(HOME_ROUTE)} />
+                <MyButton name={isLogin ? t("Sign_in") : t("Registration")} onClick={click} disabled={disabled}></MyButton>
               </div>  
               
             </div>

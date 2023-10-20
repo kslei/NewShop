@@ -1,6 +1,7 @@
 const uuid = require('uuid')
 const path = require('path')
 const { Brand } = require('../models/models')
+const i18next = require('i18next');
 const ApiError = require('../error/ApiError');
 
 class BrandController {
@@ -10,15 +11,15 @@ class BrandController {
       const { img } = req.files
       //validation brand name
       if (!name) {
-        return next(ApiError.badRequest('Некорректное название'))
+        return next(ApiError.badRequest(`${i18next.t("Incorrect")} ${i18next.t("Name").toLowerCase()}`))
       }
       const oldName = await Brand.findOne({ where: { name } })
       if (oldName) {
-        return next(ApiError.badRequest('Бренд с таким названием существует'))
+        return next(ApiError.badRequest(`${i18next.t("Brand exists")}`))
       }
       //validation image
       if(img.mimetype !== 'image/jpeg') {
-        return next(ApiError.badRequest('Некорректный тип файла'))
+        return next(ApiError.badRequest(`${i18next.t("Incorrect_male")} ${i18next.t("File").toLowerCase()}`))
       }
       //creating a unique file name
       let fileName = uuid.v4() + ".jpg"

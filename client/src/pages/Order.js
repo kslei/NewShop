@@ -4,22 +4,26 @@ import OrderCard from '../components/OrderCard';
 import MyMenu from '../forms/MyMenu';
 import { fetchBasket } from '../http/orderAPI';
 import { Context } from '../index';
+import { useTranslation } from 'react-i18next';
 import styles from '../styles/pages/Order.module.scss';
 
 const Order = observer(({setErrorMessage}) => {
-  const [status, SetStatus] = useState('В обработке')
+  const [status, setStatus] = useState('In_processing')
   const [message, setMessage] = useState('');
   const {order} = useContext(Context)
+  const {t, i18n} = useTranslation()
+
   const statusMenu = [
-    { id: 1, name: "В обработке", value: "В обработке" },
-    { id: 2, name: "Выполнен", value: "Выполнен" },
-    { id: 3, name: "Отклонен", value: "Отклонен" },
+    { id: 1, name: `${t("In_processing")}`, value: "In_processing" },
+    { id: 2, name: `${t("Executed")}`, value: "Executed" },
+    { id: 3, name: `${t("Rejected")}`, value: "Rejected" },
   ]
 
   const onStatus = (item) => {
-    SetStatus(item.value)
+    setStatus(item.value)
   }
 
+  
   useEffect(()=>{
     setTimeout(()=>{
       setMessage('')
@@ -27,7 +31,7 @@ const Order = observer(({setErrorMessage}) => {
   }, [message])
 
   useEffect(()=>{
-    fetchBasket(status).then(data=>{
+    fetchBasket(status, i18n.language).then(data=>{
       if (Array.isArray(data)) {
         order.setOrders(data)
         setMessage('')
@@ -36,15 +40,15 @@ const Order = observer(({setErrorMessage}) => {
         setMessage(data.data.message);
       }
       })
-  }, [status])
+  }, [status, i18n.language])
   
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
         <div className={styles.menu}>
-          <span className={styles.title}>Показать заказы:</span>
+          <span className={styles.title}>{t("Show")} <span style={{textTransform: "lowercase"}}>{t("Orders")}</span>:</span>
           <div className={styles.menu__btn}>
-            <MyMenu name={'Статус'} menu={statusMenu} click={onStatus} />
+            <MyMenu name={t("Status")} menu={statusMenu} click={onStatus} />
           </div>
         </div>
         <div className={styles.orderPanel}>

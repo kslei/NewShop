@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from '../forms/Image';
 import styles from '../styles/components/BrandItem.module.scss';
 
 const BrandItem = ({ brand, onclick }) => {

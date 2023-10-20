@@ -1,6 +1,7 @@
 const { Delivery } = require('../models/models')
 const ApiError = require('../error/ApiError');
 const { validationResult } = require('express-validator')
+const i18next = require('i18next');
 
 class DeliveryController {
   async create(req, res, next) {
@@ -23,6 +24,10 @@ class DeliveryController {
 
   async getAll(req, res) {
     const deliveries = await Delivery.findAll()
+    deliveries.map(delivery => {
+      let name = i18next.t(delivery.name)
+      delivery.name = name
+    })
     return res.json(deliveries)
   }
 

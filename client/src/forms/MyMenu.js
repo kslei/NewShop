@@ -28,7 +28,7 @@ const MyMenu = ({name, danger, sm, menu, click, rev, isAuth, close}) => {
   rev? menuItems = styles.menu__items_rev : menuItems = styles.menu__items;
   
   return (
-  <div className={styles.menu}>
+    <div className={styles.menu} /* onBlur={() => setVisible(false)} */>
     {name
     ? <MyButton name={name} sm={sm} onClick = {(e) => onVisible(visible, e)} danger={danger} ></MyButton>
     : <div className={authStyle} onClick = {(e) => onVisible(visible, e)} ></div>

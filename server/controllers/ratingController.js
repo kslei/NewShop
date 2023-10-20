@@ -1,3 +1,4 @@
+const i18next = require('i18next');
 const ApiError = require('../error/ApiError');
 const { Rating } = require('../models/models');
 const deviceController = require('./deviceController');
@@ -8,12 +9,12 @@ class RatingController {
       let { rate, userId, deviceId } = req.body
       //is autorized?
       if (!userId) {
-        return next(ApiError.badRequest("Войдите в свою учетную запись или зарегистрируйтесь"))
+        return next(ApiError.badRequest(`${i18next.t("Login to your account or register")}`))
       }
       //get rating for this user & this device, if !rating => create rate
       let grade = await Rating.findOne({ where: { userId, deviceId } })
       if (grade) {
-        return next(ApiError.badRequest('Вы уже ставили оценку'))
+        return next(ApiError.badRequest(`${i18next.t("You've already rated")}`))
       }
       await Rating.create({ rate, userId, deviceId })
 

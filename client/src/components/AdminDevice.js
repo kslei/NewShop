@@ -3,9 +3,12 @@ import InfoItem from './InfoItem';
 import MyInput from '../forms/MyInput';
 import MyButton from '../forms/MyButton';
 import MyMenu from '../forms/MyMenu';
-import { fetchOneDevice, updateDevice, createInfo, updateImage, createImage, updateFrame, createFrame } from '../http/deviceAPI';
-import styles from '../styles/components/AdminDevice.module.scss';
+import { updateDevice, createInfo, updateImage, createImage, updateFrame, createFrame, fetchInfo } from '../http/deviceAPI';
 import DeviceMedia from './DeviceMedia';
+import { fetchOneLocale, updateLocale } from '../http/languageAPI';
+import { useTranslation } from 'react-i18next';
+import Translate from './modals/Translate';
+import styles from '../styles/components/AdminDevice.module.scss';
 
 const AdminDevice = ({device, brands, types, onNote, seterrormessage}) => {
   const [name, setName] = useState(device.name)
@@ -21,9 +24,14 @@ const AdminDevice = ({device, brands, types, onNote, seterrormessage}) => {
   const [mediaVisible, setMediaVisible] = useState(false)
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
-  
+  const [key, setKey] = useState('')
+  const [show, setShow] = useState(false)
+  const {t, i18n} = useTranslation()
+  let lng = i18n.language.split('-', 1)[0]
+      
   useEffect(() => {
-    fetchOneDevice(device.id).then(data => { setInfo(data.info)})
+    fetchInfo(device.id).then(data=>setInfo(data))
+    fetchOneLocale(lng, device.name).then(data => setKey(data.key))
   }, [])
 
   const selectFile = e => {
@@ -59,7 +67,8 @@ const AdminDevice = ({device, brands, types, onNote, seterrormessage}) => {
   const update = () => {
     const formData = new FormData()
     formData.append('id', device.id)
-    formData.append('name', name)
+    //formData.append('name', name)
+    formData.append('name', key)
     formData.append('price', `${price}`)
     formData.append('discount', `${discount}`)
     formData.append('number', `${number}`)
@@ -68,7 +77,10 @@ const AdminDevice = ({device, brands, types, onNote, seterrormessage}) => {
     formData.append('brandId', brand.id)
     formData.append('typeId', type.id)
     formData.append('info', JSON.stringify(info))
-    updateDevice(formData).then(data => onNote('Изменено')).catch(e=>{
+    updateDevice(formData).then(data => {
+      
+      updateLocale(lng, key, name).then(data => onNote(`${t('Modified')}`))
+    }).catch(e=>{
       if (e.response.data.message) onNote(e.response.data.message)
       if (e.response.data.errors) seterrormessage(e)
     })
@@ -80,13 +92,13 @@ const AdminDevice = ({device, brands, types, onNote, seterrormessage}) => {
     formData.append('id', id)
     formData.append('deviceId', device.id)
     formData.append('img', file)
-    updateImage(formData).then(data => onNote('Изменено')).catch(e=>onNote(e.response.data.message))
+    updateImage(formData).then(data => onNote(`${t('Modified')}`)).catch(e=>onNote(e.response.data.message))
   }
   const createImg = () => {
     const formData = new FormData()
     formData.append('deviceId', device.id)
     formData.append('img', file)
-    createImage(formData).then(data => onNote('Записано')).catch(e=>onNote(e.response.data.message))
+    createImage(formData).then(data => onNote(`${t('Recorded')}`)).catch(e=>onNote(e.response.data.message))
   }
 
   //update/create frames (img) for DeviceMedia
@@ -95,22 +107,29 @@ const AdminDevice = ({device, brands, types, onNote, seterrormessage}) => {
     formData.append('id', id)
     formData.append('deviceId', device.id)
     formData.append('frame', file)
-    updateFrame(formData).then(data => onNote('Изменено'))
+    updateFrame(formData).then(data => onNote(`${t('Modified')}`))
   }
   const createFrm = () => {
     const formData = new FormData()
     formData.append('deviceId', device.id)
     formData.append('frame', file)
-    createFrame(formData).then(data => onNote('Записано'))
+    createFrame(formData).then(data => onNote(`${t('Recorded')}`))
   }
   
   //create new information
   const newInfo = (deviceId, title, description) => {
     createInfo({ deviceId: deviceId, title: title, description: description }).then(data => {
-      setTitle('');
+      setShow(true)
+      /* setTitle('');
       setDescription('');
-      onNote('Записано')
+      onNote(`${t('Recorded')}`) */
     })
+  }
+  const onHide = () => {
+    setShow(false)
+    setTitle('');
+      setDescription('');
+      onNote(`${t('Recorded')}`)
   }
 
   return (
@@ -128,7 +147,7 @@ const AdminDevice = ({device, brands, types, onNote, seterrormessage}) => {
         <input type='file' name='file' onChange={selectFile} accept='image/jpeg'/>
         <MyButton name={'Media'} sm={true} onClick={()=> onMediaVisible(mediaVisible)} />
         <MyButton name={'Info'} sm={true} onClick={()=> onInfoVisible(infoVisible)} />
-        <MyButton name={'Изменить'} danger={true} sm={true} onClick={() => update()}/>
+        <MyButton name={t("Change")} danger={true} sm={true} onClick={() => update()}/>
       </div>
       {mediaVisible &&
         <div className={styles.media}>
@@ -139,15 +158,31 @@ const AdminDevice = ({device, brands, types, onNote, seterrormessage}) => {
       }
       {infoVisible && 
         <div className={styles.info}>
+          <div className={styles.infotitle}>
+            <div className={styles.infotitle__data}>id</div>
+            <div className={styles.infotitle__data}>{t("Title")}</div>
+            <div className={styles.infotitle__data}>{t("Title")} EN</div>
+            <div className={styles.infotitle__data}>{t("Title")} RU</div>
+            <div className={styles.infotitle__data}>{t("Title")} UK</div>
+            <div className={styles.infotitle__data}>{t("Description")}</div>
+            <div className={styles.infotitle__data}>{t("Description")} EN</div>
+            <div className={styles.infotitle__data}>{t("Description")} RU</div>
+            <div className={styles.infotitle__data}>{t("Description")} UK</div>
+            <div></div>
+          </div>
           {info.map(info => 
             <InfoItem  key={info.id} info={info} add={addInfo} />
           )}
           <div className={styles.info__create} >
             <div>{device.id}</div>
-            <MyInput sm={"true"} type='text' value={title} placeholder='Введите название свойства' onChange={e => setTitle(e.target.value)}/>
-            <MyInput sm={"true"} type='text' value={description} placeholder='Введите описание свойства' onChange={e => setDescription(e.target.value)}/>
-            <MyButton sm={true} danger={true} name={'Добавить'} onClick={() => newInfo(device.id, title, description)}/>
+            <MyInput sm={"true"} type='text' value={title} placeholder={t("Enter") +" "+t("Title").toLowerCase()+" "+t("in English")} onChange={e => setTitle(e.target.value)}/>
+            <MyInput sm={"true"} type='text' value={description} placeholder={t("Enter") + " " + t("Description").toLowerCase() + " " + t("in English")} onChange={e => setDescription(e.target.value)}/>
+            <MyButton sm={true} danger={true} name={t("Add")} onClick={() => newInfo(device.id, title, description)}/>
           </div>
+          <div style={{width: "50%"}}>
+            <Translate show={show} onHide={onHide} info={[{title: title, description: description}]} />
+          </div>
+          
         </div>
       }
     </div>

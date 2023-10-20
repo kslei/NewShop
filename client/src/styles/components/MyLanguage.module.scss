@@ -1,0 +1,113 @@
+@import '../base/app.scss';
+
+$paddingLi: 5px;
+$paddingSm: 2px;
+$fontSize: 14px;
+$indent: calc($fontSize*1.2 + 1px + (2 * $paddingLi));
+$indentsm: calc($fontSize*1.2 + 1px + (2 * $paddingSm));
+$time: 0.25s;
+
+:export {
+  padding: $paddingLi;
+  paddingsm: $paddingSm;
+  fontSize: $fontSize;
+  indent: $indent;
+  indentsm: $indentsm;
+}
+
+.myMenu {
+  position: relative;
+  margin: 5px;
+
+  .button {
+    position: relative;
+    padding: $paddingLi;
+    background: var(--background);
+    color: var(--color);
+    @include border;
+    border-color: var(--border);
+    font-family: "Montserrat-regular";
+    font-style: italic;
+    font-size: inherit;
+    &::after {
+      position: absolute;
+      content: '';
+      width: calc(100% - 8px);
+      left: 4px;
+      bottom: 0;
+      height: 1px;
+    }
+
+    &:hover
+
+    /* , &:focus */
+      {
+      cursor: pointer;
+      color: var(--hover);
+      background: var(--backgroundhover);
+      border-color: var(--borderhover);
+      @include animation(var(--color), var(--background), var(--hover), var(--backgroundhover), $time);
+
+      &::after {
+        @include animationafter(transparent, var(--bottom), $time);
+      }
+    }
+
+    &:focus {
+      border-color: var(--borderactive);
+
+      &::after {
+        background: var(--bottom);
+      }
+    }
+
+    &:active {
+      background: var(--backgroundactive);
+      color: var(--active);
+      border-color: var(--borderactive);
+      animation-fill-mode: none;
+
+      &::after {
+        animation-fill-mode: none;
+        background: var(--bottomactive);
+      }
+    }
+  }
+}
+
+.list {
+  position: absolute;
+  //bottom: 28px;
+  left: 0;
+  //width: 150px;
+  height: 0;
+  z-index: 10;
+  border: 2px solid $back;
+  transition: 300ms all ease-in;
+  overflow: hidden;
+
+  li {
+    padding: $paddingLi;
+    font-size: $fontSize;
+    background-color: var(--background);
+    color: var(--color);
+
+    &:hover {
+      color: var(--hover);
+      background-color: var(--backgroundhover);
+      cursor: pointer;
+      transition: $time all;
+    }
+
+    &:focus {
+      color: var(--hover);
+      background-color: var(--backgroundhover);
+      border: var(--borderactive);
+    }
+
+    &:active {
+      color: var(--active);
+      background-color: var(--backgroundactive);
+    }
+  }
+}

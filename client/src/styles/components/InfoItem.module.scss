@@ -1,8 +1,9 @@
 @import '../base/app.scss';
 
+
 .infoItem {
   display: grid;
-  grid-template-columns: 1fr 6fr 8fr 2fr;
+  grid-template-columns: 4fr 11fr 11fr 11fr 11fr 11fr 11fr 11fr 11fr 8fr;
 }
 .infoId {
   @include border-sm;

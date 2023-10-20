@@ -1,4 +1,5 @@
 import axios from "axios";
+import i18next from "i18next";
 
 const $host = axios.create({
   baseURL: process.env.REACT_APP_API_URL

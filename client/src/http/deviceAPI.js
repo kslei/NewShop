@@ -5,8 +5,10 @@ export const createType = async (type)=> {
   return data
 }
 
-export const fetchTypes = async () => {
-  const { data } = await $host.get('api/type')
+export const fetchTypes = async (lng) => {
+  const { data } = await $host.get('api/type', {
+    params: {lng}
+  })
   return data
 }
 
@@ -35,17 +37,21 @@ export const updateDevice = async(device) => {
   return data
 }
 
-export const fetchDevices = async (typeId, brandId, page, limit, news, discount) => {
+export const fetchDevices = async (typeId, brandId, page, limit, news, discount, lng) => {
   const { data } = await $host.get('api/device', {
     params: {
-      typeId, brandId, page, limit, news, discount
+      typeId, brandId, page, limit, news, discount, lng
     }
   })
   return data
 }
 
-export const fetchOneDevice = async (id) => {
-  const { data } = await $host.get('api/device/' + id)
+export const fetchOneDevice = async (id, lng) => {
+  const { data } = await $host.get('api/device/' + id, {
+    params: {
+      lng
+    }
+  })
   return data
 }
 
@@ -75,5 +81,14 @@ export const createImage = async (image) => {
 
 export const updateImage = async (image) => {
   const { data } = await $authHost.put('api/image', image)
+  return data
+}
+
+export const fetchInfo = async (deviceId) => {
+  const {data} = await $host.get('api/info', {
+    params: {
+      deviceId
+    }
+  })
   return data
 }

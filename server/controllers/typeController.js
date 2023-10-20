@@ -1,7 +1,9 @@
 const uuid = require('uuid')
 const path = require('path')
 const {Type} = require('../models/models')
+const i18next = require('i18next');
 const ApiError = require('../error/ApiError');
+
 
 class TypeController {
   async create(req, res, next) {
@@ -10,15 +12,15 @@ class TypeController {
       const { img } = req.files
       //validation type name
       if (!name) {
-        return next(ApiError.badRequest('Некорректное название'))
+        return next(ApiError.badRequest(`${i18next.t("Incorrect")} ${i18next.t("Name").toLowerCase()}`))
       }
       const oldName = await Type.findOne({ where: { name } })
       if (oldName) {
-        return next(ApiError.badRequest('Тип с таким названием существует'))
+        return next(ApiError.badRequest(`${i18next.t("Type exists")}`))
       }
       //validation image
       if (img.mimetype !== 'image/jpeg') {
-        return next(ApiError.badRequest('Некорректный тип файла'))
+        return next(ApiError.badRequest(`${i18next.t("Incorrect_male")} ${i18next.t("File").toLowerCase()}`))
       }
       //creating a unique file name
       let fileName = uuid.v4() + ".jpg"
@@ -31,8 +33,13 @@ class TypeController {
   }
 
   async getAll(req, res) {
-    const types = await Type.findAll({order: ['id']})
-    return res.json(types) 
+    let types = await Type.findAll({order: ['id']})
+    //console.log("LANG", i18next.language)
+    types.map(type => {
+      let name = i18next.t(type.name)
+      type.name = name
+    })
+    return res.json(types)
   }
 
 }

@@ -10,6 +10,8 @@ import TypeItem from '../components/TypeItem';
 import BrandItem from '../components/BrandItem';
 import styles from '../styles/pages/Home.module.scss';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+//import i18n from '../i18n';
 
 const Home = observer(({ searchQuery }) => {
   const {device} = useContext(Context);
@@ -17,28 +19,32 @@ const Home = observer(({ searchQuery }) => {
   const { discountdevice } = useContext(Context);
   const [translateX, setTranslateX] = useState('-100%');
   const navigate = useNavigate()
+  //multilanguage
+  const {t, i18n} = useTranslation()
+  let lng = i18n.language
+
   let discountMax;
   if (discountdevice.discount.length !== 0) { discountMax = discountdevice.discount.slice().sort((a, b) => b.discount - a.discount)[0].discount }
 
   useEffect(() => { 
     fetchTypes().then(data => device.setTypes(data))
     fetchBrands().then(data => device.setBrands(data))
-    fetchDevices(device.selectedType.id, device.selectedBrand.id, device.page, device.limit).then(data => {
+    fetchDevices(device.selectedType.id, device.selectedBrand.id, device.page, device.limit, "false", 0, lng).then(data => {
       device.setDevices(data.rows)
       device.setTotalCount(data.count)
     })
     device.setNews(true)
-    fetchDevices(device.selectedType.id, device.selectedBrand.id, device.page, device.limit, device.news).then(data => {
+    fetchDevices(device.selectedType.id, device.selectedBrand.id, device.page, device.limit, device.news, 0, lng).then(data => {
       newdevice.setNews(data)
       setTimeout(() => {
         setTranslateX(0);
       }, 50)
     })
     device.setDiscount(20)
-    fetchDevices(device.selectedType.id, device.selectedBrand.id, device.page, device.limit, "false", device.discount).then(data => {
-      discountdevice.setDiscount(data)
+    fetchDevices(device.selectedType.id, device.selectedBrand.id, device.page, device.limit, "false", device.discount, lng).then(data => {
+      discountdevice.setDiscount(data);
     })
-  }, [device.selectedType, device.selectedBrand, device.page, device.limit])
+  }, [device.selectedType, device.selectedBrand, device.page, device.limit, i18n.language])
 
   //go to shop when search
   useEffect(() => {
@@ -62,13 +68,13 @@ const Home = observer(({ searchQuery }) => {
   <div>
     <div className={styles.wrapper} style={{ flexDirection: 'column' }}>
       {newdevice.news.length !== 0 &&
-        <div className={styles.sectionTitle + ' ' + styles.red} style={{ transform: `translateX(${translateX})` }}>Новинки</div>
+        <div className={styles.sectionTitle + ' ' + styles.red} style={{ transform: `translateX(${translateX})` }}>{t("New")}</div>
       }
       {newdevice.news.length !== 0 &&
         <SliderNews devices={newdevice.news.slice().sort((a, b) => b.id - a.id)} />
       }
       {discountdevice.discount.length !== 0 &&
-        <div className={styles.sectionTitle + ' ' + styles.orange}>Скидки до {discountMax}%</div>
+        <div className={styles.sectionTitle + ' ' + styles.orange}>{t("Discounts")} {t("up_to")} {discountMax}%</div>
       }
       {discountdevice.discount.length !== 0 &&
         <DiscountList devices={discountdevice.discount} />
@@ -77,13 +83,13 @@ const Home = observer(({ searchQuery }) => {
         <Slider />
       }
 
-      <div className={styles.sectionTitle}>Категории</div>
+      <div className={styles.sectionTitle}>{t("Categories")}</div>
       <div className={styles.type}>
         {device.types.map(type =>
           <TypeItem key={type.id} type={type} onclick={clickType} />
         )}
       </div>
-      <div className={styles.sectionTitle}>Бренды</div>
+      <div className={styles.sectionTitle}>{t("Brands")}</div>
       <div className={styles.type}>
         {device.brands.map(brand =>
           <BrandItem key={brand.id} brand={brand} onclick={clickBrand} />

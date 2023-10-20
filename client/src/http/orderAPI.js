@@ -10,11 +10,12 @@ export const createMail = async(email, message) => {
   return data
 }
 
-export const fetchBasket = async (status) => {
+export const fetchBasket = async (status, lng) => {
   try {
     const { data } = await $authHost.get('api/order', {
     params: {
       status: status,
+      lng
     }
   })
   return data

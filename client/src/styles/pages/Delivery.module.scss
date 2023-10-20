@@ -6,14 +6,16 @@
 }
 .message {
   width: 100%;
-  top: calc(50% - 17px);
+  top: calc(50% - 20px);
   left: 0;
   position: absolute;
-  font-size: 34px;
+  font-size: 40px;
   font-weight: 700;
   color: $danger;
   @include flex-row-center;
-  opacity: 0.6;
+  opacity: 0.7;
+  text-transform: uppercase;
+  rotate: -30deg;
 }
 
 .delivery {

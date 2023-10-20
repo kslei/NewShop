@@ -26,6 +26,31 @@
     justify-content: space-around;
     margin:10px;
   }
+  &__language {
+    padding: 10px 0;
+    font-size: 22px;
+    color: $primary;
+    width: 170%;
+    background-color: $back;
+    @include border;
+    @include flex-column-center;
+    &_row {
+      @include flex-row-center;
+    }
+    &_column {
+      @include flex-column;
+      margin: 10px;
+    }
+    &_title {
+      width: calc(100% - 30px);
+      padding: 5px 15px;
+      margin: 5px 0;
+      font-size: 14px;
+      font-family: "Montserrat-Regular";
+      border: 1px solid #b1c610;
+      border-radius: 5px;
+    }
+  }
   .info {
     width: 100%;
     @include flex-row;

@@ -1,6 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const { DeviceFrame } = require('../models/models')
+const i18next = require('i18next')
 const ApiError = require('../error/ApiError')
 
 class FrameController {
@@ -10,7 +11,7 @@ class FrameController {
       const {frame} = req.files;
       //validation frame
       if (frame.mimetype !== 'image/jpeg' && frame.mimetype !== 'image/png') {
-        return next(ApiError.badRequest('Некорректный тип файла'))
+        return next(ApiError.badRequest(`${i18next.t("Incorrect_male")} ${i18next.t("File").toLowerCase()}`))
       }
       //creating a file name
       let fileName = frame.name;
@@ -30,7 +31,7 @@ class FrameController {
       const { frame } = req.files;
       //validation frame
       if (frame.mimetype !== 'image/jpeg' && frame.mimetype !== 'image/png') {
-        return next(ApiError.badRequest('Некорректный тип файла'))
+        return next(ApiError.badRequest(`${i18next.t("Incorrect_male")} ${i18next.t("File").toLowerCase()}`))
       }
       //create a file name
       let fileName = frame.name;

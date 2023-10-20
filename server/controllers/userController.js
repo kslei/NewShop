@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const {User, Order} = require('../models/models')
 const { validationResult } = require("express-validator");
+const i18next = require('i18next');
 
 const generateJwt = (id, email, role, name, phone) => {
   return jwt.sign(
@@ -24,11 +25,11 @@ class UserController {
     }
     const {email, password, role, name, phone} = req.body
     if (!email && !password) {
-      return next(ApiError.badRequest('Некорректный email или password'))
+      return next(ApiError.badRequest(`${i18next.t("Incorrect_male")} email ${i18next.t("or")} ${i18next.t("Password").toLowerCase()}`))
     }
     const candidate = await User.findOne({where: {email}})
     if (candidate) {
-      return next(ApiError.badRequest('Пользователь с таким email существует'))
+      return next(ApiError.badRequest(`${i18next.t("A user with this email")} ${i18next.t("exist")}`))
     }
 
     const hashPassword = await bcrypt.hash(password, 5)
@@ -50,11 +51,11 @@ class UserController {
     const {email, password} = req.body
     const user = await User.findOne({where: {email}})
     if (!user) {
-      return next(ApiError.internal('Пользователь с таким email не найден'))
+      return next(ApiError.internal(`${i18next.t("A user with this email")} ${i18next.t("does not")} ${i18next.t("exist")}`))
     }
     let comparePassword = bcrypt.compareSync(password, user.password)
     if (!comparePassword) {
-      return next(ApiError.internal('Указан неверный пароль'))
+      return next(ApiError.internal(`${i18next.t("Incorrect_male")} ${i18next.t("Password").toLowerCase()}`))
     }
 
     const token = generateJwt(user.id, user.email, user.role, user.name, user.phone)//get token

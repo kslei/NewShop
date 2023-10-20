@@ -2,14 +2,16 @@ import React, { useState, useEffect } from 'react';
 import MyButton from '../../forms/MyButton';
 import MyInput from '../../forms/MyInput';
 import { createBrand } from '../../http/deviceAPI';
+import { useTranslation } from 'react-i18next';
 import styles from '../../styles/components/MyModal.module.scss';
 
 const CreateBrand = ({show, onHide}) => {
+  const {t} = useTranslation()//Internationalization
   const [value, setValue] = useState('');
   const [file, setFile] = useState(null);
   //validation states
-  const [nameError, setNameError] = useState('Имя не может быть пустым')
-  const [fileError, setFileError] = useState('Файл не может быть пустым')
+  const [nameError, setNameError] = useState(`${t("Name") + " " + t("cannot be empty")}`)
+  const [fileError, setFileError] = useState(`${t("File") + " " + t("cannot be empty")}`)
   const [nameDirty, setNameDirty] = useState(false)
   const [fileDirty, setFileDirty] = useState(false)
   //disabled add button 
@@ -31,16 +33,16 @@ const CreateBrand = ({show, onHide}) => {
         if (String(e.target.value).length > 1) {
           setNameError('')
         } else {
-          setNameError('Некорректное имя')
+          setNameError(`${t("Incorrect") + " " + t("Name").toLowerCase()}`)
         }
-        if (String(e.target.value).length === 0) setNameError(`Поле "${e.target.name}" не может быть пустым`)
+        if (String(e.target.value).length === 0) setNameError(`${t("The") + " " + t("Field")} "${e.target.name}" ${t("cannot be empty")}`)
       break
       case 'file':
         setFile(e.target.files[0])
         if (String(e.target.files[0].type) === 'image/jpeg') {
           setFileError('')
         } else {
-          setFileError('Некорректный тип файла')
+          setFileError(`${t("Incorrect", { context: "male" }) + " " + t("Type").toLowerCase() + " " + t("of file")}`)
         }
       break
     }
@@ -76,20 +78,20 @@ const CreateBrand = ({show, onHide}) => {
   //show
   return (
   <div className={styles.modal}>
-    <div className={styles.modal__header}>Добавить бренд</div>
+      <div className={styles.modal__header}>{t("Add") + " " + t("Brand").toLowerCase()}</div>
     <div className={styles.modal__body}>
       <div className={styles.form__error}>
-        {(nameDirty && nameError) ? <div>{nameError}</div> : <div className={styles.form__hint}>Имя должно быть не менее 2 символов</div>}
+          {(nameDirty && nameError) ? <div>{nameError}</div> : <div className={styles.form__hint}>{t("name_rule_1")}</div>}
       </div>
-      <MyInput name='name' value={value} onBlur={e => blurHandler(e)} onChange = {e => inputHandler(e)} placeholder='Введите название бренда'/>
+        <MyInput name='name' value={value} onBlur={e => blurHandler(e)} onChange={e => inputHandler(e)} placeholder={t("Enter") + " " + t("Brand").toLowerCase()} />
       <div className={styles.form__error}>
-        {(fileDirty && fileError) ? <div>{fileError}</div> : <div className={styles.form__hint}>Тип файла: ".jpeg, .jpg"</div>}
+          {(fileDirty && fileError) ? <div>{fileError}</div> : <div className={styles.form__hint}>{t("Type") + " " + t("of file")}: ".jpeg, .jpg"</div>}
       </div>
       <MyInput name='file' type='file' onBlur={e => blurHandler(e)} onChange={e => inputHandler(e)} accept='image/jpeg'/>
     </div>
     <div className={styles.modal__futor}>
-      <MyButton name={'Закрыть'} danger={true} onClick={onHide}></MyButton>
-      <MyButton name={'Добавить'} onClick={addBrand} disabled={disabled}></MyButton>
+      <MyButton name={t("Cancel")} danger={true} onClick={onHide}></MyButton>
+      <MyButton name={t("Add")} onClick={addBrand} disabled={disabled}></MyButton>
     </div>
   </div>
   );

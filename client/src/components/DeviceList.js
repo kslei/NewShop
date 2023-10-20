@@ -2,9 +2,11 @@ import React, { useContext } from 'react';
 import DeviceItem from './DeviceItem';
 import { Context } from '..';
 import { observer } from 'mobx-react-lite';
+import {useTranslation} from 'react-i18next';
 import styles from '../styles/components/DeviceList.module.scss';
 
 const DeviceList = observer(({searchQuery}) => {
+  const { t } = useTranslation()
   const { device } = useContext(Context);
   //filtering devices based on search
   const searchDevice = device.devices.filter(
@@ -14,7 +16,7 @@ const DeviceList = observer(({searchQuery}) => {
   if (searchDevice.length === 0) {
     return (
     <div className={styles.message}>
-      Ничего не найдено!
+        {t("Nothing found")}
     </div>
     )
   }

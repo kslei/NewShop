@@ -6,6 +6,7 @@ import DeviceSore from './store/DeviceStore';
 import OrderStore from './store/OrderStore';
 import NewStore from './store/NewStore';
 import DiscountStore from './store/DicountStore';
+import './i18n';
 
 export const Context = createContext(null)
 

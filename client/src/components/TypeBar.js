@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react';
 import { Link } from 'react-router-dom';
 import MyButton from '../forms/MyButton';
-import { width } from '../utils/width';
+import { width } from '../utils/functions';
 import { observer } from 'mobx-react-lite';
 import { Context } from '..';
 import styles from '../styles/components/TypeBar.module.scss';

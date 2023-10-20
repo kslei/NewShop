@@ -2,18 +2,30 @@
 @import './_fonts.scss';
 
 //$primary: #822eff;
-$primary: #afc410;
+$primary: hsl(67, 85%, 42%);
 //$back: #dac2ff;
-$back: #f5f8dd;
-$button: #e1e9a3;
-$hover: #a2b512;
-$active: #7d8c0a;
+$back: hsl(67, 66%, 92%);
+$button: hsl(67, 61%, 78%);
+$hover: hsl(67, 82%, 39%);
+$active: hsl(67, 87%, 29%);
 $orange: #ff6702;
-$danger: #ff0191;
+$danger: hsl(326, 98%, 52%);
+$dangerhover: hsl(326, 95%, 49%);
+$dangeractive: hsl(326, 100%, 39%);
 $red: #ff0000;
 $gray: #2b2b2b;
 
 $iconwidth: 24px;
+
+:export {
+  backColor: $back;
+  primaryColor: $primary;
+  activeColor: $active;
+  hoverColor: $hover;
+  dangerColor: $danger;
+  dangerActiveColor: $dangeractive;
+  dangerHoverColor: $dangerhover;
+}
 
 @mixin border {
   border: 1px solid $primary;
@@ -50,6 +62,88 @@ $iconwidth: 24px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+@mixin animation ($color1, $background1, $color2, $background2, $time) {
+  animation: button $time ease-in-out 1 forwards;
+
+  @keyframes button {
+    0% {
+      background-color: $background1;
+      color: $color1;
+    }
+    10% {
+      background: linear-gradient(-90deg, $background1 45%, $background2 45%, $background2 55%, $background1 55%);
+    }
+    20% {
+      background: linear-gradient(-90deg, $background1 40%, $background2 40%, $background2 60%, $background1 60%);
+    }
+    30% {
+      background: linear-gradient(-90deg, $background1 35%, $background2 35%, $background2 65%, $background1 65%);
+    }
+    40% {
+      background: linear-gradient(-90deg, $background1 30%, $background2 30%, $background2 70%, $background1 70%);
+    }
+    50% {
+      background: linear-gradient(-90deg, $background1 25%, $background2 25%, $background2 75%, $background1 75%);
+    }
+    60% {
+      background: linear-gradient(-90deg, $background1 20%, $background2 20%, $background2 80%, $background1 80%);
+    }
+    70% {
+      background: linear-gradient(-90deg, $background1 15%, $background2 15%, $background2 85%, $background1 85%);
+    }
+    80% {
+      background: linear-gradient(-90deg, $background1 10%, $background2 10%, $background2 90%, $background1 90%);
+    }
+    90% {
+      background: linear-gradient(-90deg, $background1 5%, $background2 5%, $background2 95%, $background1 95%);
+    }
+    100% {
+      background-color: $background2;
+      color: $color2;
+    }
+  }
+}
+
+@mixin animationafter ($back1, $back2, $time) {
+  animation: after $time ease-in-out 1 forwards;
+
+  @keyframes after {
+    0% {
+      background-color: $back1;
+    }
+    10% {
+      background: linear-gradient(-90deg, $back1 45%, $back2 45%, $back2 55%, $back1 55%);
+    }
+    20% {
+      background: linear-gradient(-90deg, $back1 40%, $back2 40%, $back2 60%, $back1 60%);
+    }
+    30% {
+      background: linear-gradient(-90deg, $back1 35%, $back2 35%, $back2 65%, $back1 65%);
+    }
+    40% {
+      background: linear-gradient(-90deg, $back1 30%, $back2 30%, $back2 70%, $back1 70%);
+    }
+    50% {
+      background: linear-gradient(-90deg, $back1 25%, $back2 25%, $back2 75%, $back1 75%);
+    }
+    60% {
+      background: linear-gradient(-90deg, $back1 20%, $back2 20%, $back2 80%, $back1 80%);
+    }
+    70% {
+      background: linear-gradient(-90deg, $back1 15%, $back2 15%, $back2 85%, $back1 85%);
+    }
+    80% {
+      background: linear-gradient(-90deg, $back1 10%, $back2 10%, $back2 90%, $back1 90%);
+    }
+    90% {
+      background: linear-gradient(-90deg, $back1 5%, $back2 5%, $back2 95%, $back1 95%);
+    }
+    100% {
+      background-color: $back2;
+    }
+  }
 }
 
 body {

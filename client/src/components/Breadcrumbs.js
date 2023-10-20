@@ -3,6 +3,7 @@ import useBreadcrumbs from 'use-react-router-breadcrumbs';
 import { fetchOneDevice } from '../http/deviceAPI';
 import { authRoutes, publicRoutes } from '../routes';
 import { useLocation, Link, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import styles from '../styles/components/Breadcrumbs.module.scss';
 
 const Breadcrumbs = ({ onSearch }) => {
@@ -11,13 +12,14 @@ const Breadcrumbs = ({ onSearch }) => {
   const breadcrumbs = useBreadcrumbs(routes);
   const location = useLocation()
   const loc = location.pathname.split('/')
+  const {i18n} = useTranslation()
     
   useEffect(() => {
     if (Number(loc[loc.length-1])) {
       fetchOneDevice(Number(loc[loc.length - 1])).then(data => {
       setDevice(data);
     })}
-  }, [location])
+  }, [location, i18n.language])
 
   return (
   <div className={styles.breadcrumb}>

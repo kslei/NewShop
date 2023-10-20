@@ -2,11 +2,13 @@ import React, { useEffect, useRef } from 'react';
 import Image from '../forms/Image';
 import { useNavigate } from 'react-router-dom';
 import { DEVICE_ROUTE } from '../utils/consts';
+import { useTranslation } from 'react-i18next';
 import styles from '../styles/components/DiscountItem.module.scss';
 
 const DiscountItem = ({ device, width, i, setheight }) => {
   const div = useRef(null);
   const navigate = useNavigate();
+  const {t} = useTranslation()
   useEffect(()=>{
     if(i === 0) setHeight()
   })
@@ -30,8 +32,8 @@ const DiscountItem = ({ device, width, i, setheight }) => {
       </div>
       
       <div className={styles.discountItem__price}>
-        <div className={styles.discountItem__price_old}>{device.price} грн</div>
-          {Math.floor(device.price * (100 - device.discount) / 100)} грн
+        <div className={styles.discountItem__price_old}>{t("price", {val: device.price})}</div>
+          {t("price", {val: Math.floor(device.price * (100 - device.discount) / 100)})}
       </div>
       
     </div>

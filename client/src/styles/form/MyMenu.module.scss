@@ -5,7 +5,7 @@
   @include flex-column;
   transition: 0.5s;
   &__items {
-    width: inherit;
+    width: max-content;
     top: 30px;
     right: 0;
     margin: 2px;

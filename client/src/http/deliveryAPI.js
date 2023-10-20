@@ -5,9 +5,11 @@ export const createDelivery = async (name) => {
   return data
 }
 
-export const fetchDelivery = async () => {
+export const fetchDelivery = async (lng) => {
   try {
-    const { data } = await $authHost.get('api/delivery')
+    const { data } = await $authHost.get('api/delivery', {
+      params: {lng}
+    })
     return data
   } catch (error) {
     return error.response

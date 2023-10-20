@@ -3,20 +3,25 @@ import { GoogleMap, Marker, useLoadScript, InfoWindow } from '@react-google-maps
 import myMarker from '../images/marker.png';
 import myMarker1 from '../images/marker1.png';
 import styles from '../styles/components/Map.module.scss';
+import { useTranslation } from 'react-i18next';
 
 const Map = () => {
+  const {t, i18n} = useTranslation()
+
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_API_KEY,
+    language: i18n.language,
   });
   const [isOpen, setIsOpen] = useState(false);
   const [mapRef, setMapRef] = useState();
   const [infoWindowData, setInfoWindowData] = useState();
-  const center = useMemo(() => ({ lat: 47.86367335887368, lng: 35.09411607159396 }), []);
+  //const center = useMemo(() => ({ lat: 47.86367335887368, lng: 35.09411607159396 }), []);
   const markers = [
-    { address: 'Проспект Соборный, 300',  name: 'NewShop', marker: myMarker, lat: 47.863214, lng: 35.094835 },
-    { address: 'Днепровская ГЭС', name: '', marker: myMarker1, lat: 47.866198, lng: 35.091137 },
-    { address: 'Проспект Металлургов', name: '', marker: myMarker1, lat: 47.858156, lng: 35.103956 }
+    { address: `${t("address0")}`, name: 'NEWSHOP', marker: myMarker, lat: 47.863214, lng: 35.094835 },
+    { address: `${t("address1")}`, name: '', marker: myMarker1, lat: 47.866198, lng: 35.091137 },
+    { address: `${t("address2")}`, name: '', marker: myMarker1, lat: 47.858156, lng: 35.103956 }
   ]
+  
   const onLoad = (map) => {
     const bounds = new window.google.maps.LatLngBounds();
     markers?.forEach(({lat, lng}) => bounds.extend({lat, lng}));
@@ -57,7 +62,7 @@ const Map = () => {
                   <div className={styles.info__title}>{infoWindowData.name}</div>
                   <div className={styles.info__adress}>{infoWindowData.address}</div>
                 </div>
-              </InfoWindow>
+               </InfoWindow>
             )}
           </Marker>)}
         </GoogleMap>

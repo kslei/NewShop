@@ -6,7 +6,12 @@ import MyMenu from '../forms/MyMenu';
 import { phone } from '../utils/info';
 import { Context } from '..';
 import MyInput from '../forms/MyInput';
+import { useTranslation } from 'react-i18next';
+//import '../i18n';
+
 import styles from '../styles/components/Header.module.scss';
+import variables from '../styles/components/Header.module.scss';
+import MyLanguage from '../forms/MyLanguage';
 
 const Header = observer(({search, onSearch, onclick}) => {
   const navigate = useNavigate();
@@ -15,7 +20,30 @@ const Header = observer(({search, onSearch, onclick}) => {
   const [phoneVisible, setPhoneVisible] = useState(false);
   const [closeMenu, setCloseMenu] = useState(false)
   const userMenu = []
+  //multilanguage
+  const { t, i18n } = useTranslation()
+  const languages = [
+    { id: 0, value: "en", name: "EN" },
+    { id: 1, value: "ru", name: "RU" },
+    { id: 2, value: "uk", name: "UA" },
+  ]
+  const changeLanguage = (lng) => {
+    localStorage.setItem("language", lng)
+    i18n.changeLanguage(lng)
+    
+  }
+  //console.log(i18n.language)//выбранный язык
+  
+  //variables
+  const back = variables.backColor;
+  const primary = variables.primaryColor;
+  const active = variables.activeColor;
+  const hover = variables.hoverColor;
+  /* const danger = variables.dangerColor;
+  const dangeractive = variables.dangerActiveColor;
+  const dangerhover = variables.dangerHoverColor; */
 
+  
   useEffect(()=>{
     w()
   }, [])
@@ -57,19 +85,19 @@ const Header = observer(({search, onSearch, onclick}) => {
     userMenu.push(
       { id: 2,
         route: PROFILE_ROUTE,
-        name: "Профиль"},
+        name: `${t("Profile")}`},
       { id: 3,
         route: HOME_ROUTE,
-        name: "Выйти"},
+        name: `${t("Sign_out")}`},
     )
   } else {
     userMenu.push(
       { id: 0,
         route: REGISTRATION_ROUTE,
-        name: "Регистрация"},
+        name: `${t("Registration")}`},
       { id: 1,
         route: LOGIN_ROUTE,
-        name: "Войти"},
+        name: `${t("Sign_in")}`},
     )
   }
   if (user.isAuth && user.role === 'ADMIN') {
@@ -79,7 +107,7 @@ const Header = observer(({search, onSearch, onclick}) => {
         name: "Admin"},
       { id: 6,
         route: ORDER_ROUTE,
-        name: "Заказы"}
+        name: `${t("Orders")}`}
     )
   }
 
@@ -109,7 +137,7 @@ const Header = observer(({search, onSearch, onclick}) => {
           </div>
           {searchVisible &&
             <div className={styles.menu__input} onClick={(e) => e.stopPropagation()}>
-              <MyInput name='search' type='text' value={search} placeholder='Поиск по названию'
+              <MyInput name='search' type='text' value={search} placeholder={t('Search_by_name')}
               onChange={e => onSearch(e.target.value)} />
             </div>
           }
@@ -120,13 +148,22 @@ const Header = observer(({search, onSearch, onclick}) => {
           </div>
           {phoneVisible &&
             <div className={styles.menu__input}>
-              <div className={styles.menu__title}>Наши контакты</div>
+              <div className={styles.menu__title}>{t("Our_contacts")}</div>
               {phone.map(item => 
                 <div className={styles.menu__item} key={item.id} onClick={()=>setPhoneVisible(false)} >{item.info}</div>
               )}
             </div>
           }
-        </div>  
+        </div>
+        <MyLanguage name={t("Lang")}
+          menu={languages}
+          upDown='down'
+          setvalue={changeLanguage}
+          size='sm'
+          underscore={hover}
+          color={primary} border='transparent' background={back}
+          hover={hover} borderhover='transparent' backgroundhover='none'
+          active={active} borderactive='transparent' backgroundactive='none' />
         <div className={styles.user}>
           <div className={styles.box}>
             <div className={styles.icon + ' ' + styles.basket} onClick={() => navigate (BASKET_ROUTE)}></div>

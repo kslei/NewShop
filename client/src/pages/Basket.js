@@ -10,6 +10,7 @@ import BasketItem from '../components/BasketItem';
 import { fetchDelivery } from '../http/deliveryAPI';
 import { createMail } from '../http/orderAPI';
 import MyMenu from '../forms/MyMenu';
+import { useTranslation } from 'react-i18next';
 import styles from '../styles/pages/Basket.module.scss';
 
 
@@ -22,6 +23,7 @@ const Basket = observer(({setErrorMessage}) => {
   const navigate = useNavigate();
   const [deliveries, setDeliveries] = useState([]);
   const [deliveryId, setDeliveryId] = useState(0);
+  const {t, i18n} = useTranslation()
   
   useEffect(() => {
     if (localStorage.getItem('basketDevices')){
@@ -31,17 +33,17 @@ const Basket = observer(({setErrorMessage}) => {
     if (basketDevice.length !==0) {
       setMessage('')
     } else {
-      setMessage('Нет товаров в корзине')
+      setMessage(`${t("No items in cart")}`)
     }
-    fetchDelivery().then(data => setDeliveries(data))
-  }, [userId])
+    fetchDelivery(i18n.language).then(data => setDeliveries(data))
+  }, [userId, i18n.language])
   
   //delete device
   function deleteDevice(id) {
     localStorage.setItem('basketDevices', JSON.stringify(basketDevice.filter(d => d.id !== id)))
     if (basketDevice !== JSON.parse(localStorage.getItem('basketDevices'))) {
       setBasketDevice(JSON.parse(localStorage.getItem('basketDevices')))
-      onNote('УДАЛЕНО');
+      onNote(`${t("Removed")}`);
     }
   }
 
@@ -50,7 +52,7 @@ const Basket = observer(({setErrorMessage}) => {
     localStorage.setItem('basketDevices', JSON.stringify([]))
     if (basketDevice !== JSON.parse(localStorage.getItem('basketDevices'))) {
       setBasketDevice(JSON.parse(localStorage.getItem('basketDevices')))
-      onNote('УДАЛЕНО');
+      onNote(`${t("Removed")}`);
     }
   }
 
@@ -81,7 +83,8 @@ const Basket = observer(({setErrorMessage}) => {
   function buy(userId, deliveryId) {
     let date = Date()
     if(!Number.isInteger(userId)) { //non - autorized ? then "note"
-      onNote('Войдите в свою учетную запись или зарегистрируйтесь')
+      onNote(`${t("Login")} ${t("or")} ${t("Sign_up")}`)
+      return
     }
     if(deliveryId !== 0) {
       createOrder(basketDevice.map(device => device.id), basketDevice.map(device => device.quantity), userId, date, deliveryId).then(data =>
@@ -91,7 +94,7 @@ const Basket = observer(({setErrorMessage}) => {
         navigate(HOME_ROUTE)
       }).catch(e => setErrorMessage(e)) 
     } else {
-      onNote('Выберите способ доставки')
+      onNote(`${t("Select")} ${t("delivery method")}`)
     }
   }
 
@@ -106,35 +109,35 @@ const Basket = observer(({setErrorMessage}) => {
         {basketDevice.length === 0 
         ? <div className={styles.basket__error}>
             <span className={styles.basket__error_message}>{message}</span>
-            <MyButton name={'За покупками'} onClick={()=>navigate(HOME_ROUTE)} />
+            <MyButton name={t("shopping_other")} onClick={()=>navigate(HOME_ROUTE)} />
           </div>
         : <div className={styles.basket__devices}>
             <div className={styles.basket__item}>
               <div>№</div>
-              <div>Бренд</div>
-              <div>Наименование</div>
-              <div>Цена</div>
-              <div>Количество</div>
-              <div>Стоимость</div>
+              <div>{t("Brand")}</div>
+              <div>{t("Product_name")}</div>
+              <div>{t("Price")}</div>
+              <div>{t("Quantity")}</div>
+              <div>{t("Cost")}</div>
               <div></div>
             </div>
             {basketDevice.map((item, i) =>
               <BasketItem key={i} id={i} number={i + 1} device={item} brandname={item.brand.name} del={deleteDevice} />
             )}
             <div className={styles.basket__item_all}>
-              <div>Всего:</div>
-              <div>{summ(basketDevice)} грн</div>
-              <MyButton name={'Очистить'} danger={true} onClick={deleteAllDevice} />
+              <div>{t("Total")}:</div>
+              <div>{t("price", {val: summ(basketDevice)})}</div>
+              <MyButton name={t("Empty")} danger={true} onClick={deleteAllDevice} />
             </div>
             <div className={styles.basket__item_btn}>
               <div>
-                <MyButton name={'Продолжить покупки'} onClick={() => navigate(HOME_ROUTE)} />
+                <MyButton name={t("Continue") + " " + (t("shopping"))} onClick={() => navigate(HOME_ROUTE)} />
               </div>
               <div>
-                <MyMenu name={"Выберите способ доставки"} menu={deliveries} click={onDelivery}/>
+                <MyMenu name={t("Select") + " " + t("delivery method")} menu={deliveries} click={onDelivery}/>
               </div>
               <div className={styles.basket__item_note}>{note}</div>
-              <MyButton name={'Купить'} onClick={() => buy(userId, deliveryId)} />
+              <MyButton name={t("Buy")} onClick={() => buy(userId, deliveryId)} />
             </div>
           </div>
         }

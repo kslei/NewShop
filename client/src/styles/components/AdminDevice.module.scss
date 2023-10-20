@@ -16,7 +16,16 @@
   background-color: $back;
   &__create {
     display: grid;
-    grid-template-columns: 1fr 6fr 8fr 2fr;
+    grid-template-columns: 1fr 11fr 11fr 2fr;
+  }
+}
+.infotitle {
+  display: grid;
+  grid-template-columns: 4fr 11fr 11fr 11fr 11fr 11fr 11fr 11fr 11fr 8fr;
+  &__data {
+    @include flex-row-center;
+    border-right: 1px solid $primary;
+    margin: 1px;
   }
 }
 .media {

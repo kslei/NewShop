@@ -1,28 +1,35 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { fetchTypes, fetchBrands, createDevice } from '../../http/deviceAPI';
 import { Context } from '../../index';
+import Translate from './Translate';
 import MyButton from '../../forms/MyButton';
 import MyInput from '../../forms/MyInput';
 import MyMenu from '../../forms/MyMenu';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
+import { addLocale } from '../../utils/functions';
 import styles from '../../styles/components/MyModal.module.scss';
 
 const CreateDevice = observer(({show, onHide, setErrorMessage}) => {
+  const { t } = useTranslation()//Internationalization
   const {device} = useContext(Context);
   const [name, setName] = useState('')
+  const [nameRu, setNameRu] = useState('')
+  const [nameUk, setNameUk] = useState('')
   const [price, setPrice] = useState(0)
   const [file, setFile] = useState(null)
   const [number, setNumber] = useState(0)
   const [info, setInfo] = useState([])
+  const [showTranslated, setShowTranslated] = useState(false)
   const [typeDanger, setTypeDanger] = useState (false)
   const [brandDanger, setBrandDanger] = useState(false)
   //validation states
-  const [nameError, setNameError] = useState('Имя не может быть пустым')
-  const [priceError, setPriceError] = useState('Цена не может быть ниже или равна 0')
-  const [numberError, setNumberError] = useState('Количество не может быть ниже 1 или не целое')
-  const [fileError, setFileError] = useState('Файл не может быть пустым')
-  const [typeError, setTypeError] = useState('Тип не может быть пустой')
-  const [brandError, setBrandError] = useState('Бренд не может быть пустой')
+  const [nameError, setNameError] = useState(`${t("Name") + " " + t("cannot be empty")}`)
+  const [priceError, setPriceError] = useState(`${t("Price") + " " + t("cannot be less than or equal to 0")}`)
+  const [numberError, setNumberError] = useState(`${t("Quantity") + " " + t("cannot be less than 1 or is not an integer")}`)
+  const [fileError, setFileError] = useState(`${t("File") + " " + t("cannot be empty")}`)
+  const [typeError, setTypeError] = useState(`${t("Type") + " " + t("cannot be empty")}`)
+  const [brandError, setBrandError] = useState(`${t("Brand") + " " + t("cannot be empty")}`)
   const [nameDirty, setNameDirty] = useState(false)
   const [priceDirty, setPriceDirty] = useState(false)
   const [numberDirty, setNumberDirty] = useState(false)
@@ -46,6 +53,12 @@ const CreateDevice = observer(({show, onHide, setErrorMessage}) => {
       case 'name':
         setNameDirty(true)
       break
+      case 'ru':
+        setNameDirty(true)
+      break
+      case 'uk':
+        setNameDirty(true)
+      break
       case 'price':
         setPriceDirty(true)
       break
@@ -66,36 +79,54 @@ const CreateDevice = observer(({show, onHide, setErrorMessage}) => {
         if (String(e.target.value).length > 1) {
           setNameError('')
         } else {
-          setNameError('Некорректное имя')
+          setNameError(`${t("Incorrect") + " " + t("Name").toLowerCase()}`)
         }
-        if (String(e.target.value).length === 0) setNameError(`Поле "${e.target.name}" не может быть пустым`)
+        if (String(e.target.value).length === 0) setNameError(`${t("The") + " " + t("Field")} "${e.target.name}" ${t("cannot be empty")}`)
       break
+      case 'ru':
+        setNameRu(e.target.value)
+        if (String(e.target.value).length > 1) {
+          setNameError('')
+        } else {
+          setNameError(`${t("Incorrect") + " " + t("Name").toLowerCase()}`)
+        }
+        if (String(e.target.value).length === 0) setNameError(`${t("The") + " " + t("Field")} "${e.target.name}" ${t("cannot be empty")}`)
+        break
+      case 'uk':
+        setNameUk(e.target.value)
+        if (String(e.target.value).length > 1) {
+          setNameError('')
+        } else {
+          setNameError(`${t("Incorrect") + " " + t("Name").toLowerCase()}`)
+        }
+        if (String(e.target.value).length === 0) setNameError(`${t("The") + " " + t("Field")} "${e.target.name}" ${t("cannot be empty")}`)
+        break
       case 'price':
         setPrice(e.target.value)
         const rp = /\d*(\.\d\d)?/
         if (!rp.test(String(e.target.value)) && String(e.target.value).length !== 0) {
-          setPriceError('Некорректная цена')
+          setPriceError(`${t("Incorrect", { context: "male" }) + " " + t("Price").toLowerCase()}`)
         } else {
           setPriceError('')
         }
-        if (String(e.target.value).length === 0 || e.target.value <= 0) setPriceError(`Цена не может быть ниже или равна 0`)
+        if (String(e.target.value).length === 0 || e.target.value <= 0) setPriceError(`${t("Price") + " " + t("cannot be less than or equal to 0")}`)
       break
       case 'number':
         setNumber(e.target.value)
         const rn = /^\d+$/
         if (!rn.test(String(e.target.value)) && String(e.target.value).length !== 0) {
-          setNumberError('Некорректное количество')
+          setNumberError(`${t("Incorrect") + " " + t("Quantity").toLowerCase()}`)
         } else {
           setNumberError('')
         }
-        if (String(e.target.value).length === 0 || e.target.value <= 0) setNumberError(`Количество не может быть ниже 1 или не целое`)
+        if (String(e.target.value).length === 0 || e.target.value <= 0) setNumberError(`${t("Quantity") + " " + t("cannot be less than 1 or is not an integer")}`)
       break
       case 'file':
         setFile(e.target.files[0])
         if (String(e.target.files[0].type) === 'image/jpeg') {
           setFileError('')
         } else {
-          setFileError('Некорректный тип файла')
+          setFileError(`${t("Incorrect", { context: "male" }) + " " + t("Type").toLowerCase() + " " + t("of file")}`)
         }
         break
     }
@@ -106,19 +137,20 @@ const CreateDevice = observer(({show, onHide, setErrorMessage}) => {
     switch (e.path) {
       case 'name':
         setNameError(e.msg)
-        break
+      break
       case 'price':
         setPriceError(e.msg)
-        break
+      break
       case 'number':
         setNumberError(e.msg)
-        break
+      break
       case 'typeId':
         setTypeError(e.msg)
-        break
+      break
       case 'brandId':
         setBrandError(e.msg)
-        break
+      break
+      default: return;
     }
   }
   
@@ -153,7 +185,10 @@ const CreateDevice = observer(({show, onHide, setErrorMessage}) => {
     formData.append('brandId', device.selectedBrand.id)
     formData.append('typeId', device.selectedType.id)
     formData.append('info', JSON.stringify(info))
-    createDevice(formData).then(data=>onHide()).catch(e => {
+    createDevice(formData).then(data=>{
+      addLocale(name, name, nameRu, nameUk);//set Locale
+      onHide()
+    }).catch(e => {
       if(e.response.data.message) setMessage(e.response.data.message)
       if (e.response.data.errors) {
         e.response.data.errors.map(error => {
@@ -162,10 +197,13 @@ const CreateDevice = observer(({show, onHide, setErrorMessage}) => {
         setErrorMessage(e)
       }
     })
+    
+    
   }
 
   //set type for device
   const setType = (type) => {
+    console.log(type)
     device.setSelectedType(type);
     setTypeError('')
     setTypeDanger(true)//set danger color for input type
@@ -192,30 +230,34 @@ const CreateDevice = observer(({show, onHide, setErrorMessage}) => {
   //show
   return (
     <div className={styles.modal}>
-      <div className={styles.modal__header}>Добавить устройство</div>
+      <div className={styles.modal__header}>{t("Add") + " " + t("Product_one").toLowerCase()}</div>
+      <Translate show={showTranslated} onHide={() => {setShowTranslated(false); addDevice()}} info={info}/>
+      {!showTranslated &&
       <div className={styles.modal__body}>
         <div className={styles.form__error}>
           {typeError && <div>{typeError}</div>}
         </div>
-        <MyMenu name={'Выберите тип'} menu={device.types} click={setType} danger={typeDanger}/>
+        <MyMenu name={t("Select") + " " + t("Type").toLowerCase()} menu={device.types} click={setType} danger={typeDanger}/>
         <div className={styles.form__error}>
           {brandError && <div>{brandError}</div>}
         </div>
-        <MyMenu name={'Выберите бренд'} menu={device.brands} click={setBrand} danger={brandDanger}/>
+        <MyMenu name={t("Select") + " " + t("Brand").toLowerCase()} menu={device.brands} click={setBrand} danger={brandDanger}/>
         <div className={styles.form__error}>
-          {(nameDirty && nameError) ? <div>{nameError}</div> : <div className={styles.form__hint}>Имя должно быть не менее 2 символов</div>}
+          {(nameDirty && nameError) ? <div>{nameError}</div> : <div className={styles.form__hint}>{t("name_rule_1")}</div>}
         </div>
-        <MyInput name='name' type='text' value={name} onBlur={e => blurHandler(e)} onChange={e=>inputHandler(e)} placeholder="Введите название товара" />
+        <MyInput name='name' type='text' value={name} onBlur={e => blurHandler(e)} onChange={e=>inputHandler(e)} placeholder={t("Enter") + " " + t("Product_name").toLowerCase() + " " + t("in English")} />
+        <MyInput name='ru' type='text' value={nameRu} onBlur={e => blurHandler(e)} onChange={e => inputHandler(e)} placeholder={t("Enter") + " " + t("Product_name").toLowerCase() + " " + t("in Russian")} />
+        <MyInput name='uk' type='text' value={nameUk} onBlur={e => blurHandler(e)} onChange={e => inputHandler(e)} placeholder={t("Enter") + " " + t("Product_name").toLowerCase() + " " + t("in Ukrainian")} />
         <div className={styles.form__error}>
-          {(priceDirty && priceError) ? <div>{priceError}</div> : <div className={styles.form__hint}>Цена должна быть больше 0</div>}
+          {(priceDirty && priceError) ? <div>{priceError}</div> : <div className={styles.form__hint}>{t("Price")} {t("cannot be less than or equal to 0")}</div>}
         </div>
-        <MyInput name='price' type='number' step='0.01' min='0' value={price} onBlur={e => blurHandler(e)} onChange={e => inputHandler(e)} placeholder="Введите цену товара" />
+        <MyInput name='price' type='number' step='0.01' min='0' value={price} onBlur={e => blurHandler(e)} onChange={e => inputHandler(e)} placeholder={t("Enter") + " " + t("Price").toLowerCase()} />
         <div className={styles.form__error}>
-          {(numberDirty && numberError) ? <div>{numberError}</div> : <div className={styles.form__hint}>Количество должно быть больше 0</div>}
+          {(numberDirty && numberError) ? <div>{numberError}</div> : <div className={styles.form__hint}>{t("Quantity") + " " + t("cannot be less than 1 or is not an integer")}</div>}
         </div>
-        <MyInput name='number' type='number' min='0' value={number} onBlur={e => blurHandler(e)} onChange={e => inputHandler(e)} placeholder="Введите количество товара" />
+        <MyInput name='number' type='number' min='0' value={number} onBlur={e => blurHandler(e)} onChange={e => inputHandler(e)} placeholder={t("Enter") + " " + t("Quantity").toLowerCase()} />
         <div className={styles.form__error}>
-          {(fileDirty && fileError) ? <div>{fileError}</div> : <div className={styles.form__hint}>Тип файла: ".jpeg, .jpg"</div>}
+          {(fileDirty && fileError) ? <div>{fileError}</div> : <div className={styles.form__hint}>{t("Type") + " " + t("of file")} : ".jpeg, .jpg"</div>}
         </div>
         <MyInput name='file' type='file' onBlur={e => blurHandler(e)} onChange={e => inputHandler(e)} accept='image/jpeg'/>
         {message.length !==0 && <div className={styles.message}>{message}<MyButton name={"OK"} danger={true} onClick={()=>setMessage('')}/></div>}
@@ -223,21 +265,22 @@ const CreateDevice = observer(({show, onHide, setErrorMessage}) => {
         {info.map(i => 
         <div className={styles.info} key={i.number}>
           <div className={styles.info__title}>
-            <MyInput type='text' value={i.title} onChange={(e)=>changeInfo('title', e.target.value, i.number)} placeholder="Введите название свойства"/>
+            <MyInput type='text' value={i.title} onChange={(e) => changeInfo('title', e.target.value, i.number)} placeholder={t("Title") + " " + t("in English")} />
           </div>
           <div className={styles.info__description}>
-            <MyInput type='text' value={i.description} onChange={(e) => changeInfo('description', e.target.value, i.number)} placeholder="Введите описание свойства" />
+            <MyInput type='text' value={i.description} onChange={(e) => changeInfo('description', e.target.value, i.number)} placeholder={t("Description") + " " + t("in English")} />
           </div>
           <div className={styles.info__remove}>
-            <MyButton name={"Удалить"} danger={true} onClick={()=>removeInfo(i.number)} />
+            <MyButton name={t("Remove")} danger={true} onClick={()=>removeInfo(i.number)} />
           </div>
          </div>  
         )}
-        <MyButton name={'Добавить новое свойство'} danger={true} onClick={addInfo} />
+        <MyButton name={t("Add") + " " + t("new property")} danger={true} onClick={addInfo} />
       </div>
+      }
       <div className={styles.modal__futor}>
-        <MyButton name={'Закрыть'} danger={true} onClick={onHide}></MyButton>
-        <MyButton name={'Добавить'} onClick={addDevice} disabled={disabled}></MyButton>
+        <MyButton name={t("Cancel")} danger={true} onClick={onHide}></MyButton>
+        <MyButton name={t("Add")} onClick={() => {info.length === 0 ? addDevice() : setShowTranslated(true)}} disabled={disabled}></MyButton>
       </div>
     </div> 
   );
