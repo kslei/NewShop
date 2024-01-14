@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Context } from '../index';
 import { fetchDevices, fetchBrands, fetchTypes } from '../http/deviceAPI';
 import DeviceList from '../components/DeviceList';

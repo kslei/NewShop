@@ -6,7 +6,7 @@ const BrandItem = ({ brand, onclick }) => {
   return (
     <div className={styles.brandItem} onClick={() => onclick(brand)}>
       <div className={styles.brandItem__image}>
-        <img src={process.env.REACT_APP_API_URL + brand.img} />
+        <img src={process.env.REACT_APP_API_URL + brand.img} alt='brand'/>
       </div>
       <div className={styles.brandItem__name}>
         {brand.name}

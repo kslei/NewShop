@@ -1,0 +1,12 @@
+@import '../base/app.scss';
+
+.animate {
+  @include flex-row;
+  color: $primary;
+  &__title {
+    font-family: 'Montserrat-regular';
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+}

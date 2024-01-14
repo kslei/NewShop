@@ -12,6 +12,7 @@ const frameRouter = require('./frameRouter')
 const imageRouter = require('./imageRouter')
 const langRouter = require('./langRouter')
 const infoRouter = require('./infoRouter')
+const fileRouter = require('./fileRouter')
 
 router.use('/user', userRouter)
 router.use('/type', typeRouter)
@@ -25,5 +26,6 @@ router.use('/frame', frameRouter)
 router.use('/image', imageRouter)
 router.use('/lng', langRouter)
 router.use('/info', infoRouter)
+router.use('/file', fileRouter)
 
 module.exports = router

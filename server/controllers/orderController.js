@@ -43,6 +43,24 @@ class OrderController {
     return res.json(data)
   }
 
+  async getOne(req, res, next) {
+    const {id} = req.params
+    const { status } = req.query
+    const data = await Order.findAll({ where: { userId: id, status }, include: [{ model: OrderDevice, attributes: ['id', 'quantity'], include: [{ model: Device, attributes: ['id', 'name', 'price', 'discount'], include: [{ model: Brand, attributes: ['name'] }] }] }, { model: User, attributes: ['email', 'name', 'phone'] }, { model: Delivery, attributes: ['name'] }] })
+    if (data.length === 0) {
+      return next(ApiError.badRequest(`${i18next.t("No orders")}`))
+    }
+    data.map(order => {
+      order.order_devices.map(device => {
+        let name = device.device.name
+        device.device.name = i18next.t(name)
+      })
+      let delname = order.delivery.name
+      order.delivery.name = i18next.t(delname)
+    })
+    return res.json(data)
+  }
+
   async putOrder(req, res, next) {
     try {
       const { id, status, date, deliveryId } = req.body

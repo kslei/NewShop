@@ -7,8 +7,6 @@ import { phone } from '../utils/info';
 import { Context } from '..';
 import MyInput from '../forms/MyInput';
 import { useTranslation } from 'react-i18next';
-//import '../i18n';
-
 import styles from '../styles/components/Header.module.scss';
 import variables from '../styles/components/Header.module.scss';
 import MyLanguage from '../forms/MyLanguage';
@@ -42,7 +40,7 @@ const Header = observer(({search, onSearch, onclick}) => {
   /* const danger = variables.dangerColor;
   const dangeractive = variables.dangerActiveColor;
   const dangerhover = variables.dangerHoverColor; */
-
+  
   
   useEffect(()=>{
     w()
@@ -137,7 +135,7 @@ const Header = observer(({search, onSearch, onclick}) => {
           </div>
           {searchVisible &&
             <div className={styles.menu__input} onClick={(e) => e.stopPropagation()}>
-              <MyInput name='search' type='text' value={search} placeholder={t('Search_by_name')}
+              <MyInput name='search' type='search' value={search} placeholder={t('Search_by_name')}
               onChange={e => onSearch(e.target.value)} />
             </div>
           }

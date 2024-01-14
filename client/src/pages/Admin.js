@@ -13,12 +13,14 @@ import { observer } from 'mobx-react-lite';
 import { fetchDelivery, removeDelivery } from '../http/deliveryAPI';
 import { useTranslation } from 'react-i18next';
 import styles from '../styles/pages/Admin.module.scss';
+import CreateFile from '../components/modals/CreateFile';
 
 const Admin = observer(({setErrorMessage}) => {
   const [brandVisible, setBrandVisible] = useState(false);
   const [typeVisible, setTypeVisible] = useState(false);
   const [deviceVisible, setDeviceVisible] = useState(false);
   const [deliveryVisible, setDeliveryVisible] = useState(false);
+  const [fileVisible, setFileVisible] = useState(false);
   const [note, setNote] = useState('')
   const [search, setSearch] = useState('');
   const {device} = useContext(Context)
@@ -68,14 +70,16 @@ const Admin = observer(({setErrorMessage}) => {
     <div className={styles.wrapper}>
       <div className={styles.buttons}>
         <div className={styles.buttons__btn}><MyButton danger={true} name={t("Add") + " " + t("Type").toLowerCase()} onClick={() => setTypeVisible(true)} /></div>
-          <div className={styles.buttons__btn}><MyButton danger={true} name={t("Add") + " " + t("Brand").toLowerCase()} onClick={() => setBrandVisible(true)} /></div>
-          <div className={styles.buttons__btn}><MyButton danger={true} name={t("Add") + " " + t("Product_one").toLowerCase()} onClick={() => setDeviceVisible(true)} /></div>
-          <div className={styles.buttons__btn}><MyButton danger={true} name={t("Add") + " " + t("Delivery_1").toLowerCase()} onClick={() => setDeliveryVisible(true)} /></div>
+        <div className={styles.buttons__btn}><MyButton danger={true} name={t("Add") + " " + t("Brand").toLowerCase()} onClick={() => setBrandVisible(true)} /></div>
+        <div className={styles.buttons__btn}><MyButton danger={true} name={t("Add") + " " + t("Product_one").toLowerCase()} onClick={() => setDeviceVisible(true)} /></div>
+        <div className={styles.buttons__btn}><MyButton danger={true} name={t("Add") + " " + t("Delivery_1").toLowerCase()} onClick={() => setDeliveryVisible(true)} /></div>
+        <div className={styles.buttons__btn}><MyButton danger={true} name={t("Add") + " " + t("File").toLowerCase()} onClick={() => setFileVisible(true)} /></div>
       </div>
       <CreateBrand show={brandVisible} onHide={() => setBrandVisible(false)}/>
       <CreateType show={typeVisible} onHide={() => setTypeVisible(false)}/>
       <CreateDevice show={deviceVisible} onHide={() => setDeviceVisible(false)} setErrorMessage={setErrorMessage}/>
       <CreateDelivery show={deliveryVisible} onHide={() => setDeliveryVisible(false)} setErrorMessage={setErrorMessage}/>
+      <CreateFile show={fileVisible} onHide={() => setFileVisible(false)}/>
       <div className={styles.adminPanel}>
         <div className={styles.note}>{note}</div>
         <div className={styles.title}>{t("Product Adjustment")}</div>

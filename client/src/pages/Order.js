@@ -40,7 +40,7 @@ const Order = observer(({setErrorMessage}) => {
         setMessage(data.data.message);
       }
       })
-  }, [status, i18n.language])
+  }, [order, status, i18n.language])
   
   return (
     <div className={styles.container}>

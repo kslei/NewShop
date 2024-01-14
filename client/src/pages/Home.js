@@ -11,6 +11,7 @@ import BrandItem from '../components/BrandItem';
 import styles from '../styles/pages/Home.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import LeftMenu from '../components/modals/LeftMenu';
 //import i18n from '../i18n';
 
 const Home = observer(({ searchQuery }) => {
@@ -65,7 +66,8 @@ const Home = observer(({ searchQuery }) => {
   }
 
   return (
-  <div>
+  <div style={{position: 'relative'}}>
+    <LeftMenu />
     <div className={styles.wrapper} style={{ flexDirection: 'column' }}>
       {newdevice.news.length !== 0 &&
         <div className={styles.sectionTitle + ' ' + styles.red} style={{ transform: `translateX(${translateX})` }}>{t("New")}</div>

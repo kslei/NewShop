@@ -1,0 +1,57 @@
+@import '../base/app.scss';
+
+.menu {
+  position: absolute;
+  @include flex-row;
+  top: 200px;
+  left: 0;
+  width: 250px;
+  height: 96px;
+  z-index: 10;
+  transition: 1s;
+  &__title {
+    font-family: "Montserrat-Regular";
+    color: $primary;
+    font-style: italic;
+    padding: 5px;
+  }
+  &__content {
+    width: calc(100% - 20px);
+    @include flex-column;
+    justify-content: space-between;
+    align-items: center;
+    background: $back;
+  }
+  &__download {
+    width: 100%;
+    @include flex-row-center;
+    justify-content: space-around;
+  }
+  &__image {
+    width: 48px;
+    height: 48px;
+    margin: 5px;
+    mask: center/contain no-repeat url('../../images/android.png');
+    background-color: $active;
+  }
+  &__btn_left, &__btn_right {
+    width: 18px;
+    height: 96px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    border: 1px solid $primary;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: $back;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  &__btn_left {
+    background-image: url('../../images/double-left.png');
+  }
+  &__btn_right {
+    background-image: url('../../images/double-right.png');
+  }
+}

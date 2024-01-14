@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import styles from '../styles/components/DiscountList.module.scss';
 import DiscountItem from './DiscountItem';
 import { useTranslation } from 'react-i18next';

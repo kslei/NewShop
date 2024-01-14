@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import useBreadcrumbs from 'use-react-router-breadcrumbs';
 import { fetchOneDevice } from '../http/deviceAPI';
 import { authRoutes, publicRoutes } from '../routes';
-import { useLocation, Link, useParams } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styles from '../styles/components/Breadcrumbs.module.scss';
 

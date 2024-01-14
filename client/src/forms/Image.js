@@ -1,11 +1,11 @@
 import React from 'react';
 import styles from '../styles/form/Image.module.scss';
 
-const Image = ({src}) => {
+const Image = ({src, alt}) => {
   
   return (
   <div className={styles.image}>
-    <img className={styles.image__img} src={src} ></img>
+    <img className={styles.image__img} src={src} alt={alt} ></img>
   </div>
   );
 };

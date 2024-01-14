@@ -31,7 +31,7 @@ const About = () => {
   return (
   <div className={styles.container}>
     <div className={styles.wrapper}>
-        <div className={styles.about__title}>{t("About_Store")}</div>
+       <div className={styles.about__title}>{t("About_Store")}</div>
       <div className={styles.about__content}>{t("Content_about")}</div>
       <div className={styles.about__row}>
         <div className={styles.about__map}>
